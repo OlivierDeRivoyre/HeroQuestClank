@@ -47,12 +47,12 @@ function drawCard(card) {
     ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
     const ratio = 2;   
     const margin = (canvas.width - CadreExtImage.width*ratio) / 2;
-    let top = margin;
+    let top = margin + 40;
     ctx.drawImage(CadreExtImage, margin, top, CadreExtImage.width * ratio, CadreExtImage.height * ratio);
     top += CadreExtImage.height * ratio;
      
-    top += margin / 2;
-    ctx.drawImage(DescriptionZoneImage, margin, top, DescriptionZoneImage.width*ratio, DescriptionZoneImage.height*ratio);
+    top += 20;
+    ctx.drawImage(DescriptionZoneImage, margin - 22, top, DescriptionZoneImage.width*ratio, DescriptionZoneImage.height*ratio);
 
 
     const text = card.title;
@@ -64,9 +64,9 @@ function drawCard(card) {
     ctx.fillText(text, x, top + 100);
 
     ctx.font = '54px "MedievalSharp"';
-    let descTop = top + 210;
+    let descTop = top + 214;
     for(let line of card.desc){
-        let x = margin + 60;
+        let x = margin + 40;
         for(let word of line){            
             ctx.fillText(word, x, descTop);
             x += ctx.measureText(word).width;
