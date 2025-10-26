@@ -1,3 +1,4 @@
+console.clear();
 const canvas = document.getElementById('paintCanvas');
 const ctx = canvas.getContext('2d');
 ctx.font = '24px "MedievalSharp"';
@@ -19,7 +20,7 @@ const PureStarImage = loadImg('PureStar.png');
 const bgImage = loadImg('Parchment1500_2100.png'); 
 
 bgImage.onload = function() {
-    document.fonts.load('24px "MedievalSharp"').then(() => loadCard());
+    document.fonts.load('24px "MedievalSharp"').then(() => loadCards());
 };
 
 function mulberry32(seed) {
@@ -33,16 +34,17 @@ function mulberry32(seed) {
 let rand = mulberry32(12345);
 
 
-function loadCard() {
-    const card = allCards[currentCardIndex % allCards.length];
-    card.img = loadImg(card.pictureName + '.png');
-    card.img.onload  = function() {
-        drawCard(card);
+function loadCards() {
+    for(let c of allCards){
+        c.img = loadImg(c.pictureName + '.png');
+    }
+    allCards[allCards.length - 1].img.onload  = function() {
+        drawCard();
     }
 }
 
-function drawCard(card) {   
-
+function drawCard() {
+    const card = allCards[currentCardIndex % allCards.length];    
     ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
     if(card.type == 'base'){
         ctx.fillStyle = 'rgba(0, 0, 20, 0.25)'; 
@@ -120,8 +122,8 @@ function getLogo(c){
 }
 
 function show(incr){
- currentCardIndex = Math.max(0, currentCardIndex + incr);
- loadCard();
+ currentCardIndex = Math.max(0, Math.min(currentCardIndex + incr, allCards.length - 1));
+ drawCard();
 }
 
 function downloadAsImage(){
@@ -133,42 +135,100 @@ function downloadAsImage(){
 
 const allCards = [
     {
+        title : 'Attaque',
         type: 'base',
-        title : 'Force Accrue',
         desc: [
-            ['a', ': Utilisez un dé d’attaque supplémentaire']
+            ['a', ': Gagnez un dé d’attaque supplémentaire']
         ],
         cost: 0,
         stats: ['a'],
-        pictureName: 'Furry1'
+        pictureName: 'attack2'
     },
     {
-        type: 'common',
+        title : 'Energie',
+        type: 'base',
+        desc: [
+            ['e', ': Gagnez un point d’énergie, utilisable pour'],
+            ['acheter des cartes au magasin.']
+        ],
+        cost: 0,
+        stats: ['e'],
+        pictureName: 'EnergyCard2'
+    },
+    {
+        title : 'Defense',
+        type: 'base',
+        desc: [
+            ['d', ': prévenez un dégât.']
+        ],
+        cost: 0,
+        stats: ['d'],
+        pictureName: 'Bouclier1'
+    },
+    {
+        title : 'Déplacement',
+        type: 'base',
+        desc: [
+            ['s', ': gagnez un dé de déplacement'],
+            ['supplémentaire']
+        ],
+        cost: 0,
+        stats: ['s'],
+        pictureName: 'Step1'
+    },
+    {
+        title : 'Malédiction',
+        type: 'base',
+        desc: [
+            ['Perdez un point de vie, évitable avec un ', 'd']
+        ],
+        cost: 0,
+        stats: [],
+        pictureName: 'arrowTrap'
+    },
+    {
         title : 'Assaut Fulgurant',
-        desc: [],
+        type: 'common',
+        desc: [
+            ['a', ': Gagnez un dé d’attaque supplémentaire'],
+            ['s', ': gagnez un dé de déplacement'],
+            ['supplémentaire']
+        ],
         cost: 3,
         stats: ['a', 's'],
         pictureName: 'AttStep'
     },
     {
-        title : 'Energie',
+        title : 'Bénédiction',
+        type: 'common',
         desc: [
-            ['Perdez un point de vie, peut être évité avec un']
-            ,['bouclier.']
+            ['e', 'e',': Gagnez deux point d’énergie.'],
         ],
-        cost: 3,
-        stats: ['a', 'e', 'd', 'l', 's'],
-        pictureName: 'Furry1'
+        cost: 2,
+        stats: ['e', 'e'],
+        pictureName: 'EnergyCard'
     },
-        {
-        title : 'Force Accrue',
+    {
+        title : 'Rencontre',
+        type: 'common',
         desc: [
-            ['Perdez un point de vie, peut être évité avec un']
-            ,['bouclier.']
+            ['e', ': Gagnez un point d’énergie.'],
+            ['d', ': prévenez un dégât.']
         ],
-        cost: 3,
-        stats: ['a', 'e', 'd', 'l', 's'],
-        pictureName: 'Furry1'
+        cost: 2,
+        stats: ['e', 'd'],
+        pictureName: 'ReceivingShield2'
     },
+    {
+        title : 'Lance Pierre',
+        desc: [
+            ['Vous pouvez attaquer à distance']            
+        ],
+        cost: 2,
+        stats: [],
+        pictureName: 'LancePierre'
+    },
+
 ];
-let currentCardIndex = 0;
+let currentCardIndex = allCards.length - 2;
+
