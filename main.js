@@ -133,6 +133,45 @@ function downloadAsImage() {
     link.click();
 }
 
+function createMinatutes() {
+    const a4Width = 2000;
+    const a4Height = 3000;
+    const nbCardPerLine = 5;
+    const cardWidth = 400;
+    const cardHeight = 560;
+    const marginX = Math.floor((a4Width - nbCardPerLine * cardWidth) / 2);
+    const marginY = Math.floor((a4Height - nbCardPerLine * cardHeight) / 2);
+
+    function createPageCanvas() {
+        const newCanvas = document.createElement('canvas');
+        const newCtx = newCanvas.getContext('2d');
+        newCanvas.width = a4Width;
+        newCanvas.height = a4Height;
+        document.body.appendChild(newCanvas);
+        return newCtx;
+    }
+    let page;
+    let index = 0;
+    for (currentCardIndex = 0; currentCardIndex < allCards.length; currentCardIndex++) {
+        drawCard();
+        const quantity = allCards[currentCardIndex].quantity || 1;
+        for (let i = 0; i < quantity; i++) {
+            const coord = index % (nbCardPerLine * nbCardPerLine);
+            if (coord == 0) {
+                page = createPageCanvas();
+            }
+            page.drawImage(canvas,
+                marginX + (coord % nbCardPerLine) * (cardWidth + 4),
+                marginY + Math.floor(coord / nbCardPerLine) * (cardHeight + 4),
+                cardWidth,
+                cardHeight);
+            index++;
+        }
+    }
+
+
+}
+
 const allCards = [
     {
         title: 'Attaque',
@@ -142,7 +181,8 @@ const allCards = [
         ],
         cost: 0,
         stats: ['a'],
-        pictureName: 'attack2'
+        pictureName: 'attack2',
+        quantity: 8
     },
     {
         title: 'Energie',
@@ -153,7 +193,8 @@ const allCards = [
         ],
         cost: 0,
         stats: ['e'],
-        pictureName: 'EnergyCard2'
+        pictureName: 'EnergyCard2',
+        quantity: 12
     },
     {
         title: 'Defense',
@@ -163,7 +204,8 @@ const allCards = [
         ],
         cost: 0,
         stats: ['d'],
-        pictureName: 'Bouclier1'
+        pictureName: 'Bouclier1',
+        quantity: 8
     },
     {
         title: 'Déplacement',
@@ -174,7 +216,8 @@ const allCards = [
         ],
         cost: 0,
         stats: ['s'],
-        pictureName: 'Step1'
+        pictureName: 'Step1',
+        quantity: 8
     },
     {
         title: 'Malédiction',
@@ -184,7 +227,8 @@ const allCards = [
         ],
         cost: 0,
         stats: [],
-        pictureName: 'arrowTrap'
+        pictureName: 'arrowTrap',
+        quantity: 4
     },
     {
         title: 'Assaut Fulgurant',
@@ -196,7 +240,8 @@ const allCards = [
         ],
         cost: 3,
         stats: ['a', 's'],
-        pictureName: 'AttStep'
+        pictureName: 'AttStep',
+        quantity: 12
     },
     {
         title: 'Bénédiction',
@@ -206,7 +251,8 @@ const allCards = [
         ],
         cost: 2,
         stats: ['e', 'e'],
-        pictureName: 'EnergyCard'
+        pictureName: 'EnergyCard',
+        quantity: 12
     },
     {
         title: 'Rencontre',
@@ -217,7 +263,8 @@ const allCards = [
         ],
         cost: 2,
         stats: ['e', 'd'],
-        pictureName: 'ReceivingShield2'
+        pictureName: 'ReceivingShield2',
+        quantity: 10
     },
     {
         title: 'Lance Pierre',
@@ -361,7 +408,7 @@ const allCards = [
         desc: [],
         cost: 3,
         stats: ['e', 'l'],
-        pictureName: 'circle'
+        pictureName: 'arch'
     },
     {
         title: 'Rempart d’Énergie',
@@ -369,7 +416,7 @@ const allCards = [
         desc: [],
         cost: 2,
         stats: ['e', 'd'],
-        pictureName: 'circle'
+        pictureName: 'shield'
     },
     {
         title: 'Gardien Vital',
@@ -463,7 +510,7 @@ const allCards = [
         desc: [],
         cost: 5,
         stats: ['a', 'a', 'd'],
-        pictureName: 'circle'
+        pictureName: 'elfWarrior'
     },
     {
         title: 'Brouillon Énergétique',
@@ -527,7 +574,7 @@ const allCards = [
         ],
         cost: 5,
         stats: [],
-        pictureName: 'circle'
+        pictureName: 'Furry3'
     },
     {
         title: 'Fortification',
@@ -547,7 +594,7 @@ const allCards = [
         ],
         cost: 6,
         stats: [],
-        pictureName: 'circle'
+        pictureName: 'knight'
     },
     {
         title: 'Relance du Destin',
@@ -584,7 +631,7 @@ const allCards = [
         desc: [['Doublez vos dégats.']],
         cost: 7,
         stats: [],
-        pictureName: 'circle'
+        pictureName: 'Furry1'
     },
     {
         title: 'Yams',
