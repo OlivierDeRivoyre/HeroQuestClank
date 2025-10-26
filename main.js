@@ -161,8 +161,8 @@ function createMinatutes() {
                 page = createPageCanvas();
             }
             page.drawImage(canvas,
-                marginX + (coord % nbCardPerLine) * (cardWidth + 4),
-                marginY + Math.floor(coord / nbCardPerLine) * (cardHeight + 4),
+                marginX + (coord % nbCardPerLine) * (cardWidth + 0),
+                marginY + Math.floor(coord / nbCardPerLine) * (cardHeight + 0),
                 cardWidth,
                 cardHeight);
             index++;
