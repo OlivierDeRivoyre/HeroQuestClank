@@ -295,7 +295,7 @@ const allCards = [
         ],
         cost: 2,
         stats: ['s'],
-        pictureName: 'smallBow'
+        pictureName: 'bow5'
     },
     {
         title: 'Arc long',
@@ -434,7 +434,7 @@ const allCards = [
         ],
         cost: 3,
         stats: ['a'],
-        pictureName: 'attackFast1'
+        pictureName: 'fastAttack3'
     },
     {
         title: 'Élan Énergique',
