@@ -267,14 +267,14 @@ const allCards = [
         quantity: 10
     },
     {
-        title: 'Lance Pierre',
+        title: 'Arc',
         type: 'T1',
         desc: [
             ['Vous pouvez attaquer à distance.']
         ],
         cost: 2,
         stats: [],
-        pictureName: 'LancePierre'
+        pictureName: 'bow2'
     },
     {
         title: 'Arc Rapide',
@@ -285,7 +285,7 @@ const allCards = [
         ],
         cost: 3,
         stats: [],
-        pictureName: 'bow2'
+        pictureName: 'bowGold'
     },
     {
         title: 'Arc Léger',
@@ -325,7 +325,7 @@ const allCards = [
         ],
         cost: 2,
         stats: [],
-        pictureName: 'circle'
+        pictureName: 'clover1'
     },
     {
         title: 'Coup de foudre',
@@ -335,7 +335,7 @@ const allCards = [
         ],
         cost: 2,
         stats: [],
-        pictureName: 'circle'
+        pictureName: 'thunder'
     },
     {
         title: 'Serpillière',
@@ -345,7 +345,7 @@ const allCards = [
         ],
         cost: 2,
         stats: [],
-        pictureName: 'circle'
+        pictureName: 'mop'
     },
     {
         title: 'Balai',
@@ -355,17 +355,17 @@ const allCards = [
         ],
         cost: 3,
         stats: ['e'],
-        pictureName: 'circle'
+        pictureName: 'broom'
     },
     {
-        title: 'Dernières nouveautés',
+        title: 'Colporteur',
         type: 'T1',
         desc: [
             ['Remplacez une carte du magasin.']
         ],
         cost: 1,
         stats: [],
-        pictureName: 'circle'
+        pictureName: 'peddler'
     },
     {
         title: 'BOOM!',
@@ -376,7 +376,7 @@ const allCards = [
         ],
         cost: 2,
         stats: ['a', 'a', 'a'],
-        pictureName: 'circle'
+        pictureName: 'boom'
     },
     {
         title: 'Bouclier Tranchant',
@@ -384,7 +384,7 @@ const allCards = [
         desc: [],
         cost: 3,
         stats: ['a', 'd'],
-        pictureName: 'circle'
+        pictureName: 'shieldPikes'
     },
     {
         title: 'Dague Vampirique',
@@ -392,7 +392,7 @@ const allCards = [
         desc: [['l', ': Récupérez un point de vie']],
         cost: 3,
         stats: ['a', 'l'],
-        pictureName: 'circle'
+        pictureName: 'daggerVamp'
     },
     {
         title: 'Frappe Énergique',
@@ -400,7 +400,7 @@ const allCards = [
         desc: [],
         cost: 3,
         stats: ['a', 'e'],
-        pictureName: 'circle'
+        pictureName: 'swordEnergy1'
     },
     {
         title: 'Essence de Vie',
@@ -424,7 +424,7 @@ const allCards = [
         desc: [],
         cost: 3,
         stats: ['d', 'l'],
-        pictureName: 'circle'
+        pictureName: 'heal3'
     },
     {
         title: 'Attaque Rapide',
@@ -434,7 +434,7 @@ const allCards = [
         ],
         cost: 3,
         stats: ['a'],
-        pictureName: 'circle'
+        pictureName: 'attackFast1'
     },
     {
         title: 'Élan Énergique',
@@ -444,7 +444,7 @@ const allCards = [
         ],
         cost: 2,
         stats: ['e'],
-        pictureName: 'circle'
+        pictureName: 'run1'
     },
     {
         title: 'Parade Éclair',
@@ -454,7 +454,7 @@ const allCards = [
         ],
         cost: 2,
         stats: ['d'],
-        pictureName: 'circle'
+        pictureName: 'parade1'
     },
     {
         title: 'Déplacement Instantané',
@@ -464,7 +464,7 @@ const allCards = [
         ],
         cost: 2,
         stats: ['s'],
-        pictureName: 'circle'
+        pictureName: 'portal'
     },
     {
         title: 'Soin rapide',
@@ -475,7 +475,7 @@ const allCards = [
         ],
         cost: 3,
         stats: ['l'],
-        pictureName: 'circle'
+        pictureName: 'heal2'
     },
     {
         title: 'Soin',
@@ -485,7 +485,7 @@ const allCards = [
         ],
         cost: 2,
         stats: ['l'],
-        pictureName: 'circle'
+        pictureName: 'heal1'
     },
     // T2
     {
@@ -494,7 +494,7 @@ const allCards = [
         desc: [],
         cost: 4,
         stats: ['a', 'a', 's'],
-        pictureName: 'circle'
+        pictureName: 'assault'
     },
     {
         title: 'Choc Énergétique',
@@ -502,7 +502,7 @@ const allCards = [
         desc: [],
         cost: 5,
         stats: ['a', 'e', 'd'],
-        pictureName: 'circle'
+        pictureName: 'shieldPower'
     },
     {
         title: 'Force Inébranlable',
@@ -513,12 +513,12 @@ const allCards = [
         pictureName: 'elfWarrior'
     },
     {
-        title: 'Brouillon Énergétique',
+        title: 'Licorne',
         type: 'T2',
         desc: [],
         cost: 4,
         stats: ['a', 'e', 'e'],
-        pictureName: 'circle'
+        pictureName: 'unicorn'
     },
     {
         title: 'Force Accumulée',
@@ -526,7 +526,7 @@ const allCards = [
         desc: [['Ajoutez +1 ', 'a', ' par carte jouée supplémentaire.']],
         cost: 4,
         stats: [],
-        pictureName: 'circle'
+        pictureName: 'necro'
     },
     {
         title: 'Charge Stratégique',
@@ -534,15 +534,15 @@ const allCards = [
         desc: [['Chaque ', 's', ' peut être converti en ', 'a']],
         cost: 5,
         stats: [],
-        pictureName: 'circle'
+        pictureName: 'charge'
     },
     {
-        title: 'Mur de Fureur',
+        title: 'Bouclier de Feu',
         type: 'T2',
         desc: [['Chaque ', 'd', ' peut être converti en ', 'a']],
         cost: 5,
-        stats: [],
-        pictureName: 'circle'
+        stats: ['d'],
+        pictureName: 'shieldFire'
     },
     {
         title: 'Attaque circulaire',
@@ -553,7 +553,7 @@ const allCards = [
         ],
         cost: 4,
         stats: [],
-        pictureName: 'circle'
+        pictureName: 'attCircular'
     },
     {
         title: 'Sacrifice',
@@ -564,7 +564,7 @@ const allCards = [
         ],
         cost: 4,
         stats: [],
-        pictureName: 'circle'
+        pictureName: 'sacrifice'
     },
     {
         title: 'Rage Berserker',
@@ -584,7 +584,7 @@ const allCards = [
         ],
         cost: 4,
         stats: [],
-        pictureName: 'circle'
+        pictureName: 'wall'
     },
     {
         title: 'Conquête des Un',
@@ -604,7 +604,7 @@ const allCards = [
         ],
         cost: 6,
         stats: [],
-        pictureName: 'circle'
+        pictureName: 'Dices6b'
     },
     {
         title: 'Miroir',
@@ -615,7 +615,7 @@ const allCards = [
         ],
         cost: 6,
         stats: [],
-        pictureName: 'circle'
+        pictureName: 'mirror'
     },
     {
         title: 'Excalibur',
@@ -623,7 +623,7 @@ const allCards = [
         desc: [],
         cost: 7,
         stats: ['a', 'e', 'd', 's', 'l'],
-        pictureName: 'circle'
+        pictureName: 'dragonSword'
     },
     {
         title: 'Coup Critique',
@@ -642,7 +642,7 @@ const allCards = [
         ],
         cost: 7,
         stats: [],
-        pictureName: 'circle'
+        pictureName: 'Dices6'
     },
 ];
 let currentCardIndex = allCards.length - 1;
