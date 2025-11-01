@@ -1,11 +1,7 @@
-function createBigCardCanvas(){
-    const canvas = document.createElement('canvas');
-    canvas.width = 1500;
-    canvas.height = 2100;
-    const ctx = canvas.getContext('2d');
-    ctx.font = '24px "MedievalSharp"';
-    return canvas;
-}
+const CardWidth = 1500;
+const CardHeight = 2100;
+
+
 
 function loadImg(file) {
     const image = new Image();
@@ -23,84 +19,73 @@ const PureStarImage = loadImg('PureStar.png');
 
 const bgImage = loadImg('Parchment1500_2100.png');
 
-let onBigCardPaintedfunc = null;
+let onCardImageReadyfunc = null;
 bgImage.onload = function () {
     document.fonts.load('24px "MedievalSharp"')
-        .then(() => loadCards());
+        .then(() => loadCardImages());
 };
 
-function loadCards() {
+function loadCardImages() {
     for (let c of allCards) {
         c.img = loadImg(c.pictureName + '.png');
     }
-    allCards[allCards.length - 1].img.onload = function () {
-        paintCards();
-    }    
+    if(onCardImageReadyfunc){
+        allCards[allCards.length - 1].img.onload = function(){
+            onCardImageReadyfunc();
+        }
+    }  
 }
 
-function paintCards(){
-    for(let card of allCards){
-        paintCard(card);
-    }
-    if(onBigCardPaintedfunc){
-        onBigCardPaintedfunc();
-    }
-}
 
-function paintCard(card) {
-    const canvas =  createBigCardCanvas();
-    card.bigCanvas = canvas;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+function paintCard(card, canvas) {        
+    
+    canvas.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
     if (card.type == 'base') {
-        ctx.fillStyle = 'rgba(0, 0, 20, 0.25)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        canvas.fillColor('rgba(0, 0, 20, 0.25)');
     }
-    if (card.type == 'common') {
-        ctx.fillStyle = 'rgba(243, 239, 7, 0.25)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    if (card.type == 'common') {        
+        canvas.fillColor('rgba(243, 239, 7, 0.25)');        
     }
+   
     const ratio = 2;
     const margin = (canvas.width - CadreExtImage.width * ratio) / 2;
     let top = margin + 40;
-    ctx.drawImage(card.img, margin, top, CadreExtImage.width * ratio, CadreExtImage.height * ratio);
-    ctx.drawImage(CadreExtImage, margin, top, CadreExtImage.width * ratio, CadreExtImage.height * ratio);
+    canvas.drawImage(card.img, margin, top, CadreExtImage.width * ratio, CadreExtImage.height * ratio);
+    canvas.drawImage(CadreExtImage, margin, top, CadreExtImage.width * ratio, CadreExtImage.height * ratio);
 
     // Energy/cost
     if (card.cost) {
         const starX = canvas.width - margin - PureStarImage.width * ratio - 24;
         const starY = top - 20;
         for (let i = 0; i < card.cost; i++) {
-            ctx.drawImage(PureStarImage, starX - i * 66, starY, PureStarImage.width * ratio, PureStarImage.height * ratio);
+            canvas.drawImage(PureStarImage, starX - i * 66, starY, PureStarImage.width * ratio, PureStarImage.height * ratio);
         }
     }
 
     top += CadreExtImage.height * ratio;
     top += 20;
-    ctx.drawImage(DescriptionZoneImage, margin - 22, top, DescriptionZoneImage.width * ratio, DescriptionZoneImage.height * ratio);
+    canvas.drawImage(DescriptionZoneImage, margin - 22, top, DescriptionZoneImage.width * ratio, DescriptionZoneImage.height * ratio);
 
     // Title
     const text = card.title;
-    ctx.font = '72px "MedievalSharp"';
-    ctx.fillStyle = '#002';
-    const textMetrics = ctx.measureText(text);
-    const textWidth = textMetrics.width;
+    canvas.fontSize = 72;
+    canvas.fillStyle = '#002';    
+    const textWidth = canvas.measureTextWidth(text);
     const x = (canvas.width - textWidth) / 2;
-    ctx.fillText(text, x, top + 104);
-
+    canvas.fillText(text, x, top + 104);
     // description
-    ctx.font = '54px "MedievalSharp"';
+    canvas.fontSize = 54;
     let descTop = top + 214;
     for (let line of card.desc) {
         let x = margin + 40;
         for (let word of line) {
             if (word.length == 1) {
                 const logo = getLogo(word);
-                ctx.drawImage(logo, x, descTop - logo.height + 10);
+                canvas.drawImage(logo, x, descTop - logo.height + 10);
                 x += logo.width + 8;
             } else {
-                ctx.fillText(word, x, descTop);
-                x += ctx.measureText(word).width;
+                canvas.fillText(word, x, descTop);
+                x += canvas.measureTextWidth(word);
             }
         }
         descTop += 60;
@@ -113,7 +98,7 @@ function paintCard(card) {
         const logo = getLogo(card.stats[i]);
         const logoRatio = 3;
         const logoOffSet = logo.width * logoRatio / 2;
-        ctx.drawImage(logo, margin + step * (i + 1) - logoOffSet, top, logo.width * logoRatio, logo.height * logoRatio);
+        canvas.drawImage(logo, margin + step * (i + 1) - logoOffSet, top, logo.width * logoRatio, logo.height * logoRatio);
     }
 
 }

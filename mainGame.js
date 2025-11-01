@@ -8,4 +8,4 @@ function runTick() {
 }
 game = new Game();
 game.currentView = new LevelView();
-onBigCardPaintedfunc = () => runTick();
+onCardImageReadyfunc = () => runTick();

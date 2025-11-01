@@ -475,5 +475,5 @@ const allCards = [
         pictureName: 'Dices6'
     },
 ];
-let currentCardIndex = allCards.length - 1;
+let currentCardIndex = 0;
 

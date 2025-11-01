@@ -1,19 +1,32 @@
 
+//const canvas =  createBigCardCanvas();
 function show(incr) {
     currentCardIndex = Math.max(0, Math.min(currentCardIndex + incr, allCards.length - 1));
-    const card  = allCards[currentCardIndex];
+    const card = allCards[currentCardIndex];
     const screenCanvas = document.getElementById('paintCanvas');
-    const ctx = screenCanvas.getContext('2d');
-    ctx.drawImage(card.bigCanvas, 0, 0);
+    const fixedCanvas = new FixedCanvas(CardWidth, CardHeight, screenCanvas);
+    paintCard(card, fixedCanvas)
+    //const ctx = screenCanvas.getContext('2d');
+    //ctx.drawImage(card.bigCanvas, 0, 0);
 }
 
-onBigCardPaintedfunc = () => show(0);
+onCardImageReadyfunc = () => show(0);
 
 function downloadAsImage() {
     const link = document.createElement('a');
     link.download = 'canvas-image.png';
     link.href = canvas.toDataURL('image/png');
     link.click();
+}
+
+function createFixedCardCanvasForMiniatures() {
+    const canvas = document.createElement('canvas');
+    canvas.width = CardWidth;
+    canvas.height = CardHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.font = '24px "MedievalSharp"';
+    const fixedCanvas = new FixedCanvas(CardWidth, CardHeight, canvas);
+    return fixedCanvas;
 }
 
 function createMinatutes() {
@@ -35,15 +48,16 @@ function createMinatutes() {
     }
     let page;
     let index = 0;
-    for (currentCardIndex = 0; currentCardIndex < allCards.length; currentCardIndex++) {
-        const card = allCards[currentCardIndex];
+    const fixedCanvas = createFixedCardCanvasForMiniatures();
+    for (let card of allCards) {        
+         paintCard(card, fixedCanvas);
         const quantity = card.quantity || 1;
         for (let i = 0; i < quantity; i++) {
             const coord = index % (nbCardPerLine * nbCardPerLine);
             if (coord == 0) {
                 page = createPageCanvas();
             }
-            page.drawImage(card.bigCanvas,
+            page.drawImage(fixedCanvas.screenCanvas,
                 marginX + (coord % nbCardPerLine) * (cardWidth + 0),
                 marginY + Math.floor(coord / nbCardPerLine) * (cardHeight + 0),
                 cardWidth,
