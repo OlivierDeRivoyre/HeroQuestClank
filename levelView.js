@@ -3,9 +3,9 @@ class LevelView {
 
     constructor(level) {
         this.level = level;
-        this.floor = new Floor(level);
         this.heroes = Character.getHeroes();
         this.monsters = Character.getEnnemies(level);
+        this.floor = new Floor(this);
         this.diceZone = new DiceZone(500, 50);
         this.hand = new CardZone(50, 350, GameScreenWidth - 100, (c) => this.playCard(c));
         this.shopButton = new Button('Shop', 500, 200, 80, 40, () => this.openShop());
@@ -26,6 +26,8 @@ class LevelView {
         this.shopButton.update();
         this.endTurnButton.update();
         this.updateHeroes();
+        if (input.mouseClicked)
+            this.floor.refresh();
     }
     updateHeroes() {
         if (!input.mouseClicked)
@@ -35,6 +37,7 @@ class LevelView {
         if (selectedChar) {
             if (isInsideRect(input.mouse, selectedChar.getRect())) {
                 selectedChar.isSelected = false;
+                this.floor.refresh();
                 return;
             }
             if (selectedChar.type !== "hero") {
@@ -42,7 +45,7 @@ class LevelView {
             }
             const targetCell = this.floor.getCell(input.mouse);
             if (!targetCell) {
-                selectedChar.isSelected = false;
+                selectedChar.isSelected = false;                
                 return;
             }
             this.heroAction(selectedChar, targetCell);
@@ -52,14 +55,14 @@ class LevelView {
             if (isInsideRect(input.mouse, c.getRect())) {
                 c.isSelected = !c.isSelected;
                 if (selectedChar && c != selectedChar) {
-                    selectedChar.isSelected = false;
+                    selectedChar.isSelected = false;                    
                 }
             }
         }
     }
     heroAction(hero, targetCell) {
         if (hero.hasAttacked) {
-            hero.isSelected = false;
+            hero.isSelected = false;            
         }
         const monster = this.monsters.find(m => m.cell.x == targetCell.x && m.cell.y == targetCell.y);
         if (monster && hero.isAround(targetCell)) {
@@ -70,7 +73,7 @@ class LevelView {
                 this.monsters.splice(this.monsters.findIndex(m => m === monster), 1);
             }
             hero.hasAttacked = true;
-            hero.isSelected = false;
+            hero.isSelected = false;            
             return;
         }
         if (hero.atOneStep(targetCell)) {
@@ -80,7 +83,7 @@ class LevelView {
                 hero.cell = targetCell;
                 if (hero.movedStep == dist && !this.monsters.find(m => m.isAround(targetCell))) {
                     hero.hasAttacked = true;
-                    hero.isSelected = false;
+                    hero.isSelected = false;                    
                     return;
                 }
             }
@@ -124,8 +127,8 @@ class LevelView {
             }
         }
         this.hand.refresh(game.cards.playerDeck.hand);
-        for(let h of this.heroes){
-            h.shield = this.diceZone.shield;            
+        for (let h of this.heroes) {
+            h.shield = this.diceZone.shield;
         }
     }
     openShop() {
@@ -391,12 +394,15 @@ class Character {
 class Floor {
     static TopX = 16;
     static TopY = 16;
-    constructor(level) {
+    constructor(levelView) {
+        this.levelView = levelView;
         this.sprite = getDungeonTileSetFloorSprite();
         this.width = 12;
         this.height = 8;
-        this.seed = level;
+        this.seed = levelView.level;
         this.rect = this.getRect();
+        this.bg = new Array(this.width * this.height);
+        this.refresh();
     }
     paint() {
         screen.canvas.fillRect('#483B3A', Floor.TopX, Floor.TopY, 32 * this.width, 32 * this.height);
@@ -407,7 +413,12 @@ class Floor {
                 const index = r % 13 == 0 ? 1
                     : r % 17 == 0 ? 2
                         : 0;
-                this.sprite.paint(Floor.TopX + i * 32, Floor.TopY + j * 32, index);
+                const x = Floor.TopX + i * 32;
+                const y = Floor.TopY + j * 32;
+                this.sprite.paint(x, y, index);
+                const bgColor = this.bg[i + j * this.width];
+                if(bgColor)
+                    screen.canvas.fillRect(bgColor, x, y, 32, 32)
             }
         }
     }
@@ -427,6 +438,39 @@ class Floor {
             x: Math.floor((coord.x - Floor.TopX) / 32),
             y: Math.floor((coord.y - Floor.TopY) / 32),
         };
+    }
+    refresh() {
+        const allChars = this.levelView.heroes.concat(this.levelView.monsters);
+        const selectedChar = allChars.find(c => c.isSelected);        
+        const walkDist =  !selectedChar ? 1 
+            : selectedChar.type === 'hero' ? this.levelView.diceZone.getSumWalk() - selectedChar.movedStep 
+            : selectedChar.monsterMaxWalkSteps;
+        for (let j = 0; j < this.height; j++) {
+            for (let i = 0; i < this.width; i++) {
+                const color = this.getBgColor(i, j, selectedChar, walkDist, allChars);
+                this.bg[i + j * this.width] = color;
+            }
+        }
+    }
+    getBgColor(i, j, selectedChar, walkDist, allChars) {
+        if (!selectedChar) {
+            return null;
+        }
+        const cell = selectedChar.cell;
+        const isHero = selectedChar.type === 'hero';
+        if (cell.x == i && cell.y == j)
+            return 'rgba(0, 255, 0, 0.25)';
+        const d = selectedChar.getWalkingDistance({x:i, y:j});
+        if(d > walkDist)
+            return null;
+        const occuped = allChars.find(c => c.cell.x == i && c.cell.y == j);
+        if(!occuped)
+            return 'rgba(0, 255, 0, 0.10)';
+        const isOccupedByHero = occuped.type === 'hero';
+        if(isOccupedByHero == isHero){
+            return null;
+        }
+        return 'rgba(255, 145, 0, 0.50)';
     }
 }
 class Dice {
