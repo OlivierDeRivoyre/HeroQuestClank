@@ -1,7 +1,12 @@
-console.clear();
-const canvas = document.getElementById('paintCanvas');
-const ctx = canvas.getContext('2d');
-ctx.font = '24px "MedievalSharp"';
+
+function createBigCardCanvas(){
+    const canvas = document.createElement('canvas');
+    canvas.width = 1500;
+    canvas.height = 2100;
+    const ctx = canvas.getContext('2d');
+    ctx.font = '24px "MedievalSharp"';
+    return canvas;
+}
 
 function loadImg(file) {
     const image = new Image();
@@ -19,8 +24,10 @@ const PureStarImage = loadImg('PureStar.png');
 
 const bgImage = loadImg('Parchment1500_2100.png');
 
+let onBigCardPaintedfunc = null;
 bgImage.onload = function () {
-    document.fonts.load('24px "MedievalSharp"').then(() => loadCards());
+    document.fonts.load('24px "MedievalSharp"')
+        .then(() => loadCards());
 };
 
 function mulberry32(seed) {
@@ -39,12 +46,23 @@ function loadCards() {
         c.img = loadImg(c.pictureName + '.png');
     }
     allCards[allCards.length - 1].img.onload = function () {
-        drawCard();
+        paintCards();
+    }    
+}
+
+function paintCards(){
+    for(let card of allCards){
+        paintCard(card);
+    }
+    if(onBigCardPaintedfunc){
+        onBigCardPaintedfunc();
     }
 }
 
-function drawCard() {
-    const card = allCards[currentCardIndex % allCards.length];
+function paintCard(card) {
+    const canvas =  createBigCardCanvas();
+    card.bigCanvas = canvas;
+    const ctx = canvas.getContext('2d');
     ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
     if (card.type == 'base') {
         ctx.fillStyle = 'rgba(0, 0, 20, 0.25)';
@@ -123,8 +141,13 @@ function getLogo(c) {
 
 function show(incr) {
     currentCardIndex = Math.max(0, Math.min(currentCardIndex + incr, allCards.length - 1));
-    drawCard();
+    const card  = allCards[currentCardIndex];
+    const screenCanvas = document.getElementById('paintCanvas');
+    const ctx = screenCanvas.getContext('2d');
+    ctx.drawImage(card.bigCanvas, 0, 0);
 }
+
+onBigCardPaintedfunc = () => show(0);
 
 function downloadAsImage() {
     const link = document.createElement('a');
@@ -153,14 +176,14 @@ function createMinatutes() {
     let page;
     let index = 0;
     for (currentCardIndex = 0; currentCardIndex < allCards.length; currentCardIndex++) {
-        drawCard();
-        const quantity = allCards[currentCardIndex].quantity || 1;
+        const card = allCards[currentCardIndex];
+        const quantity = card.quantity || 1;
         for (let i = 0; i < quantity; i++) {
             const coord = index % (nbCardPerLine * nbCardPerLine);
             if (coord == 0) {
                 page = createPageCanvas();
             }
-            page.drawImage(canvas,
+            page.drawImage(card.bigCanvas,
                 marginX + (coord % nbCardPerLine) * (cardWidth + 0),
                 marginY + Math.floor(coord / nbCardPerLine) * (cardHeight + 0),
                 cardWidth,
