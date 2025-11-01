@@ -56,7 +56,6 @@ class LevelView {
             }
         }
     }
-
     heroAction(hero, targetCell) {
         if (hero.hasAttacked) {
             hero.isSelected = false;
@@ -65,7 +64,7 @@ class LevelView {
         if (monster && hero.isAround(targetCell)) {
             console.log('attack ' + monster.type);
             const dmg = this.diceZone.getSumAttack();
-            monster.takeDamage(dmg);
+            monster.takeDamage(dmg, hero);
             if (monster.life == 0) {
                 this.monsters.splice(this.monsters.findIndex(m => m === monster), 1);
             }
@@ -128,7 +127,65 @@ class LevelView {
     openShop() {
         this.popup = new ShopForm(this);
     }
+    playMonster(monster) {
+        if (monster.life <= 0)
+            return;
+        let target = monster.aggro;
+        monster.aggro = null;
+        if (!target) {
+            for (let h of this.heroes) {
+                if (h.life <= 0)
+                    continue;
+                if (!target)
+                    target = h;
+                else if (monster.getWalkingDistance(h.cell) < monster.getWalkingDistance(target.cell))
+                    target = h;
+            }
+        }
+        if (!target)
+            return;
+        if (!monster.isAround(target.cell)) {
+            const newCell = this.getCellToMoveTo(monster, target.cell, monster.monsterMaxWalkSteps);
+            if (!newCell)
+                return;
+            monster.cell = newCell;
+        }
+        if (monster.isAround(target.cell)) {
+            target.takeDamage(monster.monsterDamage, monster);
+        }
+    }
+
+    getCellToMoveTo(character, targetCell, maxDist) {
+        let bestScore = 10000000;
+        let bestCell = null;
+        const occupedCells = this.heroes.filter(h => h.life > 0).concat(this.monsters.filter(h => h.life > 0))
+            .map(c => c.cell);
+        for (let i = 0; i < this.floor.width; i++) {
+            for (let j = 0; j < this.floor.height; j++) {
+                if (occupedCells.find(c => c.x == i && c.y == j))
+                    continue;
+                const currentCell = { x: i, y: j };
+                const walkDist = character.getWalkingDistance(currentCell);
+                if (walkDist > maxDist)
+                    continue;
+                const hitDist = distanceSquare(currentCell, targetCell);
+                const currentScore = hitDist * 10 + walkDist;
+                if (currentScore > bestScore)
+                    continue;
+                bestScore = currentScore;
+                bestCell = currentCell;
+            }
+        }
+        return bestCell;
+    }
+
     endTurn() {
+        for (let hero of this.heroes) {
+            hero.shield = this.diceZone.shield;
+        }
+        for (let m of this.monsters) {
+            this.playMonster(m);
+        }
         if (!this.heroes.find(h => h.life > 0)) {
             this.popup = new DeadScreen(this);
             return;
@@ -198,7 +255,6 @@ class CardZone {
         }
     }
 }
-
 class Character {
     constructor() {
         this.type = "hero";
@@ -210,7 +266,11 @@ class Character {
         this.marginY = 0;
         this.hasAttacked = false;
         this.movedStep = 0;
+        this.monsterMaxWalkSteps = 8;
+        this.monsterDamage = 1;
         this.isSelected = false;
+        this.aggro = null;
+        this.deadSprite = new Sprite(shikashiTileSet, 0, 0, 32, 32, 1);
     }
     static getHeroes() {
         const h1 = new Character();
@@ -249,6 +309,10 @@ class Character {
     }
     paint() {
         const rect = this.getRect();
+        if (this.life <= 0) {
+            this.deadSprite.paint(rect.x, rect.y);
+            return;
+        }
         if (this.isSelected) {
             screen.canvas.fillRect('rgba(0, 255, 0, 0.25)', rect.x, rect.y, rect.width, rect.height);
         }
@@ -267,18 +331,32 @@ class Character {
     isAround(cell) {
         return Math.abs(this.cell.x - cell.x) <= 1 && Math.abs(this.cell.y - cell.y) <= 1;
     }
-    atOneStep(cell) {
+    getWalkingDistance(cell) {
         const dx = Math.abs(this.cell.x - cell.x);
         const dy = Math.abs(this.cell.y - cell.y);
-        return dx + dy == 1;
+        return dx + dy;
+    }
+    atOneStep(cell) {
+        return this.getWalkingDistance(cell) == 1;
     }
 
-    takeDamage(dmg) {
+    takeDamage(dmg, fromCharacter) {
+        if (this.shield != 0) {
+            const shielded = Math.min(dmg, this.shield);
+            dmg -= shielded;
+            if (this.type === 'hero') {
+                this.shield -= shielded;
+            }
+        }
         this.life = Math.max(0, this.life - dmg);
+        if (this.aggro == null || this.aggro.life == 0) {
+            if (fromCharacter.type === 'hero' && this.isAround(fromCharacter.cell)) {
+                this.aggro = fromCharacter;
+            }
+        }
     }
 
     onNewTurn() {
-        this.life = 3;
         this.shield = 0;
         this.hasAttacked = false;
         this.movedStep = 0;
@@ -286,7 +364,6 @@ class Character {
     }
 
 }
-
 class Floor {
     static TopX = 16;
     static TopY = 16;
@@ -328,7 +405,6 @@ class Floor {
         };
     }
 }
-
 class Dice {
     constructor(type) {
         this.type = type
@@ -342,7 +418,6 @@ class Dice {
         screen.canvas.fillText(this.value, x + margin, y + 20);
     }
 }
-
 class DiceZone {
     constructor() {
         this.walkDices = [];
@@ -431,7 +506,6 @@ class Button {
             this.clickFunc();
     }
 }
-
 class ShopForm {
     constructor(parent) {
         this.parent = parent;
