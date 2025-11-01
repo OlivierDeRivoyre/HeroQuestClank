@@ -11,8 +11,7 @@ class Game {
     }
 
     paint() {
-        this.currentView.paint();
-        this.screen.scaleOnScreen();
+        this.currentView.paint();      
     }
 
     save() {

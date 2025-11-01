@@ -1,23 +1,16 @@
 const CanvasCellWidth = 16;
 const CanvasCellHeight = 9;
-const CanvasWidth = 64 * CanvasCellWidth;//1024
-const CanvasHeight = 64 * CanvasCellHeight;//576
+const GameScreenWidth = 64 * CanvasCellWidth;//1024
+const GameScreenHeight = 64 * CanvasCellHeight;//576
 
-const canvas = document.createElement("canvas");
-canvas.width = CanvasWidth;
-canvas.height = CanvasHeight;
-canvas.style.imageRendering = 'pixelated';
-const ctx = canvas.getContext("2d");
-ctx.imageSmoothingEnabled = false;
 
 class Screen {
 
     constructor() {
-        this.width = CanvasWidth;
-        this.heigth = CanvasHeight;
+        this.width = GameScreenWidth;
+        this.heigth = GameScreenHeight;
 
-        this.screenCanvas = document.getElementById("myCanvas");
-        // this.screenCanvas.style.imageRendering = 'pixelated';
+        this.screenCanvas = document.getElementById("myCanvas");        
         this.screenCtx = this.screenCanvas.getContext("2d");
         this.ratio = 1;
         this.windowResize();
@@ -35,30 +28,20 @@ class Screen {
     }
     drawImage(img, x, y, w, h) {
         this.screenCanvas.style.imageRendering = 'auto';
-         this.screenCtx.imageSmoothingEnabled = true;
+        this.screenCtx.imageSmoothingEnabled = true;
         this.screenCtx.drawImage(img, this.toCanvas(x), this.toCanvas(y), this.toCanvas(w), this.toCanvas(h));
     }
     drawPixelateImage(img, x, y) {
-      
         this.screenCanvas.style.imageRendering = 'pixelated';
         this.screenCtx.imageSmoothingEnabled = false;
         this.screenCtx.drawImage(img,
             0, 0, img.width, img.height,
             this.toCanvas(x), this.toCanvas(y), this.toCanvas(img.width), this.toCanvas(img.height));
     }
-
-    scaleOnScreen() {
-        return;
-        this.screenCtx.imageSmoothingEnabled = false;
-        this.screenCtx.clearRect(0, 0, this.screenCanvas.width, this.screenCanvas.height);
-        this.screenCtx.drawImage(canvas,
-            0, 0, canvas.width, canvas.height,
-            0, 0, this.screenCanvas.width, this.screenCanvas.height)
-    }
     toCanvasCoord(x, y) {
         return {
-            x: Math.floor(x * canvas.width / this.screenCanvas.width),
-            y: Math.floor(y * canvas.height / this.screenCanvas.height)
+            x: Math.floor(x * this.width / this.screenCanvas.width),
+            y: Math.floor(y * this.height / this.screenCanvas.height)
         };
     }
     mouseMove(event) {
