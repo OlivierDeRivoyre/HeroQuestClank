@@ -124,6 +124,9 @@ class LevelView {
             }
         }
         this.hand.refresh(game.cards.playerDeck.hand);
+        for(let h of this.heroes){
+            h.shield = this.diceZone.shield;            
+        }
     }
     openShop() {
         this.popup = new ShopForm(this);
@@ -273,6 +276,7 @@ class Character {
         this.cell = { x: 0, y: 0 };
         this.sprite = getDungeonTileSetHeroSprite(0, 14);
         this.life = 3;
+        this.maxLife = 3;
         this.shield = 0;
         this.lookLeft = false;
         this.marginY = 0;
@@ -304,7 +308,7 @@ class Character {
         monster.type = "gobelin";
         monster.sprite = getDungeonTileSetVilainSprite(0, 12);
         monster.marginY = 2;
-        monster.life = 20;
+        monster.life = monster.maxLife = 20;
         monster.cell = { x, y };
         return monster;
     }
@@ -338,6 +342,14 @@ class Character {
         this.sprite.paint(
             rect.x, rect.y + this.marginY,
             tickNumber % 20 > 10, this.lookLeft);
+        const totalLife = this.maxLife + this.shield;
+        const lifePx = Math.floor(30 * this.life / totalLife);
+        const armorPx = Math.floor(30 * this.shield / totalLife);
+        const barY = rect.y + 28;
+        screen.canvas.fillRect('#000', rect.x, barY, 32, 4);
+        const lifeColor = this.type == 'hero' ? '#0B0' : '#B00';
+        screen.canvas.fillRect(lifeColor, rect.x + 1, barY + 1, lifePx + armorPx / 2, 2);
+        screen.canvas.fillRect('#2af', rect.x + 1 + lifePx, barY + 1, armorPx, 2);
     }
 
     isAround(cell) {
