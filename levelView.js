@@ -215,6 +215,7 @@ class CardZone {
         this.cardCanvas = null;
         this.cardRects = []
         this.playCardFunc = playCardFunc;
+        this.popup = null;
     }
     refresh(cards) {
         this.cards = cards;
@@ -243,12 +244,22 @@ class CardZone {
             paintCard(c.card, this.cardCanvas);
             screen.canvas.drawFixedCanvas(this.cardCanvas, c.x, c.y);
         }
+        if (this.popup)
+            this.popup.paint();
     }
     update() {
+        if (this.popup) {
+            this.popup.update();
+            return;
+        }
         if (!input.mouseClicked)
             return;
         for (let c of this.cardRects) {
             if (isInsideRect(input.mouse, c)) {
+                if (isInsideRect({ x: input.mouse.x, y: input.mouse.y - c.height / 2 }, c)) {
+                    this.popup = new ZoomCardForm(this, c.card);
+                    return;
+                }
                 this.playCardFunc(c.card);
                 return;
             }
@@ -585,5 +596,32 @@ class WinLevelScreen {
     }
     nextLevel() {
         game.currentView = new LevelView(this.parent.level + 1);
+    }
+}
+class ZoomCardForm {
+    constructor(parent, card) {
+        this.parent = parent;
+        this.card = card;
+        const ratio = 2;
+        this.cardWith = 150 * ratio;
+        this.cardHeight = 210 * ratio;
+        this.cardCanvas = null;
+    }
+    paint() {
+        if (!screen.canvas.isCanvasSameRatio(this.cardCanvas)) {
+            this.cardCanvas = screen.canvas.createZoomedCanvas(this.cardWith, this.cardHeight, TemplateCardWidth, TemplateCardHeight);
+        }
+        paintCard(this.card, this.cardCanvas);
+        const x = Math.floor(GameScreenWidth - this.cardWith) / 2;
+        const y = Math.floor(GameScreenHeight - this.cardHeight) / 2;
+        const margin = 20;
+        screen.canvas.fillRect('rgba(255, 255, 255, 0.8)', x - margin, y - margin, this.cardWith + 2 * margin, this.cardHeight + 2 * margin)
+        screen.canvas.drawFixedCanvas(this.cardCanvas, x, y);
+
+    }
+    update() {
+        if (!input.mouseClicked)
+            return;
+        this.parent.popup = null;
     }
 }
