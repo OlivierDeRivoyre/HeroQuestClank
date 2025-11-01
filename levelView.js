@@ -31,6 +31,22 @@ class LevelView {
 
     playCard(card) {
         console.log("play " + card.title);
+        game.cards.playerDeck.handToDiscard(card);
+        for (let s of card.stats) {
+            if (s === 'a') {
+                this.diceZone.addAttackDice();
+            }
+            if (s === 's') {
+                this.diceZone.addWalkDice();
+            }
+            if (s === 'e') {
+                this.diceZone.energy++;
+            }
+            if (s === 'd') {
+                this.diceZone.shield++;
+            }
+        }
+        this.hand.refresh();
     }
 
 }
@@ -79,7 +95,7 @@ class CardZone {
         if (cards.length == 0)
             return;
         if (!input.mouseClicked)
-            return;        
+            return;
         for (let c of this.cardRects) {
             if (isInsideRect(input.mouse, c)) {
                 this.playCardFunc(c.card);
@@ -177,22 +193,47 @@ class Dice {
 
 class DiceZone {
     constructor() {
-        this.walkDices = [new Dice('w')];
-        this.attackDices = [new Dice('a')];
+        this.walkDices = [];
+        this.attackDices = [];
+        this.shield = 0;
+        this.energy = 0;
         this.attackLogo = LogoAttImage;
         this.walkLogo = LogoStepImage;
+        this.shieldLogo = LogoDefImage;
+        this.energyLogo = LogoStarImage;
+        this.addAttackDice();
+        this.addWalkDice();
     }
     paint(topX, topY) {
         const logoSize = 28;
         const diceMargin = 3;
+        const textMargin = 23;
+        const lineMargin = 30;
         screen.canvas.drawImage(this.walkLogo, topX, topY, logoSize, logoSize);
         for (let i = 0; i < this.walkDices.length; i++) {
             this.walkDices[i].paint(topX + logoSize + 4 + i * 32, topY + diceMargin);
         }
-        topY += 30;
+        topY += lineMargin;
         screen.canvas.drawImage(this.attackLogo, topX, topY, logoSize, logoSize);
         for (let i = 0; i < this.attackDices.length; i++) {
             this.attackDices[i].paint(topX + logoSize + 4 + i * 32, topY + diceMargin);
         }
+        topY += lineMargin;
+        screen.canvas.drawImage(this.shieldLogo, topX, topY, logoSize, logoSize);
+        screen.canvas.fontSize = 24;
+        screen.canvas.fillStyle = '#222';
+        screen.canvas.fillText(this.shield, topX + logoSize + 4, topY + textMargin);
+
+        topY += lineMargin;
+        screen.canvas.drawImage(this.energyLogo, topX, topY, logoSize, logoSize);
+        screen.canvas.fontSize = 24;
+        screen.canvas.fillStyle = '#222';
+        screen.canvas.fillText(this.energy, topX + logoSize + 4, topY + textMargin);
+    }
+    addAttackDice() {
+        this.attackDices.push(new Dice('a'))
+    }
+    addWalkDice() {
+        this.walkDices.push(new Dice('w'))
     }
 }

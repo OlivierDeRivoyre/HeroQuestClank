@@ -42,6 +42,12 @@ class Deck {
             }
         }
     }
+    handToDiscard(card){
+        const index = this.hand.findIndex(c => c == card);
+        const foundCard = this.hand[index];
+        this.hand.splice(index, 1);
+        this.discard.push(foundCard);
+    }
 
     
 }
