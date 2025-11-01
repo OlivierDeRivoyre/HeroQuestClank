@@ -1,9 +1,11 @@
 
 class LevelView {
 
-    constructor() {
-        this.floor = new Floor();
+    constructor(level) {
+        this.level = level;
+        this.floor = new Floor(level);
         this.heroes = Character.getHeroes();
+        this.monsters = Character.getEnnemies(level);
         this.cardCanvas = null;
         game.cards.playerDeck.drawToCount(5);
     }
@@ -15,10 +17,13 @@ class LevelView {
     paint() {
         screen.clear();
         if (!screen.canvas.isCanvasSameRatio(this.cardCanvas)) {
-            this.cardCanvas = screen.canvas.createZoomedCanvas(150 / 2, 210 / 2, TemplateCardWidth, TemplateCardHeight);
+            this.cardCanvas = screen.canvas.createZoomedCanvas(150, 210, TemplateCardWidth, TemplateCardHeight);
         }
         this.floor.paint();
         for (let c of this.heroes) {
+            c.paint();
+        }
+         for (let c of this.monsters) {
             c.paint();
         }
         this.paintDeckHand();
@@ -32,7 +37,9 @@ class LevelView {
             const currentY = 330;
             const currentX = 50 + padding * i;
             paintCard(cards[i], this.cardCanvas);
+
             screen.canvas.drawFixedCanvas(this.cardCanvas, currentX, currentY);
+
         }
     }
 
@@ -46,7 +53,7 @@ class Character {
         this.life = 3;
         this.shield = 0;
         this.lookLeft = false;
-        this.marginY = -16;
+        this.marginY = 0;
     }
     static getHeroes() {
         const h1 = new Character();
@@ -56,11 +63,27 @@ class Character {
         h2.sprite = getDungeonTileSetHeroSprite(3, 10);
         h3.sprite = getDungeonTileSetHeroSprite(5, 10);
         h1.marginY = -10;
+        h2.marginY = -16;
+        h3.marginY = -16;
         h1.cell.y = 0;
         h2.cell.x = 2;
         h3.cell.x = 4;
         return [h1, h2, h3];
     }
+
+    static getGobelin(x, y) {
+        const monster = new Character();
+        monster.type = "gobelin";
+        monster.sprite = getDungeonTileSetVilainSprite(0, 12);
+        monster.marginY = 2;
+        monster.life = 20;
+        monster.cell = { x, y };
+        return monster;
+    }
+    static getEnnemies(level) {        
+        return [Character.getGobelin(11, 0)];
+    }
+
     paint() {
         this.sprite.paint(
             Floor.TopX + this.cell.x * 32,
@@ -72,11 +95,11 @@ class Character {
 class Floor {
     static TopX = 16;
     static TopY = 16;
-    constructor() {
+    constructor(level) {
         this.sprite = getDungeonTileSetFloorSprite();
         this.width = 12;
         this.height = 8;
-        this.seed = 0;
+        this.seed = level;
     }
     paint() {
         screen.canvas.fillRect('#483B3A', Floor.TopX, Floor.TopY, 32 * this.width, 32 * this.height);

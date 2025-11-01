@@ -76,7 +76,10 @@ class FixedCanvas {
             return false;
         return this.ratio == otherfixedCanvas.validRatio;
     }
-    drawFixedCanvas(otherfixedCanvas, x, y){
-        this.drawImage(otherfixedCanvas.screenCanvas, x, y);
+    drawFixedCanvas(otherfixedCanvas, x, y){      
+        const img = otherfixedCanvas.screenCanvas;
+        this.screenCtx.drawImage(img,
+            0, 0, img.width, img.height,
+            this.toCanvas(x), this.toCanvas(y), img.width, img.height);
     }
 }

@@ -7,5 +7,5 @@ function runTick() {
     setTimeout(() => this.runTick(), TickDuration);
 }
 game = new Game();
-game.currentView = new LevelView();
+game.currentView = new LevelView(1);
 onCardImageReadyfunc = () => runTick();
