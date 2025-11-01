@@ -14,6 +14,8 @@ class LevelView {
         game.cards.uncommonShop.drawToCount(4);
         this.hand.refresh(game.cards.playerDeck.hand);
         this.popup = null;
+        this.buyableCards = 0;
+        this.refreshShopButton();
     }
 
     update() {
@@ -36,7 +38,7 @@ class LevelView {
         const selectedChar = allChars.find(c => c.isSelected);
         if (selectedChar) {
             if (isInsideRect(input.mouse, selectedChar.getRect())) {
-                selectedChar.isSelected = false;                
+                selectedChar.isSelected = false;
                 return;
             }
             if (selectedChar.type !== "hero") {
@@ -77,13 +79,13 @@ class LevelView {
             return;
         }
         const otherHero = this.heroes.find(m => m.cell.x == targetCell.x && m.cell.y == targetCell.y);
-        if(otherHero){
+        if (otherHero) {
             otherHero.isSelected = true;
             hero.isSelected = false;
             return;
         }
         const d = hero.getWalkingDistance(targetCell)
-        const maxDist = this.diceZone.getSumWalk() ;
+        const maxDist = this.diceZone.getSumWalk();
         if (d + hero.movedStep <= maxDist) {
             hero.movedStep += d;
             hero.cell = targetCell;
@@ -95,8 +97,6 @@ class LevelView {
             }
         }
     }
-
-
     paint() {
         screen.clear();
         this.floor.paint();
@@ -107,6 +107,7 @@ class LevelView {
             c.paint();
         }
         this.shopButton.paint();
+        this.paintBuyableCards();
         this.endTurnButton.paint();
         this.diceZone.paint();
         this.hand.paint();
@@ -114,7 +115,16 @@ class LevelView {
             this.popup.paint();
         }
     }
-
+    paintBuyableCards() {
+        if (this.buyableCards == 0)
+            return;
+        const topX = this.shopButton.rect.x;
+        const topY = this.shopButton.rect.y - 6;
+        const margin = (this.shopButton.rect.width - 10 * this.buyableCards) / 2
+        for (let i = 0; i < this.buyableCards; i++) {
+            screen.canvas.drawImage(PureStarImage, topX + margin + i * 10, topY, 12, 12);
+        }
+    }
     playCard(card) {
         console.log("play " + card.title);
         game.cards.playerDeck.handToDiscard(card);
@@ -136,6 +146,11 @@ class LevelView {
         for (let h of this.heroes) {
             h.shield = this.diceZone.shield;
         }
+        this.refreshShopButton();
+    }
+    refreshShopButton() {
+        const cards = game.cards.commonCards.concat(game.cards.uncommonShop.hand);
+        this.buyableCards = cards.filter(c => c.cost <= this.diceZone.energy).length;
     }
     openShop() {
         this.popup = new ShopForm(this);
@@ -214,6 +229,7 @@ class LevelView {
         game.cards.playerDeck.drawToCount(5);
         game.cards.uncommonShop.drawToCount(4);
         this.hand.refresh(game.cards.playerDeck.hand);
+        this.refreshShopButton();
     }
 }
 
@@ -360,7 +376,6 @@ class Character {
         screen.canvas.fillRect(lifeColor, rect.x + 1, barY + 1, lifePx + armorPx / 2, 2);
         screen.canvas.fillRect('#2af', rect.x + 1 + lifePx, barY + 1, armorPx, 2);
     }
-
     isAround(cell) {
         return Math.abs(this.cell.x - cell.x) <= 1 && Math.abs(this.cell.y - cell.y) <= 1;
     }
@@ -372,7 +387,6 @@ class Character {
     atOneStep(cell) {
         return this.getWalkingDistance(cell) == 1;
     }
-
     takeDamage(dmg, fromCharacter) {
         if (this.shield != 0) {
             const shielded = Math.min(dmg, this.shield);
@@ -388,14 +402,12 @@ class Character {
             }
         }
     }
-
     onNewTurn() {
         this.shield = 0;
         this.hasAttacked = false;
         this.movedStep = 0;
         this.isSelected = false;
     }
-
 }
 class Floor {
     static TopX = 16;
@@ -590,10 +602,10 @@ class DiceZone {
         this.energy = 0;
         this.locked = false;
     }
-    lockDices(){
+    lockDices() {
         this.locked = true;
-        for(let d of this.attackDices.concat(this.walkDices))
-            d.isSelected = false;        
+        for (let d of this.attackDices.concat(this.walkDices))
+            d.isSelected = false;
     }
     getSumWalk() {
         let total = 0;
