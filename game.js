@@ -3,6 +3,7 @@ let tickNumber = 0;
 class Game {
     constructor() {
         this.screen = new Screen();
+        this.cards = new CardGameRun();        
         this.currentView = null;
     }
     update() {
