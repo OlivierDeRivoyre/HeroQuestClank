@@ -36,8 +36,7 @@ class LevelView {
         const selectedChar = allChars.find(c => c.isSelected);
         if (selectedChar) {
             if (isInsideRect(input.mouse, selectedChar.getRect())) {
-                selectedChar.isSelected = false;
-                this.floor.refresh();
+                selectedChar.isSelected = false;                
                 return;
             }
             if (selectedChar.type !== "hero") {
@@ -74,6 +73,7 @@ class LevelView {
             }
             hero.hasAttacked = true;
             hero.isSelected = false;
+            this.diceZone.lockDices();
             return;
         }
         const d = hero.getWalkingDistance(targetCell)
@@ -81,6 +81,7 @@ class LevelView {
         if (d + hero.movedStep <= maxDist) {
             hero.movedStep += d;
             hero.cell = targetCell;
+            this.diceZone.lockDices();
             if (hero.movedStep >= maxDist && !this.monsters.find(m => m.isAround(targetCell))) {
                 hero.hasAttacked = true;
                 hero.isSelected = false;
@@ -500,6 +501,7 @@ class DiceZone {
         this.attackRects = [];
         this.shield = 0;
         this.energy = 0;
+        this.locked = false;
         this.attackLogo = LogoAttImage;
         this.walkLogo = LogoStepImage;
         this.shieldLogo = LogoDefImage;
@@ -580,6 +582,12 @@ class DiceZone {
         this.addWalkDice();
         this.shield = 0;
         this.energy = 0;
+        this.locked = false;
+    }
+    lockDices(){
+        this.locked = true;
+        for(let d of this.attackDices.concat(this.walkDices))
+            d.isSelected = false;        
     }
     getSumWalk() {
         let total = 0;
@@ -604,7 +612,7 @@ class DiceZone {
         this.refresh();
     }
     update() {
-        if (!input.mouseClicked)
+        if (!input.mouseClicked || this.locked)
             return;
 
         const selectedAtt = this.attackDices.findIndex(d => d.isSelected);
