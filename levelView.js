@@ -11,8 +11,8 @@ class LevelView {
     }
 
     paint() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        this.sampleSprite.paint(50, 50, tickNumber % 20 > 10, true);
+        screen.clear();
+        this.sampleSprite.paint(50, 50, tickNumber % 20 > 10, false);
         this.paintDeckHand();
     }
 
@@ -23,7 +23,7 @@ class LevelView {
             const currentY = 200;
             const currentX = 50 + 50 * i;
             const img = cards[i].bigCanvas;
-            ctx.drawImage(img, currentX, currentY, 150, 210);
+            screen.drawImage(img, currentX, currentY, 150, 210);
         }
     }
 

@@ -19,7 +19,7 @@ class SimpleSprite {
         this.tHeight = tHeight;
     }
     paint(x, y) {
-        ctx.drawImage(this.tile,
+        screen.drawPixelateImage(this.tile,
             this.tx, this.ty, this.tWidth, this.tHeight,
             x, y, this.tWidth, this.tHeight
         );
@@ -56,7 +56,7 @@ class DoubleSprite {
             return;
         }
         // ctx.fillStyle = "pink"; ctx.fillRect(x, y, this.tWidth, this.tHeight);
-        ctx.drawImage(this.tile,
+       screen.drawPixelateImage(this.tile,
             this.tx + index * this.tWidth, this.ty,
             this.tWidth, this.tHeight,
             x, y,
@@ -65,7 +65,7 @@ class DoubleSprite {
     }
     paintScale(x, y, w, h, index) {
         index |= 0;
-        ctx.drawImage(this.tile,
+        screen.drawPixelateImage(this.tile,
             this.tx + index * this.tWidth, this.ty,
             this.tWidth, this.tHeight,
             x, y,

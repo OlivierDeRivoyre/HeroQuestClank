@@ -10,25 +10,51 @@ canvas.style.imageRendering = 'pixelated';
 const ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = false;
 
-function isInsideRect(coord, rect) {
-    const insideX = coord.x >= rect.x && coord.x < rect.x + rect.width;
-    const insideY = coord.y >= rect.y && coord.y < rect.y + rect.height;
-    return insideX && insideY;
-}
-
 class Screen {
-    constructor() {
-        this.screenCanvas = document.getElementById("myCanvas");
-        this.screenCanvas.style.imageRendering = 'pixelated';
-        this.screenCtx = this.screenCanvas.getContext("2d");
 
+    constructor() {
+        this.width = CanvasWidth;
+        this.heigth = CanvasHeight;
+
+        this.screenCanvas = document.getElementById("myCanvas");
+        // this.screenCanvas.style.imageRendering = 'pixelated';
+        this.screenCtx = this.screenCanvas.getContext("2d");
+        this.ratio = 1;
         this.windowResize();
+        this.pixelateCanvas = document.createElement("canvas");
+        this.pixelateCanvas.width = 16;
+        this.pixelateCanvas.height = 16;
+        this.pixelateCanvas.style.imageRendering = 'pixelated';
+        this.pixelateCtx = this.pixelateCanvas.getContext("2d");
+        this.pixelateCtx.imageSmoothingEnabled = false;
         window.addEventListener('resize', () => this.windowResize(), false);
         window.addEventListener('mousemove', (e) => this.mouseMove(e), false);
         window.addEventListener('mousedown', (e) => this.mouseDown(e), false);
         window.addEventListener('mouseup', (e) => this.mouseUp(e), false);
     }
+    clear() {
+        this.screenCtx.clearRect(0, 0, this.screenCanvas.width, this.screenCanvas.height);
+    }
+    toCanvas(x) {
+        return Math.floor(x * this.ratio);
+    }
+    drawImage(img, x, y, w, h) {
+        this.screenCanvas.style.imageRendering = 'auto';
+         this.screenCtx.imageSmoothingEnabled = true;
+        this.screenCtx.drawImage(img, this.toCanvas(x), this.toCanvas(y), this.toCanvas(w), this.toCanvas(h));
+    }
+    drawPixelateImage(img, sx, sy, sw, sh, x, y, w, h) {
+        this.pixelateCtx.clearRect(0, 0, this.pixelateCanvas.width, this.pixelateCanvas.height);
+        this.pixelateCtx.drawImage(img, sx, sy, sw, sh, 0, 0, this.pixelateCanvas.width, this.pixelateCanvas.height)
+        this.screenCanvas.style.imageRendering = 'pixelated';
+        this.screenCtx.imageSmoothingEnabled = false;
+        this.screenCtx.drawImage(this.pixelateCanvas,
+            0, 0, this.pixelateCanvas.width, this.pixelateCanvas.height,
+            this.toCanvas(x), this.toCanvas(y), this.toCanvas(w), this.toCanvas(h));
+    }
+
     scaleOnScreen() {
+        return;
         this.screenCtx.imageSmoothingEnabled = false;
         this.screenCtx.clearRect(0, 0, this.screenCanvas.width, this.screenCanvas.height);
         this.screenCtx.drawImage(canvas,
@@ -74,6 +100,7 @@ class Screen {
             this.screenCanvas.width = w;
             this.screenCanvas.height = h;
         }
+        this.ratio = this.screenCanvas.width / this.width;
     }
     fullScreen() {
         if (this.screenCanvas.webkitRequestFullScreen) {
@@ -84,3 +111,4 @@ class Screen {
         }
     }
 }
+const screen = new Screen();
