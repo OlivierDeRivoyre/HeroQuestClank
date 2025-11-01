@@ -6,15 +6,85 @@ class LevelView {
         this.floor = new Floor(level);
         this.heroes = Character.getHeroes();
         this.monsters = Character.getEnnemies(level);
-        game.cards.playerDeck.drawToCount(5);
-        this.hand = new CardZone(game.cards.playerDeck, 50, 350, (c) => this.playCard(c));
         this.diceZone = new DiceZone();
-        this.hand.refresh();
+        this.hand = new CardZone(50, 350, GameScreenWidth - 100, (c) => this.playCard(c));
+        this.shopButton = new Button('Shop', 800, 10, 80, 40, () => this.openShop());
+        game.cards.playerDeck.drawToCount(5);
+        game.cards.uncommonShop.drawToCount(4);
+        this.hand.refresh(game.cards.playerDeck.hand);
+        this.popup = null;
     }
 
     update() {
+        if (this.popup) {
+            this.popup.update();
+            return;
+        }
         this.hand.update();
+        this.shopButton.update();
+        this.updateHeroes();
     }
+    updateHeroes() {
+        if (!input.mouseClicked)
+            return;
+        const allChars = this.heroes.concat(this.monsters);
+        const selectedChar = allChars.find(c => c.isSelected);
+        if (selectedChar) {
+            if (isInsideRect(input.mouse, selectedChar.getRect())) {
+                selectedChar.isSelected = false;
+                return;
+            }
+            if (selectedChar.type !== "hero") {
+                return;
+            }
+            const targetCell = this.floor.getCell(input.mouse);
+            if (!targetCell) {
+                selectedChar.isSelected = false;
+                return;
+            }
+            this.heroAction(selectedChar, targetCell);
+            return;
+        }
+        for (let c of allChars) {
+            if (isInsideRect(input.mouse, c.getRect())) {
+                c.isSelected = !c.isSelected;
+                if (selectedChar && c != selectedChar) {
+                    selectedChar.isSelected = false;
+                }
+            }
+        }
+    }
+
+    heroAction(hero, targetCell) {
+        if (hero.hasAttacked) {
+            hero.isSelected = false;
+        }
+        const monster = this.monsters.find(m => m.cell.x == targetCell.x && m.cell.y == targetCell.y);
+        if (monster && hero.isAround(targetCell)) {
+            console.log('attack ' + monster.type);
+            const dmg = this.diceZone.getSumAttack();
+            monster.takeDamage(dmg);
+            if (monster.life == 0) {
+                this.monsters.splice(this.monsters.findIndex(m => m === monster), 1);
+            }
+            hero.hasAttacked = true;
+            hero.isSelected = false;
+            return;
+        }
+        if (hero.atOneStep(targetCell)) {
+            const dist = this.diceZone.getSumWalk();
+            if (hero.movedStep < dist) {
+                hero.movedStep++;
+                hero.cell = targetCell;
+                if (hero.movedStep == dist && !this.monsters.find(m => m.isAround(targetCell))) {
+                    hero.hasAttacked = true;
+                    hero.isSelected = false;
+                    return;
+                }
+            }
+        }
+    }
+
 
     paint() {
         screen.clear();
@@ -25,8 +95,12 @@ class LevelView {
         for (let c of this.monsters) {
             c.paint();
         }
+        this.shopButton.paint();
         this.diceZone.paint(500, 50)
         this.hand.paint();
+        if (this.popup) {
+            this.popup.paint();
+        }
     }
 
     playCard(card) {
@@ -46,28 +120,31 @@ class LevelView {
                 this.diceZone.shield++;
             }
         }
-        this.hand.refresh();
+        this.hand.refresh(game.cards.playerDeck.hand);
     }
-
+    openShop() {
+        this.popup = new ShopForm(this);
+    }
 }
 
 class CardZone {
-    constructor(deck, topX, topY, playCardFunc) {
-        this.deck = deck;
+    constructor(topX, topY, width, playCardFunc) {
+        this.cards = [];
         this.topX = topX;
         this.topY = topY;
+        this.width = width;
         this.cardWith = 150;
         this.cardHeight = 210;
         this.cardCanvas = null;
         this.cardRects = []
         this.playCardFunc = playCardFunc;
     }
-    refresh() {
+    refresh(cards) {
+        this.cards = cards;
         this.cardRects = []
-        const cards = this.deck.hand;
         if (cards.length == 0)
             return;
-        const padding = Math.min(155, (screen.width - this.cardWith - 2 * 50) / cards.length);
+        const padding = Math.min(155, this.width / cards.length);
         for (let i = 0; i < cards.length; i++) {
             const x = this.topX + padding * i;
             const y = this.topY;
@@ -91,9 +168,6 @@ class CardZone {
         }
     }
     update() {
-        const cards = this.deck.hand;
-        if (cards.length == 0)
-            return;
         if (!input.mouseClicked)
             return;
         for (let c of this.cardRects) {
@@ -105,7 +179,6 @@ class CardZone {
     }
 }
 
-
 class Character {
     constructor() {
         this.type = "hero";
@@ -115,6 +188,9 @@ class Character {
         this.shield = 0;
         this.lookLeft = false;
         this.marginY = 0;
+        this.hasAttacked = false;
+        this.movedStep = 0;
+        this.isSelected = false;
     }
     static getHeroes() {
         const h1 = new Character();
@@ -131,7 +207,6 @@ class Character {
         h3.cell.x = 4;
         return [h1, h2, h3];
     }
-
     static getGobelin(x, y) {
         const monster = new Character();
         monster.type = "gobelin";
@@ -144,13 +219,44 @@ class Character {
     static getEnnemies(level) {
         return [Character.getGobelin(11, 0)];
     }
-
+    getRect() {
+        return {
+            x: Floor.TopX + this.cell.x * 32,
+            y: Floor.TopY + this.cell.y * 32,
+            width: 32,
+            height: 32,
+        }
+    }
     paint() {
+        const rect = this.getRect();
+        if (this.isSelected) {
+            screen.canvas.fillRect('rgba(0, 255, 0, 0.25)', rect.x, rect.y, rect.width, rect.height);
+        }
+        if (this.type == "hero") {
+            if (!this.hasAttacked) {
+                screen.canvas.fillRect('rgba(0, 255, 0, 0.05)', rect.x, rect.y, rect.width, rect.height);
+            } else {
+                screen.canvas.fillRect('rgba(50, 50, 50, 0.10)', rect.x, rect.y, rect.width, rect.height);
+            }
+        }
         this.sprite.paint(
-            Floor.TopX + this.cell.x * 32,
-            Floor.TopY + this.cell.y * 32 + this.marginY,
+            rect.x, rect.y + this.marginY,
             tickNumber % 20 > 10, this.lookLeft);
     }
+
+    isAround(cell) {
+        return Math.abs(this.cell.x - cell.x) <= 1 && Math.abs(this.cell.y - cell.y) <= 1;
+    }
+    atOneStep(cell) {
+        const dx = Math.abs(this.cell.x - cell.x);
+        const dy = Math.abs(this.cell.y - cell.y);
+        return dx + dy == 1;
+    }
+
+    takeDamage(dmg) {
+        this.life = Math.max(0, this.life - dmg);
+    }
+
 }
 
 class Floor {
@@ -161,6 +267,7 @@ class Floor {
         this.width = 12;
         this.height = 8;
         this.seed = level;
+        this.rect = this.getRect();
     }
     paint() {
         screen.canvas.fillRect('#483B3A', Floor.TopX, Floor.TopY, 32 * this.width, 32 * this.height);
@@ -174,6 +281,23 @@ class Floor {
                 this.sprite.paint(Floor.TopX + i * 32, Floor.TopY + j * 32, index);
             }
         }
+    }
+    getRect() {
+        return {
+            x: Floor.TopX,
+            y: Floor.TopY,
+            width: this.width * 32,
+            height: this.height * 32,
+        }
+    }
+    getCell(coord) {
+        if (!isInsideRect(coord, this.rect)) {
+            return null;
+        }
+        return {
+            x: Math.floor((coord.x - Floor.TopX) / 32),
+            y: Math.floor((coord.y - Floor.TopY) / 32),
+        };
     }
 }
 
@@ -235,5 +359,85 @@ class DiceZone {
     }
     addWalkDice() {
         this.walkDices.push(new Dice('w'))
+    }
+    getSumWalk() {
+        let total = 0;
+        for (let d of this.walkDices) {
+            total += d.value;
+        }
+        return total;
+    }
+    getSumAttack() {
+        let total = 0;
+        for (let d of this.walkDices) {
+            total += d.value;
+        }
+        return total;
+    }
+
+}
+class Button {
+    constructor(text, x, y, width, height, clickFunc) {
+        this.text = text;
+        this.rect = { x, y, width, height };
+        this.clickFunc = clickFunc;
+    }
+    paint() {
+        screen.canvas.fillRect('#AAA', this.rect.x, this.rect.y, this.rect.width, this.rect.height);
+        screen.canvas.fontSize = 24;
+        const size = screen.canvas.measureTextWidth(this.text);
+        const margin = (this.rect.width - size) / 2;
+        screen.canvas.fillText(this.text, this.rect.x + margin, this.rect.y + 26);
+    }
+    update() {
+        if (!input.mouseClicked)
+            return;
+        if (isInsideRect(input.mouse, this.rect))
+            this.clickFunc();
+    }
+}
+
+class ShopForm {
+    constructor(parent) {
+        this.parent = parent;
+        this.cardZone = new CardZone(60, 200, GameScreenWidth - 120, (c) => this.tryBuyCard(c));
+        this.closeButton = new Button('Close', GameScreenWidth - 160, GameScreenHeight - 120, 80, 40, () => this.close());
+        this.refresh();
+    }
+
+    refresh() {
+        this.availableEnergy = this.parent.diceZone.energy;
+        const cards = game.cards.commonCards.concat(game.cards.uncommonShop.hand);
+        cards.sort((c1, c2) => c1.cost - c2.cost)
+        this.cardZone.refresh(cards);
+    }
+
+    paint() {
+        const margin = 50;
+        screen.canvas.fillRect('#EEE', margin, margin, GameScreenWidth - margin * 2, GameScreenHeight - margin * 2);
+        screen.canvas.fontSize = 24;
+        screen.canvas.fillText('You have ' + this.availableEnergy + ' ernergies', margin + 50, margin + 50);
+        this.cardZone.paint();
+        this.closeButton.paint();
+    }
+    update() {
+        this.cardZone.update();
+        this.closeButton.update();
+    }
+    tryBuyCard(card) {
+        console.log("try to buy " + card.title);
+        if(this.availableEnergy >= card.cost){
+            this.availableEnergy -= card.cost;
+            this.parent.diceZone.energy = this.availableEnergy;
+            game.cards.playerDeck.discard.push(card);
+            if(card.type !== "common"){
+                game.cards.uncommonShop.hand.splice(game.cards.uncommonShop.hand.findIndex(c => c ===card), 1);
+            }
+            this.refresh();
+            this.close();
+        }
+    }
+    close() {
+        this.parent.popup = null;
     }
 }

@@ -5,24 +5,24 @@ class Deck {
         this.discard = [];
         Deck.shuffle(this.drawPile);
     }
-    
-    static swap(cards, i, j){
-        if(i==j){
+
+    static swap(cards, i, j) {
+        if (i == j) {
             return;
         }
         const c1 = cards[i];
         cards[i] = cards[j];
         cards[j] = c1;
     }
-   static shuffle(cards){
-        for(let i = 0; i < cards.length; i++){
+    static shuffle(cards) {
+        for (let i = 0; i < cards.length; i++) {
             Deck.swap(cards, i, Math.floor(Math.random() * cards.length));
         }
     }
 
-    drawOne(){
-        if(this.drawPile.length == 0){
-            if(this.discard.length == 0){
+    drawOne() {
+        if (this.drawPile.length == 0) {
+            if (this.discard.length == 0) {
                 return;
             }
             this.drawPile = this.discard;
@@ -34,28 +34,26 @@ class Deck {
         return picked;
     }
 
-    drawToCount(count){
-        while(this.hand.length < count){
+    drawToCount(count) {
+        while (this.hand.length < count) {
             const picked = this.drawOne();
-            if(!picked){
+            if (!picked) {
                 return;
             }
         }
     }
-    handToDiscard(card){
+    handToDiscard(card) {
         const index = this.hand.findIndex(c => c == card);
         const foundCard = this.hand[index];
         this.hand.splice(index, 1);
         this.discard.push(foundCard);
     }
-
-    
 }
 
 class CardGameRun {
-    constructor(){
+    constructor() {
         this.playerDeck = CardGameRun.createPlayerDeck();
-        this.commonShop = CardGameRun.createCommonShop();
+        this.commonCards = CardGameRun.createCommonCards();
         this.uncommonShop = CardGameRun.createUncommonShop();
     }
 
@@ -70,16 +68,14 @@ class CardGameRun {
         }
         return new Deck(deck);
     }
-    static createCommonShop() {
+    static createCommonCards() {
         const deck = [];
         for (let card of allCards) {
             if (card.type === "common") {
-                for (let i = 0; i < card.quantity; i++) {
-                    deck.push(card);
-                }
+                deck.push(card);
             }
         }
-         return new Deck(deck);
+        return deck;
     }
     static createUncommonShop() {
         const deck = [];
