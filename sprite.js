@@ -1,0 +1,95 @@
+const dungeonTileSet = loadImg("0x72_DungeonTilesetII_v1.7.png");
+function getDungeonTileSetHeroSprite(j, topMargin) {
+    const x = 128;
+    const y = j * 32;
+    return new DoubleSprite(dungeonTileSet, x, y + topMargin, 16, 32 - topMargin);
+}
+function getDungeonTileSetVilainSprite(i, topMargin) {
+    const x = 368;
+    const y = 9 + i * 24;
+    return new DoubleSprite(dungeonTileSet, x, y + topMargin, 16, 24 - topMargin);
+}
+
+class SimpleSprite {
+    constructor(tile, tx, ty, tWidth, tHeight) {
+        this.tile = tile;
+        this.tx = tx;
+        this.ty = ty;
+        this.tWidth = tWidth;
+        this.tHeight = tHeight;
+    }
+    paint(x, y) {
+        ctx.drawImage(this.tile,
+            this.tx, this.ty, this.tWidth, this.tHeight,
+            x, y, this.tWidth, this.tHeight
+        );
+    }
+    paintScale(x, y, w, h) {
+        ctx.drawImage(this.tile,
+            this.tx, this.ty, this.tWidth, this.tHeight,
+            x, y, w, h
+        );
+    }
+    paintRotate(x, y, w, h, angus) {
+        ctx.save();
+        ctx.translate(x + w / 2, y + h / 2);
+        ctx.rotate(angus);
+        ctx.drawImage(this.tile,
+            this.tx, this.ty, this.tWidth, this.tHeight,
+            -w / 2, -h / 2, w, h);
+        ctx.restore();
+    }
+}
+// Sprite with 2 or more images
+class DoubleSprite {
+    constructor(tile, tx, ty, tWidth, tHeight) {
+        this.tile = tile;
+        this.tx = tx;
+        this.ty = ty;
+        this.tWidth = tWidth;
+        this.tHeight = tHeight;
+    }
+    paint(x, y, index, reverse) {
+        index |= 0;
+        if (reverse) {
+            this.paintReverse(x, y, index);
+            return;
+        }
+        // ctx.fillStyle = "pink"; ctx.fillRect(x, y, this.tWidth, this.tHeight);
+        ctx.drawImage(this.tile,
+            this.tx + index * this.tWidth, this.ty,
+            this.tWidth, this.tHeight,
+            x, y,
+            this.tWidth * 2, this.tHeight * 2
+        );
+    }
+    paintScale(x, y, w, h, index) {
+        index |= 0;
+        ctx.drawImage(this.tile,
+            this.tx + index * this.tWidth, this.ty,
+            this.tWidth, this.tHeight,
+            x, y,
+            w, h
+        );
+    }
+    paintReverse(x, y, index) {
+        ctx.save();
+        ctx.translate(x + this.tWidth * 2, y);
+        ctx.scale(-1, 1);
+        ctx.drawImage(this.tile,
+            this.tx + index * this.tWidth, this.ty,
+            this.tWidth, this.tHeight,
+            0, 0, this.tWidth * 2, this.tHeight * 2
+        );
+        ctx.restore();
+    }
+    paintRotate(x, y, angus) {
+        ctx.save();
+        ctx.translate(x + this.tWidth, y + this.tHeight);
+        ctx.rotate(angus);
+        ctx.drawImage(this.tile,
+            this.tx, this.ty, this.tWidth, this.tHeight,
+            -this.tWidth, -this.tHeight, this.tWidth * 2, this.tHeight * 2);
+        ctx.restore();
+    }
+}
