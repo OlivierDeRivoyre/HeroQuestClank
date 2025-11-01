@@ -7,6 +7,7 @@ class LevelView {
         this.heroes = Character.getHeroes();
         this.monsters = Character.getEnnemies(level);
         this.cardCanvas = null;
+        this.diceZone = new DiceZone();
         game.cards.playerDeck.drawToCount(5);
     }
 
@@ -23,9 +24,11 @@ class LevelView {
         for (let c of this.heroes) {
             c.paint();
         }
-         for (let c of this.monsters) {
+        for (let c of this.monsters) {
             c.paint();
         }
+        this.diceZone.paint(500, 50)
+
         this.paintDeckHand();
     }
 
@@ -80,7 +83,7 @@ class Character {
         monster.cell = { x, y };
         return monster;
     }
-    static getEnnemies(level) {        
+    static getEnnemies(level) {
         return [Character.getGobelin(11, 0)];
     }
 
@@ -113,6 +116,41 @@ class Floor {
                 this.sprite.paint(Floor.TopX + i * 32, Floor.TopY + j * 32, index);
             }
         }
+    }
+}
 
+class Dice {
+    constructor(type) {
+        this.type = type
+        this.value = Math.floor(1 + Math.random() * 6);
+    }
+    paint(x, y) {
+        screen.canvas.fillRect(this.type  == 'a'? 'red' : 'blue', x, y, 24, 24);
+        screen.canvas.fontSize = 24;
+        screen.canvas.fillStyle = '#FFA';
+        let margin = (24 - screen.canvas.measureTextWidth(this.value)) / 2;
+        screen.canvas.fillText(this.value, x + margin, y + 20);
+    }
+}
+
+class DiceZone {
+    constructor() {
+        this.walkDices = [new Dice('w')];
+        this.attackDices = [new Dice('a')];
+        this.attackLogo = LogoAttImage;
+        this.walkLogo = LogoStepImage;
+    }
+    paint(topX, topY) {
+        const logoSize = 28;
+        const diceMargin = 3;
+        screen.canvas.drawImage(this.walkLogo, topX, topY, logoSize, logoSize);        
+        for (let i = 0; i < this.walkDices.length; i++) {
+            this.walkDices[i].paint(topX + logoSize + 4 + i * 32, topY + diceMargin);
+        }
+        topY += 30;
+        screen.canvas.drawImage(this.attackLogo, topX , topY , logoSize, logoSize);
+         for (let i = 0; i < this.attackDices.length; i++) {
+            this.attackDices[i].paint(topX + logoSize + 4 + i * 32, topY + diceMargin);
+        }
     }
 }
