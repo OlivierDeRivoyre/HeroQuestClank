@@ -3,6 +3,7 @@ class Deck {
         this.drawPile = drawPile
         this.hand = [];
         this.discard = [];
+        Deck.shuffle(this.drawPile);
     }
     
     static swap(cards, i, j){

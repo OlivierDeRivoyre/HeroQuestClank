@@ -25,10 +25,14 @@ class FixedCanvas {
     clear() {
         this.screenCtx.clearRect(0, 0, this.screenCanvas.width, this.screenCanvas.height);
     }
-    fillColor(color) {
+    fillColor(color) {        
         this.screenCtx.fillStyle = color;
         this.screenCtx.fillRect(0, 0, this.screenCanvas.width, this.screenCanvas.height);
     }
+    fillRect(color, x, y, w, h) {        
+        this.screenCtx.fillStyle = color;
+        this.screenCtx.fillRect(this.toCanvas(x), this.toCanvas(y), this.toCanvas(w), this.toCanvas(h));
+    }    
     drawImage(img, x, y, w, h) {
         this.screenCanvas.style.imageRendering = 'auto';
         this.screenCtx.imageSmoothingEnabled = true;

@@ -9,7 +9,11 @@ function getDungeonTileSetVilainSprite(i, topMargin) {
     const y = 9 + i * 24;
     return new Sprite(dungeonTileSet, x, y + topMargin, 16, 24 - topMargin);
 }
-
+function getDungeonTileSetFloorSprite() {
+    const x = 16;
+    const y = 64;
+    return new Sprite(dungeonTileSet, x, y, 16, 16);
+}
 
 class Sprite {
     constructor(tile, tx, ty, tWidth, tHeight) {

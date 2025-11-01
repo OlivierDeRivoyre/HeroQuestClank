@@ -22,7 +22,7 @@ function mulberry32(seed) {
     }
 }
 let rand = mulberry32(12345);
-
+*/
 function getNextRand(previous) {
     return ((previous + 11) * 16807) % 2147483647;
-}*/
+}
