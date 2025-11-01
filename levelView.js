@@ -76,6 +76,12 @@ class LevelView {
             this.diceZone.lockDices();
             return;
         }
+        const otherHero = this.heroes.find(m => m.cell.x == targetCell.x && m.cell.y == targetCell.y);
+        if(otherHero){
+            otherHero.isSelected = true;
+            hero.isSelected = false;
+            return;
+        }
         const d = hero.getWalkingDistance(targetCell)
         const maxDist = this.diceZone.getSumWalk() ;
         if (d + hero.movedStep <= maxDist) {
