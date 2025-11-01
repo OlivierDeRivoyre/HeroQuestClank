@@ -272,6 +272,8 @@ class CardZone {
         for (let c of this.cardRects) {
             paintCard(c.card, this.cardCanvas);
             screen.canvas.drawFixedCanvas(this.cardCanvas, c.x, c.y);
+            if (c.isEnabled === false)
+                screen.canvas.fillRect('rgba(0,0,0, 0.4)', c.x, c.y, c.width, c.height)
         }
         if (this.popup)
             this.popup.paint();
@@ -701,14 +703,15 @@ class ShopForm {
         this.closeButton = new Button('Close', GameScreenWidth - 160, GameScreenHeight - 120, 80, 40, () => this.close());
         this.refresh();
     }
-
     refresh() {
         this.availableEnergy = this.parent.diceZone.energy;
         const cards = game.cards.commonCards.concat(game.cards.uncommonShop.hand);
         cards.sort((c1, c2) => c1.cost - c2.cost)
         this.cardZone.refresh(cards);
+        this.parent.refreshShopButton();
+        for (let rect of this.cardZone.cardRects)
+            rect.isEnabled = rect.card.cost <= this.availableEnergy;
     }
-
     paint() {
         const margin = 50;
         screen.canvas.fillRect('#EEE', margin, margin, GameScreenWidth - margin * 2, GameScreenHeight - margin * 2);
