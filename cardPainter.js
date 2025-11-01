@@ -64,31 +64,32 @@ function paintCard(card, canvas) {
 
     top += CadreExtImage.height * ratio;
     top += 20;
-    canvas.drawImage(DescriptionZoneImage, margin - 22, top, DescriptionZoneImage.width * ratio, DescriptionZoneImage.height * ratio);
+    canvas.drawImage(DescriptionZoneImage, margin - 22, top - 18, DescriptionZoneImage.width * ratio, DescriptionZoneImage.height * ratio);
 
     // Title
     const text = card.title;
-    canvas.fontSize = 72;
+    canvas.fontSize = 112;
     canvas.fillStyle = '#002';    
     const textWidth = canvas.measureTextWidth(text);
     const x = (canvas.width - textWidth) / 2;
     canvas.fillText(text, x, top + 104);
     // description
-    canvas.fontSize = 54;
-    let descTop = top + 214;
+    canvas.fontSize = 80;
+    let descTop = top + 240;
     for (let line of card.desc) {
         let x = margin + 40;
         for (let word of line) {
             if (word.length == 1) {
                 const logo = getLogo(word);
-                canvas.drawImage(logo, x, descTop - logo.height + 10);
-                x += logo.width + 8;
+                const logoRatio = 1.4;
+                canvas.drawImage(logo, x, descTop - logo.height - 6, logo.width * logoRatio, logo.height * logoRatio);
+                x += logo.width + 26;
             } else {
                 canvas.fillText(word, x, descTop);
                 x += canvas.measureTextWidth(word);
             }
         }
-        descTop += 60;
+        descTop += 80;
     }
 
     // stats

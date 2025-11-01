@@ -1,11 +1,17 @@
 
 
+ const url = new URL(window.location.href);
+const params = new URLSearchParams(url.search)
+let currentCardIndex = parseInt(params.get('index') || 0);
+
 function show(incr) {
     currentCardIndex = Math.max(0, Math.min(currentCardIndex + incr, allCards.length - 1));
     const card = allCards[currentCardIndex];
     const screenCanvas = document.getElementById('paintCanvas');
     const fixedCanvas = new FixedCanvas(TemplateCardWidth, TemplateCardHeight, screenCanvas);
-    paintCard(card, fixedCanvas)
+    paintCard(card, fixedCanvas);   
+    url.searchParams.set('index', currentCardIndex);
+    window.history.pushState({}, '', url);
 }
 
 onCardImageReadyfunc = () => show(0);

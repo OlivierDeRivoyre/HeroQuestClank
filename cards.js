@@ -7,7 +7,7 @@ const allCards = [
         title: 'Attaque',
         type: 'base',
         desc: [
-            ['a', ': Gagnez un dé d’attaque supplémentaire']
+            ['a', ': Gagnez un dé d’attaque'], [' supplémentaire']
         ],
         cost: 0,
         stats: ['a'],
@@ -18,8 +18,9 @@ const allCards = [
         title: 'Energie',
         type: 'base',
         desc: [
-            ['e', ': Gagnez un point d’énergie, utilisable pour'],
-            ['acheter des cartes au magasin.']
+            ['e', ': Gagnez un point d’énergie,'],
+            ['utilisable pour acheter des'],
+            ['cartes au magasin.']
         ],
         cost: 0,
         stats: ['e'],
@@ -41,8 +42,8 @@ const allCards = [
         title: 'Déplacement',
         type: 'base',
         desc: [
-            ['s', ': gagnez un dé de déplacement'],
-            ['supplémentaire']
+            ['s', ': gagnez un dé de'],
+            ['déplacement supplémentaire.']
         ],
         cost: 0,
         stats: ['s'],
@@ -50,10 +51,23 @@ const allCards = [
         quantity: 8
     },
     {
+        title: 'Colporteur',
+        type: 'base',
+        desc: [
+            ['Remplacez une carte du'],
+            ['magasin.']
+        ],
+        cost: 0,
+        stats: [],
+        pictureName: 'peddler',
+        quantity: 4
+    },
+    {
         title: 'Malédiction',
         type: 'base',
         desc: [
-            ['Perdez un point de vie, évitable avec un ', 'd']
+            ['Perdez un point de vie,'],
+            ['évitable avec un ', 'd']
         ],
         cost: 0,
         stats: [],
@@ -64,20 +78,21 @@ const allCards = [
         title: 'Assaut Fulgurant',
         type: 'common',
         desc: [
-            ['a', ': Gagnez un dé d’attaque supplémentaire'],
-            ['s', ': gagnez un dé de déplacement'],
-            ['supplémentaire']
+            ['a', ': Gagnez un dé d’attaque,'],
+            ['supplémentaire'],
+            ['e', ': Gagnez un point d’énergie.'],
         ],
         cost: 3,
-        stats: ['a', 's'],
-        pictureName: 'AttStep',
+        stats: ['a', 'e'],
+        pictureName: 'attack12',
         quantity: 12
     },
     {
         title: 'Bénédiction',
         type: 'common',
         desc: [
-            ['e', 'e', ': Gagnez deux point d’énergie.'],
+            ['e', 'e', ': Gagnez deux point'],
+            ['d’énergie.'],
         ],
         cost: 2,
         stats: ['e', 'e'],
@@ -86,23 +101,23 @@ const allCards = [
     },
     {
         title: 'Rencontre',
-        type: 'common',
+        type: 'T1',
         desc: [
             ['e', ': Gagnez un point d’énergie.'],
             ['d', ': prévenez un dégât.']
         ],
-        cost: 2,
+        cost: 1,
         stats: ['e', 'd'],
-        pictureName: 'ReceivingShield2',
-        quantity: 10
+        pictureName: 'ReceivingShield2',        
     },
     {
         title: 'Arc',
         type: 'T1',
         desc: [
-            ['Vous pouvez attaquer à distance.']
+            ['Vous pouvez attaquer à'],
+            ['distance.']
         ],
-        cost: 2,
+        cost: 1,
         stats: [],
         pictureName: 'bow2'
     },
@@ -110,8 +125,9 @@ const allCards = [
         title: 'Arc Rapide',
         type: 'T1',
         desc: [
-            ['Piochez une carte supplémentaire.'],
-            ['Vous pouvez attaquer à distance.']
+            ['Piochez une carte.'],
+            ['Vous pouvez attaquer à'],
+            ['distance.']
         ],
         cost: 3,
         stats: [],
@@ -121,7 +137,8 @@ const allCards = [
         title: 'Arc Léger',
         type: 'T1',
         desc: [
-            ['Vous pouvez attaquer à distance.']
+            ['Vous pouvez attaquer à'],
+            ['distance.']
         ],
         cost: 2,
         stats: ['s'],
@@ -131,7 +148,8 @@ const allCards = [
         title: 'Arc long',
         type: 'T1',
         desc: [
-            ['Vous pouvez attaquer à distance.']
+            ['Vous pouvez attaquer à'],
+            ['distance.']
         ],
         cost: 3,
         stats: ['a'],
@@ -141,7 +159,8 @@ const allCards = [
         title: 'Arc étoilé',
         type: 'T1',
         desc: [
-            ['Vous pouvez attaquer à distance.']
+            ['Vous pouvez attaquer à'],
+            ['distance.']
         ],
         cost: 3,
         stats: ['e'],
@@ -161,7 +180,8 @@ const allCards = [
         title: 'Coup de foudre',
         type: 'T1',
         desc: [
-            ['Détruisez cette carte, piochez 3 cartes.']
+            ['Détruisez cette carte, piochez'],
+            ['3 cartes.']
         ],
         cost: 2,
         stats: [],
@@ -171,7 +191,8 @@ const allCards = [
         title: 'Serpillière',
         type: 'T1',
         desc: [
-            ['Détruisez une carte jouée de votre choix.']
+            ['Détruisez une carte jouée de'],
+            ['votre choix.']
         ],
         cost: 2,
         stats: [],
@@ -181,28 +202,19 @@ const allCards = [
         title: 'Balai',
         type: 'T1',
         desc: [
-            ['Détruisez une carte jouée de votre choix.']
+            ['Détruisez une carte jouée de'],
+            ['votre choix.']
         ],
         cost: 3,
         stats: ['e'],
         pictureName: 'broom'
     },
     {
-        title: 'Colporteur',
-        type: 'T1',
-        desc: [
-            ['Remplacez une carte du magasin.']
-        ],
-        cost: 1,
-        stats: [],
-        pictureName: 'peddler'
-    },
-    {
         title: 'BOOM!',
         type: 'T1',
         desc: [
-            ['Usage unique, détruisez cette carte une fois'],
-            ['jouée.']
+            ['Usage unique, détruisez cette'],
+            ['carte une fois jouée.']
         ],
         cost: 2,
         stats: ['a', 'a', 'a'],
@@ -244,8 +256,8 @@ const allCards = [
         title: 'Rempart d’Énergie',
         type: 'T1',
         desc: [],
-        cost: 2,
-        stats: ['e', 'd'],
+        cost: 3,
+        stats: ['e', 'd', 'd'],
         pictureName: 'shield'
     },
     {
@@ -260,7 +272,7 @@ const allCards = [
         title: 'Attaque Rapide',
         type: 'T1',
         desc: [
-            ['Piochez une carte supplémentaire.']
+            ['Piochez une carte.']
         ],
         cost: 3,
         stats: ['a'],
@@ -270,7 +282,7 @@ const allCards = [
         title: 'Élan Énergique',
         type: 'T1',
         desc: [
-            ['Piochez une carte supplémentaire.']
+            ['Piochez une carte.']
         ],
         cost: 2,
         stats: ['e'],
@@ -280,17 +292,17 @@ const allCards = [
         title: 'Parade Éclair',
         type: 'T1',
         desc: [
-            ['Piochez une carte supplémentaire.']
+            ['Piochez une carte.']
         ],
         cost: 2,
         stats: ['d'],
         pictureName: 'parade1'
     },
     {
-        title: 'Déplacement Instantané',
+        title: 'Portail',
         type: 'T1',
         desc: [
-            ['Piochez une carte supplémentaire.']
+            ['Piochez une carte.']
         ],
         cost: 2,
         stats: ['s'],
@@ -300,8 +312,7 @@ const allCards = [
         title: 'Soin rapide',
         type: 'T1',
         desc: [
-            ['Piochez une carte supplémentaire.'],
-            ['l', ': Récupérez un point de vie']
+            ['Piochez une carte.']
         ],
         cost: 3,
         stats: ['l'],
@@ -353,7 +364,10 @@ const allCards = [
     {
         title: 'Force Accumulée',
         type: 'T2',
-        desc: [['Ajoutez +1 ', 'a', ' par carte jouée supplémentaire.']],
+        desc: [
+            ['Ajoutez +1 ', 'a', ' par carte jouée'],
+            ['supplémentaire.']
+        ],
         cost: 4,
         stats: [],
         pictureName: 'necro'
@@ -361,7 +375,10 @@ const allCards = [
     {
         title: 'Charge Stratégique',
         type: 'T2',
-        desc: [['Chaque ', 's', ' peut être converti en ', 'a']],
+        desc: [
+            ['Chaque ', 's', ' peut être converti'],
+            ['en ', 'a']
+        ],
         cost: 5,
         stats: [],
         pictureName: 'charge'
@@ -369,7 +386,10 @@ const allCards = [
     {
         title: 'Bouclier de Feu',
         type: 'T2',
-        desc: [['Chaque ', 'd', ' peut être converti en ', 'a']],
+        desc: [
+            ['Chaque ', 'd', ' peut être converti'],
+            ['en ', 'a']
+        ],
         cost: 5,
         stats: ['d'],
         pictureName: 'shieldFire'
@@ -378,8 +398,8 @@ const allCards = [
         title: 'Attaque circulaire',
         type: 'T2',
         desc: [
-            ['Infligez des dégâts à tous les ennemis'],
-            [' adjacents.']
+            ['Infligez des dégâts à tous les'],
+            ['ennemis adjacents.']
         ],
         cost: 4,
         stats: [],
@@ -389,8 +409,9 @@ const allCards = [
         title: 'Sacrifice',
         type: 'T2',
         desc: [
-            ['Perdez 1 vie, et obtenez trois fois : '],
-            ['soignez 1 vie d’un autre joueur.']
+            ['Perdez 1 vie, et obtenez trois'],
+            ['fois : soignez 1 vie d’un autre'],
+            ['joueur.']
         ],
         cost: 4,
         stats: [],
@@ -400,7 +421,8 @@ const allCards = [
         title: 'Rage Berserker',
         type: 'T2',
         desc: [
-            ['Perdez 1 vie, doublez vos dégats.']
+            ['Perdez 1 vie, doublez vos'],
+            ['dégats.']
         ],
         cost: 5,
         stats: [],
@@ -410,7 +432,8 @@ const allCards = [
         title: 'Fortification',
         type: 'T2',
         desc: [
-            ['Tous les joueurs gagnent un ', 'd', ' ce tour-ci.']
+            ['Tous les joueurs gagnent un ', 'd'],
+            ['ce tour-ci.']
         ],
         cost: 4,
         stats: [],
@@ -420,7 +443,8 @@ const allCards = [
         title: 'Conquête des Un',
         type: 'T2',
         desc: [
-            ['Vos 1 sur les dés deviennent des 6.']
+            ['Vos 1 sur les dés deviennent'],
+            ['des 6.']
         ],
         cost: 6,
         stats: [],
@@ -430,7 +454,8 @@ const allCards = [
         title: 'Relance du Destin',
         type: 'T2',
         desc: [
-            ['Cumulez et relancez chaque 6 obtenu.']
+            ['Cumulez et relancez chaque 6'],
+            ['obtenu.']
         ],
         cost: 6,
         stats: [],
@@ -440,8 +465,8 @@ const allCards = [
         title: 'Miroir',
         type: 'T2',
         desc: [
-            ['Cette carte crée une duplication d’une autre'],
-            ['carte jouée.']
+            ['Cette carte crée une duplication'],
+            ['d’une autre carte jouée.']
         ],
         cost: 6,
         stats: [],
@@ -467,13 +492,14 @@ const allCards = [
         title: 'Yams',
         type: 'T2',
         desc: [
-            ['Multipliez vos dégâts selon vos dés :'],
-            ['paire x2, brelan x3, carré x4, yams x5']
+            ['Multipliez vos dégâts selon vos'],
+            ['dés : paire x2, brelan x3, '],
+            ['carré x4, yams x5']
         ],
         cost: 7,
         stats: [],
         pictureName: 'Dices6'
     },
 ];
-let currentCardIndex = 0;
+
 
