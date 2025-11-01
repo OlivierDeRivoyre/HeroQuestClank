@@ -4,15 +4,14 @@ const GameScreenWidth = 64 * CanvasCellWidth;//1024
 const GameScreenHeight = 64 * CanvasCellHeight;//576
 
 
-class Screen {
 
+class Screen {
     constructor() {
         this.width = GameScreenWidth;
         this.heigth = GameScreenHeight;
-
-        this.screenCanvas = document.getElementById("myCanvas");        
+        this.screenCanvas = document.getElementById("myCanvas");
+        this.canvas = new FixedCanvas(GameScreenWidth, GameScreenHeight, this.screenCanvas)
         this.screenCtx = this.screenCanvas.getContext("2d");
-        this.ratio = 1;
         this.windowResize();
 
         window.addEventListener('resize', () => this.windowResize(), false);
@@ -21,31 +20,11 @@ class Screen {
         window.addEventListener('mouseup', (e) => this.mouseUp(e), false);
     }
     clear() {
-        this.screenCtx.clearRect(0, 0, this.screenCanvas.width, this.screenCanvas.height);
+        this.canvas.clear();
     }
-    toCanvas(x) {
-        return Math.floor(x * this.ratio);
-    }
-    drawImage(img, x, y, w, h) {
-        this.screenCanvas.style.imageRendering = 'auto';
-        this.screenCtx.imageSmoothingEnabled = true;
-        this.screenCtx.drawImage(img, this.toCanvas(x), this.toCanvas(y), this.toCanvas(w), this.toCanvas(h));
-    }
-    drawPixelateImage(img, x, y) {
-        this.screenCanvas.style.imageRendering = 'pixelated';
-        this.screenCtx.imageSmoothingEnabled = false;
-        this.screenCtx.drawImage(img,
-            0, 0, img.width, img.height,
-            this.toCanvas(x), this.toCanvas(y), this.toCanvas(img.width), this.toCanvas(img.height));
-    }
-    toCanvasCoord(x, y) {
-        return {
-            x: Math.floor(x * this.width / this.screenCanvas.width),
-            y: Math.floor(y * this.height / this.screenCanvas.height)
-        };
-    }
+
     mouseMove(event) {
-        input.mouseMove(this.toCanvasCoord(event.offsetX, event.offsetY));
+        input.mouseMove(this.canvas.toCanvasCoord(event.offsetX, event.offsetY));
     }
     mouseButton(e, pressed) {
         let rightclick = false;
@@ -54,7 +33,7 @@ class Screen {
         } else if (e.button) {
             rightclick = (e.button == 2);
         }
-        input.mouseButton(this.toCanvasCoord(event.offsetX, event.offsetY), pressed, rightclick);
+        input.mouseButton(this.canvas.toCanvasCoord(event.offsetX, event.offsetY), pressed, rightclick);
     }
     mouseDown(event) {
         this.mouseButton(event, true);
@@ -77,7 +56,7 @@ class Screen {
             this.screenCanvas.width = w;
             this.screenCanvas.height = h;
         }
-        this.ratio = this.screenCanvas.width / this.width;
+        this.canvas.onCanvasSizeChanged();
     }
     fullScreen() {
         if (this.screenCanvas.webkitRequestFullScreen) {

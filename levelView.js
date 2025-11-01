@@ -24,7 +24,7 @@ class LevelView {
             const currentY = 200;
             const currentX = 50 + 50 * i;
             const img = cards[i].bigCanvas;
-            screen.drawImage(img, currentX, currentY, 150, 210);
+            screen.canvas.drawImage(img, currentX, currentY, 150, 210);
         }
     }
 

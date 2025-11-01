@@ -36,7 +36,7 @@ class Sprite {
         this.pixelateCtx.drawImage(this.tile,
             this.tx + index * this.tWidth, this.ty, this.tWidth, this.tHeight,
             0, 0, this.pixelateCanvas.width, this.pixelateCanvas.height)
-        screen.drawPixelateImage(this.pixelateCanvas, x, y);
+        screen.canvas.drawPixelateImage(this.pixelateCanvas, x, y);
     }
 
     paintReverse(x, y, index) {
@@ -48,7 +48,7 @@ class Sprite {
             this.tx + index * this.tWidth, this.ty, this.tWidth, this.tHeight,
             0, 0, this.pixelateCanvas.width, this.pixelateCanvas.height)       
         this.pixelateCtx.restore();
-        screen.drawPixelateImage(this.pixelateCanvas, x, y);
+        screen.canvas.drawPixelateImage(this.pixelateCanvas, x, y);
     }
 
 }
