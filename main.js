@@ -5,7 +5,7 @@ ctx.font = '24px "MedievalSharp"';
 
 function loadImg(file) {
     const image = new Image();
-    image.src = file;
+    image.src = "img/"+ file;
     return image;
 }
 const CadreExtImage = loadImg('CadreExt.png');
