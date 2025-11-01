@@ -8,6 +8,7 @@ class Game {
     }
     update() {
         this.currentView.update();
+        input.reset();
     }
 
     paint() {

@@ -33,7 +33,7 @@ class Screen {
         } else if (e.button) {
             rightclick = (e.button == 2);
         }
-        input.mouseButton(this.canvas.toCanvasCoord(event.offsetX, event.offsetY), pressed, rightclick);
+        input.mouseButton(this.canvas.toCanvasCoord(e.offsetX, e.offsetY), pressed, rightclick);
     }
     mouseDown(event) {
         this.mouseButton(event, true);

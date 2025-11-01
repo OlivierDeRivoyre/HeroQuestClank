@@ -54,5 +54,9 @@ class Input {
         e.preventDefault();
         return false;
     }
+    reset(){
+        this.mouseClicked = false;
+        this.mouse2Clicked = false;
+    }
 }
 const input = new Input();

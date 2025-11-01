@@ -6,20 +6,18 @@ class LevelView {
         this.floor = new Floor(level);
         this.heroes = Character.getHeroes();
         this.monsters = Character.getEnnemies(level);
-        this.cardCanvas = null;
-        this.diceZone = new DiceZone();
         game.cards.playerDeck.drawToCount(5);
+        this.hand = new CardZone(game.cards.playerDeck, 50, 350, (c) => this.playCard(c));
+        this.diceZone = new DiceZone();
+        this.hand.refresh();
     }
 
     update() {
-
+        this.hand.update();
     }
 
     paint() {
         screen.clear();
-        if (!screen.canvas.isCanvasSameRatio(this.cardCanvas)) {
-            this.cardCanvas = screen.canvas.createZoomedCanvas(150, 210, TemplateCardWidth, TemplateCardHeight);
-        }
         this.floor.paint();
         for (let c of this.heroes) {
             c.paint();
@@ -28,25 +26,69 @@ class LevelView {
             c.paint();
         }
         this.diceZone.paint(500, 50)
-
-        this.paintDeckHand();
+        this.hand.paint();
     }
 
-    paintDeckHand() {
-        const cards = game.cards.playerDeck.hand;
-        if (cards.length == 0) return;
-        const padding = Math.min(155, (screen.width - 150 - 2 * 50) / cards.length);
-        for (let i = 0; i < cards.length; i++) {
-            const currentY = 330;
-            const currentX = 50 + padding * i;
-            paintCard(cards[i], this.cardCanvas);
-
-            screen.canvas.drawFixedCanvas(this.cardCanvas, currentX, currentY);
-
-        }
+    playCard(card) {
+        console.log("play " + card.title);
     }
 
 }
+
+class CardZone {
+    constructor(deck, topX, topY, playCardFunc) {
+        this.deck = deck;
+        this.topX = topX;
+        this.topY = topY;
+        this.cardWith = 150;
+        this.cardHeight = 210;
+        this.cardCanvas = null;
+        this.cardRects = []
+        this.playCardFunc = playCardFunc;
+    }
+    refresh() {
+        this.cardRects = []
+        const cards = this.deck.hand;
+        if (cards.length == 0)
+            return;
+        const padding = Math.min(155, (screen.width - this.cardWith - 2 * 50) / cards.length);
+        for (let i = 0; i < cards.length; i++) {
+            const x = this.topX + padding * i;
+            const y = this.topY;
+            const rect = {
+                x,
+                y,
+                width: this.cardWith,
+                height: this.cardHeight,
+                card: cards[i],
+            };
+            this.cardRects.push(rect);
+        }
+    }
+    paint() {
+        if (!screen.canvas.isCanvasSameRatio(this.cardCanvas)) {
+            this.cardCanvas = screen.canvas.createZoomedCanvas(this.cardWith, this.cardHeight, TemplateCardWidth, TemplateCardHeight);
+        }
+        for (let c of this.cardRects) {
+            paintCard(c.card, this.cardCanvas);
+            screen.canvas.drawFixedCanvas(this.cardCanvas, c.x, c.y);
+        }
+    }
+    update() {
+        const cards = this.deck.hand;
+        if (cards.length == 0)
+            return;
+        if (!input.mouseClicked)
+            return;        
+        for (let c of this.cardRects) {
+            if (isInsideRect(input.mouse, c)) {
+                this.playCardFunc(c.card);
+                return;
+            }
+        }
+    }
+}
+
 
 class Character {
     constructor() {
@@ -125,7 +167,7 @@ class Dice {
         this.value = Math.floor(1 + Math.random() * 6);
     }
     paint(x, y) {
-        screen.canvas.fillRect(this.type  == 'a'? 'red' : 'blue', x, y, 24, 24);
+        screen.canvas.fillRect(this.type == 'a' ? 'red' : 'blue', x, y, 24, 24);
         screen.canvas.fontSize = 24;
         screen.canvas.fillStyle = '#FFA';
         let margin = (24 - screen.canvas.measureTextWidth(this.value)) / 2;
@@ -143,13 +185,13 @@ class DiceZone {
     paint(topX, topY) {
         const logoSize = 28;
         const diceMargin = 3;
-        screen.canvas.drawImage(this.walkLogo, topX, topY, logoSize, logoSize);        
+        screen.canvas.drawImage(this.walkLogo, topX, topY, logoSize, logoSize);
         for (let i = 0; i < this.walkDices.length; i++) {
             this.walkDices[i].paint(topX + logoSize + 4 + i * 32, topY + diceMargin);
         }
         topY += 30;
-        screen.canvas.drawImage(this.attackLogo, topX , topY , logoSize, logoSize);
-         for (let i = 0; i < this.attackDices.length; i++) {
+        screen.canvas.drawImage(this.attackLogo, topX, topY, logoSize, logoSize);
+        for (let i = 0; i < this.attackDices.length; i++) {
             this.attackDices[i].paint(topX + logoSize + 4 + i * 32, topY + diceMargin);
         }
     }
