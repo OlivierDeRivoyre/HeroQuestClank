@@ -58,5 +58,21 @@ class FixedCanvas {
         this.screenCtx.fillStyle = this.fillStyle; 
         this.screenCtx.fillText(text, this.toCanvas(x), this.toCanvas(y));
     }
-
+    /// Have a canvas with the same dpi than the screenCanvas
+    createZoomedCanvas(gameW, gameH, painterW, painterH){
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.floor(gameW * this.ratio);
+        canvas.height = Math.floor(gameH * this.ratio);
+        const newFixedCanvas = new FixedCanvas(painterW, painterH, canvas);
+        newFixedCanvas.validRatio = this.ratio;
+        return newFixedCanvas;
+    }
+    isCanvasSameRatio(otherfixedCanvas){
+        if(!otherfixedCanvas)
+            return false;
+        return this.ratio == otherfixedCanvas.validRatio;
+    }
+    drawFixedCanvas(otherfixedCanvas, x, y){
+        this.drawImage(otherfixedCanvas.screenCanvas, x, y);
+    }
 }

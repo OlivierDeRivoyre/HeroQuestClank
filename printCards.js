@@ -1,13 +1,11 @@
 
-//const canvas =  createBigCardCanvas();
+
 function show(incr) {
     currentCardIndex = Math.max(0, Math.min(currentCardIndex + incr, allCards.length - 1));
     const card = allCards[currentCardIndex];
     const screenCanvas = document.getElementById('paintCanvas');
-    const fixedCanvas = new FixedCanvas(CardWidth, CardHeight, screenCanvas);
+    const fixedCanvas = new FixedCanvas(TemplateCardWidth, TemplateCardHeight, screenCanvas);
     paintCard(card, fixedCanvas)
-    //const ctx = screenCanvas.getContext('2d');
-    //ctx.drawImage(card.bigCanvas, 0, 0);
 }
 
 onCardImageReadyfunc = () => show(0);
@@ -19,13 +17,13 @@ function downloadAsImage() {
     link.click();
 }
 
-function createFixedCardCanvasForMiniatures() {
+function createFixedCardCanvasForMiniatures(cardWidth, cardHeight) {
     const canvas = document.createElement('canvas');
-    canvas.width = CardWidth;
-    canvas.height = CardHeight;
+    canvas.width = cardWidth;
+    canvas.height = cardHeight;
     const ctx = canvas.getContext('2d');
     ctx.font = '24px "MedievalSharp"';
-    const fixedCanvas = new FixedCanvas(CardWidth, CardHeight, canvas);
+    const fixedCanvas = new FixedCanvas(TemplateCardWidth, TemplateCardHeight, canvas);
     return fixedCanvas;
 }
 
@@ -48,7 +46,7 @@ function createMinatutes() {
     }
     let page;
     let index = 0;
-    const fixedCanvas = createFixedCardCanvasForMiniatures();
+    const fixedCanvas = createFixedCardCanvasForMiniatures(cardWidth, cardHeight);
     for (let card of allCards) {        
          paintCard(card, fixedCanvas);
         const quantity = card.quantity || 1;

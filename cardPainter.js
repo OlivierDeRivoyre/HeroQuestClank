@@ -1,5 +1,5 @@
-const CardWidth = 1500;
-const CardHeight = 2100;
+const TemplateCardWidth = 1500;
+const TemplateCardHeight = 2100;
 
 
 
