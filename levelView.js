@@ -6,7 +6,7 @@ class LevelView {
         this.floor = new Floor(level);
         this.heroes = Character.getHeroes();
         this.monsters = Character.getEnnemies(level);
-        this.diceZone = new DiceZone();
+        this.diceZone = new DiceZone(500, 50);
         this.hand = new CardZone(50, 350, GameScreenWidth - 100, (c) => this.playCard(c));
         this.shopButton = new Button('Shop', 500, 200, 80, 40, () => this.openShop());
         this.endTurnButton = new Button('End turn', 588, 200, 120, 40, () => this.endTurn());
@@ -22,6 +22,7 @@ class LevelView {
             return;
         }
         this.hand.update();
+        this.diceZone.update()
         this.shopButton.update();
         this.endTurnButton.update();
         this.updateHeroes();
@@ -98,7 +99,7 @@ class LevelView {
         }
         this.shopButton.paint();
         this.endTurnButton.paint();
-        this.diceZone.paint(500, 50)
+        this.diceZone.paint();
         this.hand.paint();
         if (this.popup) {
             this.popup.paint();
@@ -420,19 +421,28 @@ class Dice {
     constructor(type) {
         this.type = type
         this.value = Math.floor(1 + Math.random() * 6);
+        this.isSelected = false;
     }
     paint(x, y) {
+        if (this.isSelected) {
+            screen.canvas.fillRect('rgba(0, 255, 0, 1)', x - 2, y - 2, 24 + 4, 24 + 4);
+        }
         screen.canvas.fillRect(this.type == 'a' ? 'red' : 'blue', x, y, 24, 24);
         screen.canvas.fontSize = 24;
         screen.canvas.fillStyle = '#FFA';
         let margin = (24 - screen.canvas.measureTextWidth(this.value)) / 2;
         screen.canvas.fillText(this.value, x + margin, y + 20);
+
     }
 }
 class DiceZone {
-    constructor() {
+    constructor(topX, topY) {
+        this.topX = topX;
+        this.topY = topY;
         this.walkDices = [];
         this.attackDices = [];
+        this.walkRects = [];
+        this.attackRects = [];
         this.shield = 0;
         this.energy = 0;
         this.attackLogo = LogoAttImage;
@@ -441,19 +451,52 @@ class DiceZone {
         this.energyLogo = LogoStarImage;
         this.onNewTurn();
     }
-    paint(topX, topY) {
+    refresh() {
         const logoSize = 28;
+        const lineMargin = 34;
         const diceMargin = 3;
-        const textMargin = 23;
-        const lineMargin = 30;
-        screen.canvas.drawImage(this.walkLogo, topX, topY, logoSize, logoSize);
+        this.walkRects = [];
+        this.attackRects = [];
+        let topX = this.topX;
+        let topY = this.topY;
         for (let i = 0; i < this.walkDices.length; i++) {
-            this.walkDices[i].paint(topX + logoSize + 4 + i * 32, topY + diceMargin);
+            const rect = {
+                x: topX + logoSize + 4 + i * 32,
+                y: topY + diceMargin,
+                width: 24,
+                height: 24,
+                dice: this.walkDices[i],
+                index: i
+            };
+            this.walkRects.push(rect)
+        }
+        topY += lineMargin;
+        for (let i = 0; i < this.attackDices.length; i++) {
+            const rect = {
+                x: topX + logoSize + 4 + i * 32,
+                y: topY + diceMargin,
+                width: 24,
+                height: 24,
+                dice: this.attackDices[i],
+                index: i
+            };
+            this.attackRects.push(rect)
+        }
+    }
+    paint() {
+        const logoSize = 28;
+        const textMargin = 23;
+        const lineMargin = 34;
+        let topX = this.topX;
+        let topY = this.topY;
+        screen.canvas.drawImage(this.walkLogo, topX, topY, logoSize, logoSize);
+        for (let rect of this.walkRects) {
+            rect.dice.paint(rect.x, rect.y);
         }
         topY += lineMargin;
         screen.canvas.drawImage(this.attackLogo, topX, topY, logoSize, logoSize);
-        for (let i = 0; i < this.attackDices.length; i++) {
-            this.attackDices[i].paint(topX + logoSize + 4 + i * 32, topY + diceMargin);
+        for (let rect of this.attackRects) {
+            rect.dice.paint(rect.x, rect.y);
         }
         topY += lineMargin;
         screen.canvas.drawImage(this.shieldLogo, topX, topY, logoSize, logoSize);
@@ -468,10 +511,12 @@ class DiceZone {
         screen.canvas.fillText(this.energy, topX + logoSize + 4, topY + textMargin);
     }
     addAttackDice() {
-        this.attackDices.push(new Dice('a'))
+        this.attackDices.push(new Dice('a'));
+        this.refresh();
     }
     addWalkDice() {
-        this.walkDices.push(new Dice('w'))
+        this.walkDices.push(new Dice('w'));
+        this.refresh();
     }
     onNewTurn() {
         this.walkDices = [];
@@ -494,6 +539,57 @@ class DiceZone {
             total += d.value;
         }
         return total;
+    }
+    swapDice(arr1, index1, arr2, index2) {
+        const old = arr1[index1];
+        arr1[index1] = arr2[index2];
+        arr2[index2] = old;
+        arr1[index1].isSelected = false;
+        arr2[index2].isSelected = false;
+        this.refresh();
+    }
+    update() {
+        if (!input.mouseClicked)
+            return;
+
+        const selectedAtt = this.attackDices.findIndex(d => d.isSelected);
+        const selectedWalk = this.walkDices.findIndex(d => d.isSelected);
+        for (let r of this.attackRects) {
+            if (!isInsideRect(input.mouse, r))
+                continue;
+            const dice = r.dice;
+            if (dice.isSelected) {
+                dice.isSelected = false;
+                return;
+            }
+            if (selectedAtt >= 0) {
+                this.swapDice(this.attackDices, r.index, this.attackDices, selectedAtt);
+                return;
+            } else if (selectedWalk >= 0) {
+                this.swapDice(this.attackDices, r.index, this.walkDices, selectedWalk);
+                return;
+            } else {
+                dice.isSelected = true;
+            }
+        }
+        for (let r of this.walkRects) {
+            if (!isInsideRect(input.mouse, r))
+                continue;
+            const dice = r.dice;
+            if (dice.isSelected) {
+                dice.isSelected = false;
+                return;
+            }
+            if (selectedAtt >= 0) {
+                this.swapDice(this.walkDices, r.index, this.attackDices, selectedAtt);
+                return;
+            } else if (selectedWalk >= 0) {
+                this.swapDice(this.walkDices, r.index, this.walkDices, selectedWalk);
+                return;
+            } else {
+                dice.isSelected = true;
+            }
+        }
     }
 
 }
