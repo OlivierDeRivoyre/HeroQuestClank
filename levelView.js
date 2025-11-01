@@ -12,7 +12,8 @@ class LevelView {
 
     paint() {
         screen.clear();
-        this.sampleSprite.paint(50, 50, tickNumber % 20 > 10, false);
+        this.sampleSprite.paint(50, 50, tickNumber % 20 > 10, true);
+        this.sampleSprite.paint(50, 100, tickNumber % 20 > 10, false);
         this.paintDeckHand();
     }
 

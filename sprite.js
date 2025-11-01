@@ -2,52 +2,29 @@ const dungeonTileSet = loadImg("0x72_DungeonTilesetII_v1.7.png");
 function getDungeonTileSetHeroSprite(j, topMargin) {
     const x = 128;
     const y = j * 32;
-    return new DoubleSprite(dungeonTileSet, x, y + topMargin, 16, 32 - topMargin);
+    return new Sprite(dungeonTileSet, x, y + topMargin, 16, 32 - topMargin);
 }
 function getDungeonTileSetVilainSprite(i, topMargin) {
     const x = 368;
     const y = 9 + i * 24;
-    return new DoubleSprite(dungeonTileSet, x, y + topMargin, 16, 24 - topMargin);
+    return new Sprite(dungeonTileSet, x, y + topMargin, 16, 24 - topMargin);
 }
 
-class SimpleSprite {
+
+class Sprite {
     constructor(tile, tx, ty, tWidth, tHeight) {
         this.tile = tile;
         this.tx = tx;
         this.ty = ty;
         this.tWidth = tWidth;
         this.tHeight = tHeight;
-    }
-    paint(x, y) {
-        screen.drawPixelateImage(this.tile,
-            this.tx, this.ty, this.tWidth, this.tHeight,
-            x, y, this.tWidth, this.tHeight
-        );
-    }
-    paintScale(x, y, w, h) {
-        ctx.drawImage(this.tile,
-            this.tx, this.ty, this.tWidth, this.tHeight,
-            x, y, w, h
-        );
-    }
-    paintRotate(x, y, w, h, angus) {
-        ctx.save();
-        ctx.translate(x + w / 2, y + h / 2);
-        ctx.rotate(angus);
-        ctx.drawImage(this.tile,
-            this.tx, this.ty, this.tWidth, this.tHeight,
-            -w / 2, -h / 2, w, h);
-        ctx.restore();
-    }
-}
-// Sprite with 2 or more images
-class DoubleSprite {
-    constructor(tile, tx, ty, tWidth, tHeight) {
-        this.tile = tile;
-        this.tx = tx;
-        this.ty = ty;
-        this.tWidth = tWidth;
-        this.tHeight = tHeight;
+
+        this.pixelateCanvas = document.createElement("canvas");
+        this.pixelateCanvas.width = tWidth * 2;
+        this.pixelateCanvas.height = tHeight * 2;
+        this.pixelateCanvas.style.imageRendering = 'pixelated';
+        this.pixelateCtx = this.pixelateCanvas.getContext("2d");
+        this.pixelateCtx.imageSmoothingEnabled = false;
     }
     paint(x, y, index, reverse) {
         index |= 0;
@@ -55,41 +32,23 @@ class DoubleSprite {
             this.paintReverse(x, y, index);
             return;
         }
-        // ctx.fillStyle = "pink"; ctx.fillRect(x, y, this.tWidth, this.tHeight);
-       screen.drawPixelateImage(this.tile,
-            this.tx + index * this.tWidth, this.ty,
-            this.tWidth, this.tHeight,
-            x, y,
-            this.tWidth * 2, this.tHeight * 2
-        );
+        this.pixelateCtx.clearRect(0, 0, this.pixelateCanvas.width, this.pixelateCanvas.height);
+        this.pixelateCtx.drawImage(this.tile,
+            this.tx + index * this.tWidth, this.ty, this.tWidth, this.tHeight,
+            0, 0, this.pixelateCanvas.width, this.pixelateCanvas.height)
+        screen.drawPixelateImage(this.pixelateCanvas, x, y);
     }
-    paintScale(x, y, w, h, index) {
-        index |= 0;
-        screen.drawPixelateImage(this.tile,
-            this.tx + index * this.tWidth, this.ty,
-            this.tWidth, this.tHeight,
-            x, y,
-            w, h
-        );
-    }
+
     paintReverse(x, y, index) {
-        ctx.save();
-        ctx.translate(x + this.tWidth * 2, y);
-        ctx.scale(-1, 1);
-        ctx.drawImage(this.tile,
-            this.tx + index * this.tWidth, this.ty,
-            this.tWidth, this.tHeight,
-            0, 0, this.tWidth * 2, this.tHeight * 2
-        );
-        ctx.restore();
+        this.pixelateCtx.clearRect(0, 0, this.pixelateCanvas.width, this.pixelateCanvas.height);
+        this.pixelateCtx.save();
+        this.pixelateCtx.translate(this.pixelateCanvas.width, 0);
+        this.pixelateCtx.scale(-1, 1);
+        this.pixelateCtx.drawImage(this.tile,
+            this.tx + index * this.tWidth, this.ty, this.tWidth, this.tHeight,
+            0, 0, this.pixelateCanvas.width, this.pixelateCanvas.height)       
+        this.pixelateCtx.restore();
+        screen.drawPixelateImage(this.pixelateCanvas, x, y);
     }
-    paintRotate(x, y, angus) {
-        ctx.save();
-        ctx.translate(x + this.tWidth, y + this.tHeight);
-        ctx.rotate(angus);
-        ctx.drawImage(this.tile,
-            this.tx, this.ty, this.tWidth, this.tHeight,
-            -this.tWidth, -this.tHeight, this.tWidth * 2, this.tHeight * 2);
-        ctx.restore();
-    }
+
 }

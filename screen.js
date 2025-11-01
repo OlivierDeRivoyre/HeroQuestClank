@@ -21,12 +21,7 @@ class Screen {
         this.screenCtx = this.screenCanvas.getContext("2d");
         this.ratio = 1;
         this.windowResize();
-        this.pixelateCanvas = document.createElement("canvas");
-        this.pixelateCanvas.width = 16;
-        this.pixelateCanvas.height = 16;
-        this.pixelateCanvas.style.imageRendering = 'pixelated';
-        this.pixelateCtx = this.pixelateCanvas.getContext("2d");
-        this.pixelateCtx.imageSmoothingEnabled = false;
+
         window.addEventListener('resize', () => this.windowResize(), false);
         window.addEventListener('mousemove', (e) => this.mouseMove(e), false);
         window.addEventListener('mousedown', (e) => this.mouseDown(e), false);
@@ -43,14 +38,13 @@ class Screen {
          this.screenCtx.imageSmoothingEnabled = true;
         this.screenCtx.drawImage(img, this.toCanvas(x), this.toCanvas(y), this.toCanvas(w), this.toCanvas(h));
     }
-    drawPixelateImage(img, sx, sy, sw, sh, x, y, w, h) {
-        this.pixelateCtx.clearRect(0, 0, this.pixelateCanvas.width, this.pixelateCanvas.height);
-        this.pixelateCtx.drawImage(img, sx, sy, sw, sh, 0, 0, this.pixelateCanvas.width, this.pixelateCanvas.height)
+    drawPixelateImage(img, x, y) {
+      
         this.screenCanvas.style.imageRendering = 'pixelated';
         this.screenCtx.imageSmoothingEnabled = false;
-        this.screenCtx.drawImage(this.pixelateCanvas,
-            0, 0, this.pixelateCanvas.width, this.pixelateCanvas.height,
-            this.toCanvas(x), this.toCanvas(y), this.toCanvas(w), this.toCanvas(h));
+        this.screenCtx.drawImage(img,
+            0, 0, img.width, img.height,
+            this.toCanvas(x), this.toCanvas(y), this.toCanvas(img.width), this.toCanvas(img.height));
     }
 
     scaleOnScreen() {
