@@ -8,7 +8,8 @@ class LevelView {
         this.monsters = Character.getEnnemies(level);
         this.diceZone = new DiceZone();
         this.hand = new CardZone(50, 350, GameScreenWidth - 100, (c) => this.playCard(c));
-        this.shopButton = new Button('Shop', 800, 10, 80, 40, () => this.openShop());
+        this.shopButton = new Button('Shop', 500, 200, 80, 40, () => this.openShop());
+        this.endTurnButton = new Button('End turn', 588, 200, 120, 40, () => this.endTurn());
         game.cards.playerDeck.drawToCount(5);
         game.cards.uncommonShop.drawToCount(4);
         this.hand.refresh(game.cards.playerDeck.hand);
@@ -22,6 +23,7 @@ class LevelView {
         }
         this.hand.update();
         this.shopButton.update();
+        this.endTurnButton.update();
         this.updateHeroes();
     }
     updateHeroes() {
@@ -96,6 +98,7 @@ class LevelView {
             c.paint();
         }
         this.shopButton.paint();
+        this.endTurnButton.paint();
         this.diceZone.paint(500, 50)
         this.hand.paint();
         if (this.popup) {
@@ -124,6 +127,23 @@ class LevelView {
     }
     openShop() {
         this.popup = new ShopForm(this);
+    }
+    endTurn() {
+        if (!this.heroes.find(h => h.life > 0)) {
+            this.popup = new DeadScreen(this);
+            return;
+        }
+        if (!this.monsters.find(h => h.life > 0)) {
+            this.popup = new WinLevelScreen(this);
+            return;
+        }
+        for (let hero of this.heroes) {
+            hero.onNewTurn();
+        }
+        this.diceZone.onNewTurn();
+        game.cards.playerDeck.drawToCount(5);
+        game.cards.uncommonShop.drawToCount(4);
+        this.hand.refresh(game.cards.playerDeck.hand);
     }
 }
 
@@ -257,6 +277,14 @@ class Character {
         this.life = Math.max(0, this.life - dmg);
     }
 
+    onNewTurn() {
+        this.life = 3;
+        this.shield = 0;
+        this.hasAttacked = false;
+        this.movedStep = 0;
+        this.isSelected = false;
+    }
+
 }
 
 class Floor {
@@ -325,8 +353,7 @@ class DiceZone {
         this.walkLogo = LogoStepImage;
         this.shieldLogo = LogoDefImage;
         this.energyLogo = LogoStarImage;
-        this.addAttackDice();
-        this.addWalkDice();
+        this.onNewTurn();
     }
     paint(topX, topY) {
         const logoSize = 28;
@@ -359,6 +386,14 @@ class DiceZone {
     }
     addWalkDice() {
         this.walkDices.push(new Dice('w'))
+    }
+    onNewTurn() {
+        this.walkDices = [];
+        this.attackDices = [];
+        this.addAttackDice();
+        this.addWalkDice();
+        this.shield = 0;
+        this.energy = 0;
     }
     getSumWalk() {
         let total = 0;
@@ -426,12 +461,12 @@ class ShopForm {
     }
     tryBuyCard(card) {
         console.log("try to buy " + card.title);
-        if(this.availableEnergy >= card.cost){
+        if (this.availableEnergy >= card.cost) {
             this.availableEnergy -= card.cost;
             this.parent.diceZone.energy = this.availableEnergy;
             game.cards.playerDeck.discard.push(card);
-            if(card.type !== "common"){
-                game.cards.uncommonShop.hand.splice(game.cards.uncommonShop.hand.findIndex(c => c ===card), 1);
+            if (card.type !== "common") {
+                game.cards.uncommonShop.hand.splice(game.cards.uncommonShop.hand.findIndex(c => c === card), 1);
             }
             this.refresh();
             this.close();
@@ -439,5 +474,42 @@ class ShopForm {
     }
     close() {
         this.parent.popup = null;
+    }
+}
+class DeadScreen {
+    constructor(parent) {
+        this.parent = parent;
+    }
+    update() {
+
+    }
+
+    paint() {
+        const margin = 50;
+        screen.canvas.fillRect('#EEE', margin, margin, GameScreenWidth - margin * 2, GameScreenHeight - margin * 2);
+        screen.canvas.fontSize = 40;
+        screen.canvas.fillStyle = 'red'
+        screen.canvas.fillText('You have lost', margin + 50, margin + 50);
+    }
+}
+class WinLevelScreen {
+    constructor(parent) {
+        this.parent = parent;
+        this.closeButton = new Button('Next level', 400, 400, 120, 40, () => this.nextLevel());
+    }
+    update() {
+        this.closeButton.update();
+    }
+
+    paint() {
+        const margin = 50;
+        screen.canvas.fillRect('#EEE', margin, margin, GameScreenWidth - margin * 2, GameScreenHeight - margin * 2);
+        screen.canvas.fontSize = 40;
+        screen.canvas.fillStyle = 'green'
+        screen.canvas.fillText('You have clear the level ' + this.parent.level, margin + 50, margin + 50);
+        this.closeButton.paint();
+    }
+    nextLevel() {
+        game.currentView = new LevelView(this.parent.level + 1);
     }
 }
