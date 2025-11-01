@@ -45,7 +45,7 @@ class LevelView {
             }
             const targetCell = this.floor.getCell(input.mouse);
             if (!targetCell) {
-                selectedChar.isSelected = false;                
+                selectedChar.isSelected = false;
                 return;
             }
             this.heroAction(selectedChar, targetCell);
@@ -55,14 +55,14 @@ class LevelView {
             if (isInsideRect(input.mouse, c.getRect())) {
                 c.isSelected = !c.isSelected;
                 if (selectedChar && c != selectedChar) {
-                    selectedChar.isSelected = false;                    
+                    selectedChar.isSelected = false;
                 }
             }
         }
     }
     heroAction(hero, targetCell) {
         if (hero.hasAttacked) {
-            hero.isSelected = false;            
+            hero.isSelected = false;
         }
         const monster = this.monsters.find(m => m.cell.x == targetCell.x && m.cell.y == targetCell.y);
         if (monster && hero.isAround(targetCell)) {
@@ -73,19 +73,18 @@ class LevelView {
                 this.monsters.splice(this.monsters.findIndex(m => m === monster), 1);
             }
             hero.hasAttacked = true;
-            hero.isSelected = false;            
+            hero.isSelected = false;
             return;
         }
-        if (hero.atOneStep(targetCell)) {
-            const dist = this.diceZone.getSumWalk();
-            if (hero.movedStep < dist) {
-                hero.movedStep++;
-                hero.cell = targetCell;
-                if (hero.movedStep == dist && !this.monsters.find(m => m.isAround(targetCell))) {
-                    hero.hasAttacked = true;
-                    hero.isSelected = false;                    
-                    return;
-                }
+        const d = hero.getWalkingDistance(targetCell)
+        const maxDist = this.diceZone.getSumWalk() ;
+        if (d + hero.movedStep <= maxDist) {
+            hero.movedStep += d;
+            hero.cell = targetCell;
+            if (hero.movedStep >= maxDist && !this.monsters.find(m => m.isAround(targetCell))) {
+                hero.hasAttacked = true;
+                hero.isSelected = false;
+                return;
             }
         }
     }
@@ -337,7 +336,7 @@ class Character {
         }
         if (this.type == "hero") {
             if (!this.hasAttacked) {
-                screen.canvas.fillRect('rgba(0, 255, 0, 0.05)', rect.x, rect.y, rect.width, rect.height);
+                screen.canvas.fillRect('rgba(251, 255, 0, 0.3)', rect.x, rect.y, rect.width, rect.height);
             } else {
                 screen.canvas.fillRect('rgba(50, 50, 50, 0.10)', rect.x, rect.y, rect.width, rect.height);
             }
@@ -417,7 +416,7 @@ class Floor {
                 const y = Floor.TopY + j * 32;
                 this.sprite.paint(x, y, index);
                 const bgColor = this.bg[i + j * this.width];
-                if(bgColor)
+                if (bgColor)
                     screen.canvas.fillRect(bgColor, x, y, 32, 32)
             }
         }
@@ -441,10 +440,10 @@ class Floor {
     }
     refresh() {
         const allChars = this.levelView.heroes.concat(this.levelView.monsters);
-        const selectedChar = allChars.find(c => c.isSelected);        
-        const walkDist =  !selectedChar ? 1 
-            : selectedChar.type === 'hero' ? this.levelView.diceZone.getSumWalk() - selectedChar.movedStep 
-            : selectedChar.monsterMaxWalkSteps;
+        const selectedChar = allChars.find(c => c.isSelected);
+        const walkDist = !selectedChar ? 1
+            : selectedChar.type === 'hero' ? this.levelView.diceZone.getSumWalk() - selectedChar.movedStep
+                : selectedChar.monsterMaxWalkSteps;
         for (let j = 0; j < this.height; j++) {
             for (let i = 0; i < this.width; i++) {
                 const color = this.getBgColor(i, j, selectedChar, walkDist, allChars);
@@ -460,14 +459,14 @@ class Floor {
         const isHero = selectedChar.type === 'hero';
         if (cell.x == i && cell.y == j)
             return 'rgba(0, 255, 0, 0.25)';
-        const d = selectedChar.getWalkingDistance({x:i, y:j});
-        if(d > walkDist)
+        const d = selectedChar.getWalkingDistance({ x: i, y: j });
+        if (d > walkDist)
             return null;
         const occuped = allChars.find(c => c.cell.x == i && c.cell.y == j);
-        if(!occuped)
+        if (!occuped)
             return 'rgba(0, 255, 0, 0.10)';
         const isOccupedByHero = occuped.type === 'hero';
-        if(isOccupedByHero == isHero){
+        if (isOccupedByHero == isHero) {
             return null;
         }
         return 'rgba(255, 145, 0, 0.50)';
