@@ -1,7 +1,9 @@
 
 Work in progess
 
-https://olivierderivoyre.github.io/???/
+https://olivierderivoyre.github.io/HeroQuestClank/
+
+https://olivierderivoyre.github.io/HeroQuestClank/cards.html
 
 
 Assets:
