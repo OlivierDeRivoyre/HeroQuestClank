@@ -457,6 +457,7 @@ const allCards = [
         ],
         cost: 4,
         stats: [],
+        attr: ['d'],
         pictureName: 'wall'
     },
     {
@@ -468,6 +469,7 @@ const allCards = [
         ],
         cost: 6,
         stats: [],
+        attr: ['diceOneBecameSix'],
         pictureName: 'knight'
     },
     {
@@ -479,6 +481,7 @@ const allCards = [
         ],
         cost: 6,
         stats: [],
+        attr: ['rollNewDiceOnSix'],
         pictureName: 'Dices6b'
     },
     {

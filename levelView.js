@@ -156,7 +156,10 @@ class LevelView {
                 case 'shieldToAttack': this.cardEffectShieldToAttack(); break;
                 case 'circularAttack': this.cardEffectCircularAttack(); break;
                 case 'x2': this.cardEffectDoubleDamages(); break;
-
+                case 'd': this.cardEffectAddShield(); break;
+                case 'diceOneBecameSix': this.cardEffectDiceOneBecameSix(); break;
+                case 'rollNewDiceOnSix': this.cardEffectRollNewDiceOnSix(); break;
+                
                 default: console.log('Unmanaged card attr: ' + attr);
             }
         }
@@ -235,6 +238,12 @@ class LevelView {
     }
     cardEffectDoubleDamages() {
         this.diceZone.multiplyDamage *= 2;
+    }
+    cardEffectDiceOneBecameSix() {
+        this.diceZone.oneBecameSix();
+    }
+    cardEffectRollNewDiceOnSix(){
+        this.diceZone.rollNewDiceForSix();
     }
     refreshShopButton() {
         const cards = game.cards.commonCards.concat(game.cards.uncommonShop.hand);
@@ -489,6 +498,7 @@ class Character {
             }
         }
         this.life = Math.max(0, this.life - dmg);
+        console.log(this.type + ' take ' + dmg + ' damages. Life: ' + this.life);
         if (this.aggro == null || this.aggro.life == 0) {
             if (fromCharacter && fromCharacter.type === 'hero' && this.isAround(fromCharacter.cell)) {
                 this.aggro = fromCharacter;
@@ -620,6 +630,8 @@ class DiceZone {
         this.energyLogo = LogoStarImage;
         this.zoneRects = null;
         this.multiplyDamage = 1;
+        this.changeOnebySix = false;
+        this.rollNewDiceOnSix = false;
         this.onNewTurn();
     }
 
@@ -685,7 +697,7 @@ class DiceZone {
             screen.canvas.fontSize = 24;
             screen.canvas.fillStyle = '#C22';
             const text = this.multiplyDamage + ' x';
-            const w =  screen.canvas.measureTextWidth(text);
+            const w = screen.canvas.measureTextWidth(text);
             screen.canvas.fillText(text, topX - 6 - w, topY + 22)
         }
         screen.canvas.drawImage(this.attackLogo, topX, topY, logoSize, logoSize);
@@ -704,12 +716,53 @@ class DiceZone {
         screen.canvas.fillStyle = '#222';
         screen.canvas.fillText(this.energy, topX + logoSize + 4, topY + textMargin);
     }
-    addAttackDice() {
-        this.attackDices.push(new Dice('a'));
+    addWalkDice() {
+        const d = new Dice('w');
+        if(this.changeOnebySix && d.value == 1)
+            d.value = 6;
+        this.walkDices.push(d);
+        if(this.rollNewDiceOnSix && d.value == 6)
+            this.addWalkDice();
         this.refresh();
     }
-    addWalkDice() {
-        this.walkDices.push(new Dice('w'));
+    addAttackDice() {
+        const d = new Dice('a');
+        if(this.changeOnebySix && d.value == 1)
+            d.value = 6;
+        this.attackDices.push(d);
+        if(this.rollNewDiceOnSix && d.value == 6)
+            this.addAttackDice();
+        this.refresh();
+    }
+    oneBecameSix() {
+        this.changeOnebySix = true;
+        for (let d of this.walkDices) {
+            if (d.value == 1) {
+                d.value = 6;
+                if (this.rollNewDiceOnSix)
+                    this.addWalkDice();
+            }
+        }
+        for (let d of this.attackDices) {
+            if (d.value == 1) {
+                d.value = 6;
+                if (this.rollNewDiceOnSix)
+                    this.addAttackDice();
+            }
+        }
+        this.refresh();
+    }
+    rollNewDiceForSix() {
+        this.rollNewDiceOnSix = true;
+        for (let d of this.walkDices) {
+            if (d.value == 6)
+                this.addWalkDice();
+        }
+        for (let d of this.attackDices) {
+            if (d.value == 6) {
+                this.addAttackDice();
+            }
+        }
         this.refresh();
     }
     onNewTurn() {
@@ -720,6 +773,7 @@ class DiceZone {
         this.shield = 0;
         this.energy = 0;
         this.multiplyDamage = 1;
+        this.changeOnebySix = false;
         this.locked = false;
     }
     lockDices() {
