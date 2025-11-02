@@ -10,11 +10,13 @@ function runTick() {
 const url = new URL(window.location.href);
 const params = new URLSearchParams(url.search)
 const urlLevel = parseInt(params.get('lvl') || 1);
-const urlCardIndex = parseInt(params.get('card'));
+const urlCardIndexes = (params.get('card')||'').split(',').map(s => parseInt(s));
 
 game = new Game();
-if(urlCardIndex){
-    game.cards.playerDeck.hand.push(allCards[urlCardIndex])
+if(urlCardIndexes){
+    for(let i of urlCardIndexes)
+        if(i)
+            game.cards.playerDeck.hand.push(allCards[i])
 }
 game.currentView = new LevelView(urlLevel);
 onCardImageReadyfunc = () => {     

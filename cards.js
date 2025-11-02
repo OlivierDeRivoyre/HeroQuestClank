@@ -205,6 +205,7 @@ const allCards = [
         ],
         cost: 2,
         stats: [],
+        attr: ['destroyPreviousCard'],
         pictureName: 'mop'
     },
     {
@@ -216,6 +217,7 @@ const allCards = [
         ],
         cost: 3,
         stats: ['e'],
+        attr: ['destroyPreviousCard'],
         pictureName: 'broom'
     },
     {
@@ -227,6 +229,7 @@ const allCards = [
         ],
         cost: 2,
         stats: ['a', 'a', 'a'],
+        attr: ['destroyCurrentCard'],
         pictureName: 'boom'
     },
     {
@@ -285,6 +288,7 @@ const allCards = [
         ],
         cost: 3,
         stats: ['a'],
+        attr: ['drawCard'],
         pictureName: 'fastAttack3'
     },
     {
@@ -295,6 +299,7 @@ const allCards = [
         ],
         cost: 2,
         stats: ['e'],
+        attr: ['drawCard'],
         pictureName: 'run1'
     },
     {
@@ -305,6 +310,7 @@ const allCards = [
         ],
         cost: 2,
         stats: ['d'],
+        attr: ['drawCard'],
         pictureName: 'parade1'
     },
     {
@@ -315,6 +321,7 @@ const allCards = [
         ],
         cost: 2,
         stats: ['s'],
+        attr: ['drawCard'],
         pictureName: 'portal'
     },
     {
@@ -325,6 +332,7 @@ const allCards = [
         ],
         cost: 3,
         stats: ['l'],
+        attr: ['drawCard'],
         pictureName: 'heal2'
     },
     {
@@ -374,11 +382,12 @@ const allCards = [
         title: 'Force Accumulée',
         type: 'T2',
         desc: [
-            ['Ajoutez +1 ', 'a', ' par carte jouée'],
+            ['Ajoutez +1 ', 'a', ' par carte piochée'],
             ['supplémentaire.']
         ],
         cost: 4,
         stats: [],
+        attr: ['attackPerDrawnCard'],
         pictureName: 'necro'
     },
     {

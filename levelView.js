@@ -15,6 +15,7 @@ class LevelView {
         this.hand.refresh(game.cards.playerDeck.hand);
         this.popup = null;
         this.buyableCards = 0;
+        this.turnDrawnCardBonus = 0;
         this.refreshShopButton();
     }
 
@@ -134,6 +135,7 @@ class LevelView {
                 case 's': this.diceZone.addWalkDice(); break;
                 case 'e': this.diceZone.energy++; break;
                 case 'd': this.cardEffectAddShield(); break;
+                case 'l': this.cardEffectGain1Life(); break;
                 default: console.log('Unmanaged card stat: ' + s);
             }
         }
@@ -144,7 +146,10 @@ class LevelView {
                 case 'bow': this.cardEffectBow(); break;
                 case 'drawCard': this.cardEffectDrawCard(); break;
                 case 'rerollDices': this.cardEffectRerollDices(); break;
-                case 'destroyCurrentCard': this.cardEffectDestroyCurrentCard(card); break;
+                case 'destroyCurrentCard': this.cardEffectDestroyCurrentCard(); break;
+                case 'destroyPreviousCard': this.cardEffectDestroyPreviousCard(); break;
+                case 'attackPerDrawnCard': this.cardEffectAttackPerDrawnCard(); break;
+              
                 default: console.log('Unmanaged card attr: ' + attr);
             }
         }
@@ -162,6 +167,12 @@ class LevelView {
             h.takeDamage(1, null);
         }
     }
+    cardEffectGain1Life() {
+        for (let h of this.heroes) {
+            if (h.life > 0 && h.life < h.maxLife)
+                h.life++;
+        }
+    }
     cardEffectBow() {
         for (let h of this.heroes) {
             h.hasBow = true;
@@ -169,17 +180,29 @@ class LevelView {
     }
     cardEffectDrawCard() {
         game.cards.playerDeck.drawOne();
+        this.turnDrawnCardBonus++;
+    }
+    cardEffectAttackPerDrawnCard(){
+        for(let i = 0; i < this.turnDrawnCardBonus; i++)
+            this.diceZone.addAttackDice();
     }
     cardEffectRerollDices() {
         this.popup = new RerollDicesForm(this);
     }
-    cardEffectDestroyCurrentCard(card) {
-        if (game.cards.playerDeck.played[game.cards.playerDeck.played.length - 1] !== card) {
-            console.log("ERROR: expected " + card.title + ", got " +
-                game.cards.played.playCard[game.cards.playerDeck.played.length - 1].title);
-            return;
+    cardEffectDestroyCurrentCard() {
+        let size = game.cards.playerDeck.played.length;
+        console.log('Destroy ' + game.cards.playerDeck.played[size - 1].title);
+        game.cards.playerDeck.played.splice(size - 1, 1);
+    }
+    cardEffectDestroyPreviousCard() {
+        let size = game.cards.playerDeck.played.length;
+        if (size >= 2) {
+            console.log('Destroy ' + game.cards.playerDeck.played[size - 2].title);
+            game.cards.playerDeck.played.splice(size - 2, 1);
+        } else {
+            console.log('Destroy ' + game.cards.playerDeck.played[size - 1].title);
+            game.cards.playerDeck.played.splice(size - 1, 1);
         }
-        game.cards.playerDeck.played.splice(game.cards.playerDeck.played.length - 1);
     }
     refreshShopButton() {
         const cards = game.cards.commonCards.concat(game.cards.uncommonShop.hand);
@@ -256,6 +279,7 @@ class LevelView {
         for (let hero of this.heroes) {
             hero.onNewTurn();
         }
+        this.turnDrawnCardBonus = 0;
         this.diceZone.onNewTurn();
         game.cards.playerDeck.endTurn();
         game.cards.playerDeck.drawToCount(5);
