@@ -66,7 +66,7 @@ class LevelView {
             hero.isSelected = false;
         }
         const monster = this.monsters.find(m => m.cell.x == targetCell.x && m.cell.y == targetCell.y);
-        if (monster && hero.isAround(targetCell)) {
+        if (monster && (hero.hasBow || hero.isAround(targetCell))) {
             console.log('attack ' + monster.type);
             const dmg = this.diceZone.getSumAttack();
             monster.takeDamage(dmg, hero);
@@ -133,21 +133,40 @@ class LevelView {
                 case 'a': this.diceZone.addAttackDice(); break;
                 case 's': this.diceZone.addWalkDice(); break;
                 case 'e': this.diceZone.energy++; break;
-                case 'd': this.diceZone.shield++; break;
+                case 'd': this.cardEffectAddShield(); break;
                 default: console.log('Unmanaged card stat: ' + s);
             }
         }
         for (let attr of (card.attr || [])) {
             switch (attr) {
                 case 'recycle1': this.popup = new RecycleShopForm(this); break;
+                case 'lost1Life': this.cardEffectLost1Life(); break;
+                case 'bow': this.cardEffectBow(); break;
+                 case 'drawCard': this.cardEffectDrawCard(); break;
                 default: console.log('Unmanaged card attr: ' + attr);
             }
         }
         this.hand.refresh(game.cards.playerDeck.hand);
-        for (let h of this.heroes) {
-            h.shield = this.diceZone.shield;
-        }
         this.refreshShopButton();
+    }
+    cardEffectAddShield() {
+        this.diceZone.shield++;
+        for (let h of this.heroes) {
+            h.shield++;
+        }
+    }
+    cardEffectLost1Life() {
+        for (let h of this.heroes) {
+            h.takeDamage(1, null);
+        }
+    }
+    cardEffectBow() {
+        for (let h of this.heroes) {
+            h.hasBow = true;
+        }
+    }
+    cardEffectDrawCard(){
+        game.cards.playerDeck.drawOne();
     }
     refreshShopButton() {
         const cards = game.cards.commonCards.concat(game.cards.uncommonShop.hand);
@@ -161,7 +180,7 @@ class LevelView {
             return;
         let target = monster.aggro;
         monster.aggro = null;
-        if (!target) {
+        if (!target || target.life <= 0) {
             for (let h of this.heroes) {
                 if (h.life <= 0)
                     continue;
@@ -171,7 +190,7 @@ class LevelView {
                     target = h;
             }
         }
-        if (!target)
+        if (!target || target.life <= 0)
             return;
         if (!monster.isAround(target.cell)) {
             const newCell = this.getCellToMoveTo(monster, target.cell, monster.monsterMaxWalkSteps);
@@ -210,9 +229,6 @@ class LevelView {
     }
 
     endTurn() {
-        for (let hero of this.heroes) {
-            hero.shield = this.diceZone.shield;
-        }
         for (let m of this.monsters) {
             this.playMonster(m);
         }
@@ -317,6 +333,7 @@ class Character {
         this.isSelected = false;
         this.aggro = null;
         this.deadSprite = new Sprite(shikashiTileSet, 0, 0, 32, 32, 1);
+        this.hasBow = false;
     }
     static getHeroes() {
         const h1 = new Character();
@@ -402,7 +419,7 @@ class Character {
         }
         this.life = Math.max(0, this.life - dmg);
         if (this.aggro == null || this.aggro.life == 0) {
-            if (fromCharacter.type === 'hero' && this.isAround(fromCharacter.cell)) {
+            if (fromCharacter && fromCharacter.type === 'hero' && this.isAround(fromCharacter.cell)) {
                 this.aggro = fromCharacter;
             }
         }
@@ -531,6 +548,7 @@ class DiceZone {
         this.energyLogo = LogoStarImage;
         this.onNewTurn();
     }
+    
     refresh() {
         const logoSize = 28;
         const lineMargin = 34;
@@ -621,7 +639,7 @@ class DiceZone {
     }
     getSumAttack() {
         let total = 0;
-        for (let d of this.walkDices) {
+        for (let d of this.attackDices) {
             total += d.value;
         }
         return total;
@@ -809,6 +827,43 @@ class ZoomCardForm {
     }
 }
 class RecycleShopForm {
+    constructor(parent) {
+        this.parent = parent;
+        this.cardZone = new CardZone(120, 200, GameScreenWidth - 240, (c) => this.recycle(c));
+        this.closeButton = new Button('Close', GameScreenWidth - 160, GameScreenHeight - 120, 80, 40, () => this.close());
+        this.refresh();
+    }
+    refresh() {
+        const cards = game.cards.uncommonShop.hand;
+        cards.sort((c1, c2) => c1.cost - c2.cost)
+        this.cardZone.refresh(cards);
+    }
+    paint() {
+        const margin = 50;
+        screen.canvas.fillRect('#EEE', margin, margin, GameScreenWidth - margin * 2, GameScreenHeight - margin * 2);
+        screen.canvas.fontColor = '#040';
+        screen.canvas.fontSize = 24;
+        screen.canvas.fillText('Select the card to remove from store', margin + 50, margin + 50);
+        this.cardZone.paint();
+        this.closeButton.paint();
+    }
+    update() {
+        this.cardZone.update();
+        this.closeButton.update();
+    }
+    recycle(card) {
+        console.log("Recycle " + card.title);
+        game.cards.uncommonShop.handToDiscard(card);
+        game.cards.uncommonShop.drawOne();
+        this.parent.refreshShopButton();
+        this.parent.popup = new ShopForm(this.parent);
+    }
+    close() {
+        this.parent.popup = null;
+    }
+}
+
+class RollDicesForm {
     constructor(parent) {
         this.parent = parent;
         this.cardZone = new CardZone(120, 200, GameScreenWidth - 240, (c) => this.recycle(c));

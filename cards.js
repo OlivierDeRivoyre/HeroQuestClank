@@ -72,6 +72,7 @@ const allCards = [
         ],
         cost: 0,
         stats: [],
+        attr: ['lost1Life'],
         pictureName: 'arrowTrap',
         quantity: 4
     },
@@ -109,7 +110,7 @@ const allCards = [
         ],
         cost: 1,
         stats: ['e', 'd'],
-        pictureName: 'ReceivingShield2',        
+        pictureName: 'ReceivingShield2',
     },
     {
         title: 'Arc',
@@ -120,6 +121,7 @@ const allCards = [
         ],
         cost: 1,
         stats: [],
+        attr: ['bow'],
         pictureName: 'bow2'
     },
     {
@@ -132,6 +134,7 @@ const allCards = [
         ],
         cost: 3,
         stats: [],
+        attr: ['bow', 'drawCard'],
         pictureName: 'bowGold'
     },
     {
@@ -143,6 +146,7 @@ const allCards = [
         ],
         cost: 2,
         stats: ['s'],
+        attr: ['bow'],
         pictureName: 'bow5'
     },
     {
@@ -154,6 +158,7 @@ const allCards = [
         ],
         cost: 3,
         stats: ['a'],
+        attr: ['bow'],
         pictureName: 'bow1'
     },
     {
@@ -165,16 +170,18 @@ const allCards = [
         ],
         cost: 3,
         stats: ['e'],
+        attr: ['bow'],
         pictureName: 'starBow'
     },
     {
         title: 'Seconde chance',
         type: 'T1',
         desc: [
-            ['Relancez un dé']
+            ['Relancez les dés de votre choix']
         ],
         cost: 2,
         stats: [],
+        attr: ['rollDices'],
         pictureName: 'clover1'
     },
     {
