@@ -155,6 +155,7 @@ class LevelView {
                 case 'walkToAttack': this.cardEffectWalkToAttack(); break;
                 case 'shieldToAttack': this.cardEffectShieldToAttack(); break;
                 case 'circularAttack': this.cardEffectCircularAttack(); break;
+                case 'x2': this.cardEffectDoubleDamages(); break;
 
                 default: console.log('Unmanaged card attr: ' + attr);
             }
@@ -231,6 +232,9 @@ class LevelView {
         for (let h of this.heroes) {
             h.circularAttack = true;
         }
+    }
+    cardEffectDoubleDamages() {
+        this.diceZone.multiplyDamage *= 2;
     }
     refreshShopButton() {
         const cards = game.cards.commonCards.concat(game.cards.uncommonShop.hand);
@@ -615,6 +619,7 @@ class DiceZone {
         this.shieldLogo = LogoDefImage;
         this.energyLogo = LogoStarImage;
         this.zoneRects = null;
+        this.multiplyDamage = 1;
         this.onNewTurn();
     }
 
@@ -676,6 +681,13 @@ class DiceZone {
             rect.dice.paint(rect.x, rect.y, rect.isSelected);
         }
         topY += lineMargin;
+        if (this.multiplyDamage != 1) {
+            screen.canvas.fontSize = 24;
+            screen.canvas.fillStyle = '#C22';
+            const text = this.multiplyDamage + ' x';
+            const w =  screen.canvas.measureTextWidth(text);
+            screen.canvas.fillText(text, topX - 6 - w, topY + 22)
+        }
         screen.canvas.drawImage(this.attackLogo, topX, topY, logoSize, logoSize);
         for (let rect of this.zoneRects.attackRects) {
             rect.dice.paint(rect.x, rect.y, rect.isSelected);
@@ -707,6 +719,7 @@ class DiceZone {
         this.addWalkDice();
         this.shield = 0;
         this.energy = 0;
+        this.multiplyDamage = 1;
         this.locked = false;
     }
     lockDices() {
@@ -726,7 +739,7 @@ class DiceZone {
         for (let d of this.attackDices) {
             total += d.value;
         }
-        return total;
+        return total * this.multiplyDamage;
     }
     swapDice(arr1, index1, arr2, index2) {
         const old = arr1[index1];
