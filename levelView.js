@@ -142,7 +142,7 @@ class LevelView {
                 case 'recycle1': this.popup = new RecycleShopForm(this); break;
                 case 'lost1Life': this.cardEffectLost1Life(); break;
                 case 'bow': this.cardEffectBow(); break;
-                 case 'drawCard': this.cardEffectDrawCard(); break;
+                case 'drawCard': this.cardEffectDrawCard(); break;
                 default: console.log('Unmanaged card attr: ' + attr);
             }
         }
@@ -165,7 +165,7 @@ class LevelView {
             h.hasBow = true;
         }
     }
-    cardEffectDrawCard(){
+    cardEffectDrawCard() {
         game.cards.playerDeck.drawOne();
     }
     refreshShopButton() {
@@ -517,10 +517,9 @@ class Dice {
     constructor(type) {
         this.type = type
         this.value = Math.floor(1 + Math.random() * 6);
-        this.isSelected = false;
     }
-    paint(x, y) {
-        if (this.isSelected) {
+    paint(x, y, isSelected) {
+        if (isSelected) {
             screen.canvas.fillRect('rgba(0, 255, 0, 1)', x - 2, y - 2, 24 + 4, 24 + 4);
         }
         screen.canvas.fillRect(this.type == 'a' ? 'red' : 'blue', x, y, 24, 24);
@@ -548,7 +547,7 @@ class DiceZone {
         this.energyLogo = LogoStarImage;
         this.onNewTurn();
     }
-    
+
     refresh() {
         const logoSize = 28;
         const lineMargin = 34;
@@ -564,7 +563,8 @@ class DiceZone {
                 width: 24,
                 height: 24,
                 dice: this.walkDices[i],
-                index: i
+                index: i,
+                isSelected: false
             };
             this.walkRects.push(rect)
         }
@@ -576,7 +576,8 @@ class DiceZone {
                 width: 24,
                 height: 24,
                 dice: this.attackDices[i],
-                index: i
+                index: i,
+                isSelected: false
             };
             this.attackRects.push(rect)
         }
@@ -589,12 +590,12 @@ class DiceZone {
         let topY = this.topY;
         screen.canvas.drawImage(this.walkLogo, topX, topY, logoSize, logoSize);
         for (let rect of this.walkRects) {
-            rect.dice.paint(rect.x, rect.y);
+            rect.dice.paint(rect.x, rect.y, rect.isSelected);
         }
         topY += lineMargin;
         screen.canvas.drawImage(this.attackLogo, topX, topY, logoSize, logoSize);
         for (let rect of this.attackRects) {
-            rect.dice.paint(rect.x, rect.y);
+            rect.dice.paint(rect.x, rect.y, rect.isSelected);
         }
         topY += lineMargin;
         screen.canvas.drawImage(this.shieldLogo, topX, topY, logoSize, logoSize);
@@ -656,14 +657,13 @@ class DiceZone {
         if (!input.mouseClicked || this.locked)
             return;
 
-        const selectedAtt = this.attackDices.findIndex(d => d.isSelected);
-        const selectedWalk = this.walkDices.findIndex(d => d.isSelected);
+        const selectedWalk = this.walkRects.findIndex(r => r.isSelected);
+        const selectedAtt = this.attackRects.findIndex(r => r.isSelected);
         for (let r of this.attackRects) {
             if (!isInsideRect(input.mouse, r))
                 continue;
-            const dice = r.dice;
-            if (dice.isSelected) {
-                dice.isSelected = false;
+            if (r.isSelected) {
+                r.isSelected = false;
                 return;
             }
             if (selectedAtt >= 0) {
@@ -673,15 +673,15 @@ class DiceZone {
                 this.swapDice(this.attackDices, r.index, this.walkDices, selectedWalk);
                 return;
             } else {
-                dice.isSelected = true;
+                r.isSelected = true;
             }
         }
         for (let r of this.walkRects) {
             if (!isInsideRect(input.mouse, r))
                 continue;
-            const dice = r.dice;
-            if (dice.isSelected) {
-                dice.isSelected = false;
+
+            if (r.isSelected) {
+                r.isSelected = false;
                 return;
             }
             if (selectedAtt >= 0) {
@@ -691,7 +691,7 @@ class DiceZone {
                 this.swapDice(this.walkDices, r.index, this.walkDices, selectedWalk);
                 return;
             } else {
-                dice.isSelected = true;
+                r.isSelected = true;
             }
         }
     }
