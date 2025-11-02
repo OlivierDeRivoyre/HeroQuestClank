@@ -59,6 +59,7 @@ const allCards = [
         ],
         cost: 0,
         stats: [],
+        attr: ['recycle1'],
         pictureName: 'peddler',
         quantity: 4
     },

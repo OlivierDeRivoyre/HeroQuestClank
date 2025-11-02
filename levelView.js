@@ -129,17 +129,18 @@ class LevelView {
         console.log("play " + card.title);
         game.cards.playerDeck.handToPlayed(card);
         for (let s of card.stats) {
-            if (s === 'a') {
-                this.diceZone.addAttackDice();
+            switch (s) {
+                case 'a': this.diceZone.addAttackDice(); break;
+                case 's': this.diceZone.addWalkDice(); break;
+                case 'e': this.diceZone.energy++; break;
+                case 'd': this.diceZone.shield++; break;
+                default: console.log('Unmanaged card stat: ' + s);
             }
-            if (s === 's') {
-                this.diceZone.addWalkDice();
-            }
-            if (s === 'e') {
-                this.diceZone.energy++;
-            }
-            if (s === 'd') {
-                this.diceZone.shield++;
+        }
+        for (let attr of (card.attr || [])) {
+            switch (attr) {
+                case 'recycle1': this.popup = new RecycleShopForm(this); break;
+                default: console.log('Unmanaged card attr: ' + attr);
             }
         }
         this.hand.refresh(game.cards.playerDeck.hand);
@@ -804,6 +805,42 @@ class ZoomCardForm {
     update() {
         if (!input.mouseClicked)
             return;
+        this.parent.popup = null;
+    }
+}
+class RecycleShopForm {
+    constructor(parent) {
+        this.parent = parent;
+        this.cardZone = new CardZone(120, 200, GameScreenWidth - 240, (c) => this.recycle(c));
+        this.closeButton = new Button('Close', GameScreenWidth - 160, GameScreenHeight - 120, 80, 40, () => this.close());
+        this.refresh();
+    }
+    refresh() {
+        const cards = game.cards.uncommonShop.hand;
+        cards.sort((c1, c2) => c1.cost - c2.cost)
+        this.cardZone.refresh(cards);
+    }
+    paint() {
+        const margin = 50;
+        screen.canvas.fillRect('#EEE', margin, margin, GameScreenWidth - margin * 2, GameScreenHeight - margin * 2);
+        screen.canvas.fontColor = '#040';
+        screen.canvas.fontSize = 24;
+        screen.canvas.fillText('Select the card to remove from store', margin + 50, margin + 50);
+        this.cardZone.paint();
+        this.closeButton.paint();
+    }
+    update() {
+        this.cardZone.update();
+        this.closeButton.update();
+    }
+    recycle(card) {
+        console.log("Recycle " + card.title);
+        game.cards.uncommonShop.handToDiscard(card);
+        game.cards.uncommonShop.drawOne();
+        this.parent.refreshShopButton();
+        this.parent.popup = new ShopForm(this.parent);
+    }
+    close() {
         this.parent.popup = null;
     }
 }
