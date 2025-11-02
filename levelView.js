@@ -557,7 +557,33 @@ class Character {
                 Character.getGobelin(10, 1),
                 Character.getSkeleton(11, 7)
             ];
-            case 5: {
+            case 5: return [
+                Character.getMommy(10, 3)
+            ];
+            case 6: return [
+                Character.getMommy(10, 3),
+                Character.getSkeleton(11, 7)
+            ];
+            case 7: return [
+                Character.getMage(11, 0)
+            ];
+            case 8: {
+                levelView.heroes[0].cell = { x: 4, y: 7 };
+                levelView.heroes[1].cell = { x: 6, y: 7 };
+                levelView.heroes[2].cell = { x: 5, y: 7 };
+                return [
+                    Character.getMage(11, 0),
+                    Character.getMage(0, 0),
+                ];
+            }
+            case 9: return [
+                Character.getZomby(10, 3),
+            ];
+            case 10: return [
+                Character.getGobelin(11, 0),
+                Character.getZomby(10, 3)
+            ];
+            case 11: {
                 levelView.heroes[0].cell = { x: 4, y: 3 };
                 levelView.heroes[1].cell = { x: 6, y: 4 };
                 levelView.heroes[2].cell = { x: 5, y: 4 };
@@ -568,23 +594,27 @@ class Character {
                     Character.getGobelin(11, 7),
                 ];
             }
-            case 6: return [
-                Character.getMommy(10, 3)
-            ];
-            case 7: return [
-                Character.getZomby(10, 3)
-            ];
-            case 8: return [
+
+            case 12: return [
                 Character.getOrc(10, 3)
             ];
-            case 9: return [
-                Character.getMage(11, 0)
+            case 13: return [
+                Character.getOrc(10, 3),
+                Character.getGobelin(11, 2),
+                Character.getGobelin(11, 4),
             ];
-            case 10: return [
+            case 14: return [
                 Character.getKnight(10, 3)
             ];
-            case 11: return [
-                Character.getGargoyle(9, 3)
+            case 15: return [
+                Character.getKnight(10, 3),
+                Character.getGobelin(11, 2),
+                Character.getGobelin(11, 4),
+            ];
+            case 16: return [
+                Character.getGargoyle(9, 3),
+                Character.getGobelin(8, 2),
+                Character.getGobelin(8, 4),
             ];
             default: return [
                 Character.getGobelin(10, 0),
