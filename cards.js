@@ -84,7 +84,7 @@ const allCards = [
             ['supplémentaire'],
             ['e', ': Gagnez un point d’énergie.'],
         ],
-        cost: 3,
+        cost: 2,
         stats: ['a', 'e'],
         pictureName: 'attack12',
         quantity: 12
@@ -236,7 +236,7 @@ const allCards = [
         title: 'Bouclier Tranchant',
         type: 'T1',
         desc: [],
-        cost: 3,
+        cost: 2,
         stats: ['a', 'd'],
         pictureName: 'shieldPikes'
     },
@@ -252,7 +252,7 @@ const allCards = [
         title: 'Frappe Énergique',
         type: 'T1',
         desc: [],
-        cost: 3,
+        cost: 1,
         stats: ['a', 'e'],
         pictureName: 'swordEnergy1'
     },
@@ -260,7 +260,7 @@ const allCards = [
         title: 'Essence de Vie',
         type: 'T1',
         desc: [],
-        cost: 3,
+        cost: 2,
         stats: ['e', 'l'],
         pictureName: 'arch'
     },
@@ -277,7 +277,7 @@ const allCards = [
         type: 'T1',
         desc: [],
         cost: 3,
-        stats: ['d', 'l'],
+        stats: ['e', 'd', 'l'],
         pictureName: 'heal3'
     },
     {
@@ -341,11 +341,22 @@ const allCards = [
         desc: [
             ['l', ': Récupérez un point de vie']
         ],
-        cost: 2,
+        cost: 1,
         stats: ['l'],
         pictureName: 'heal1'
     },
     // T2
+    {
+        title: 'Jumeaux',
+        type: 'T2',
+        desc: [
+            ['Piochez deux cartes.']
+        ],
+        cost: 4,
+        stats: [],
+        attr: ['drawCard', 'drawCard'],
+        pictureName: 'twins'
+    },
     {
         title: 'Assaut Éclair',
         type: 'T2',
@@ -397,8 +408,8 @@ const allCards = [
             ['Chaque ', 's', ' peut être converti'],
             ['en ', 'a']
         ],
-        cost: 5,
-        stats: [],
+        cost: 4,
+        stats: ['s'],
         attr: ['walkToAttack'],
         pictureName: 'charge'
     },
@@ -452,12 +463,12 @@ const allCards = [
         title: 'Fortification',
         type: 'T2',
         desc: [
-            ['Tous les joueurs gagnent un ', 'd'],
+            ['Tous les joueurs gagnent 3 ', 'd'],
             ['ce tour-ci.']
         ],
         cost: 4,
         stats: [],
-        attr: ['d'],
+        attr: ['d','d','d'],
         pictureName: 'wall'
     },
     {
@@ -467,8 +478,8 @@ const allCards = [
             ['Vos 1 sur les dés deviennent'],
             ['des 6.']
         ],
-        cost: 6,
-        stats: [],
+        cost: 5,
+        stats: ['a'],
         attr: ['diceOneBecameSix'],
         pictureName: 'knight'
     },
@@ -480,7 +491,7 @@ const allCards = [
             ['obtenu.']
         ],
         cost: 6,
-        stats: [],
+        stats: ['a'],
         attr: ['rollNewDiceOnSix'],
         pictureName: 'Dices6b'
     },
