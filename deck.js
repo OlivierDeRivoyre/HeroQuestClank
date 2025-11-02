@@ -2,6 +2,7 @@ class Deck {
     constructor(drawPile) {
         this.drawPile = drawPile
         this.hand = [];
+        this.played = [];
         this.discard = [];
         Deck.shuffle(this.drawPile);
     }
@@ -41,6 +42,17 @@ class Deck {
                 return;
             }
         }
+    }
+    handToPlayed(card) {
+        const index = this.hand.findIndex(c => c == card);
+        const foundCard = this.hand[index];
+        this.hand.splice(index, 1);
+        this.played.push(foundCard);
+    }
+    endTurn(){
+        for(let c of this.played)
+            this.discard.push(c);
+        this.played = [];
     }
     handToDiscard(card) {
         const index = this.hand.findIndex(c => c == card);

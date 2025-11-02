@@ -36,9 +36,9 @@ function createFixedCardCanvasForMiniatures(cardWidth, cardHeight) {
 function createMinatutes() {
     const a4Width = 2000;
     const a4Height = 3000;
-    const nbCardPerLine = 5;
-    const cardWidth = 400;
-    const cardHeight = 560;
+    const nbCardPerLine = 3;
+    const cardWidth = 400 + 200;
+    const cardHeight = 560 + 280;
     const marginX = Math.floor((a4Width - nbCardPerLine * cardWidth) / 2);
     const marginY = Math.floor((a4Height - nbCardPerLine * cardHeight) / 2);
 

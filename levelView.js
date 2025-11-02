@@ -127,7 +127,7 @@ class LevelView {
     }
     playCard(card) {
         console.log("play " + card.title);
-        game.cards.playerDeck.handToDiscard(card);
+        game.cards.playerDeck.handToPlayed(card);
         for (let s of card.stats) {
             if (s === 'a') {
                 this.diceZone.addAttackDice();
@@ -180,6 +180,7 @@ class LevelView {
         }
         if (monster.isAround(target.cell)) {
             target.takeDamage(monster.monsterDamage, monster);
+            monster.monsterDamage++;
         }
     }
 
@@ -226,6 +227,7 @@ class LevelView {
             hero.onNewTurn();
         }
         this.diceZone.onNewTurn();
+        game.cards.playerDeck.endTurn();
         game.cards.playerDeck.drawToCount(5);
         game.cards.uncommonShop.drawToCount(4);
         this.hand.refresh(game.cards.playerDeck.hand);
