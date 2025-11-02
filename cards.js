@@ -406,7 +406,7 @@ const allCards = [
         title: 'Bouclier de Feu',
         type: 'T2',
         desc: [
-            ['Chaque ', 'd', ' donne une ', 'a']            
+            ['Chaque ', 'd', ' donne une ', 'a']
         ],
         cost: 5,
         stats: ['d'],
@@ -429,12 +429,11 @@ const allCards = [
         title: 'Sacrifice',
         type: 'T2',
         desc: [
-            ['Perdez 1 vie, et obtenez trois'],///5d
-            ['fois : soignez 1 vie d’un autre'],
-            ['joueur.']
+            ['Perdez 1 vie']
         ],
         cost: 4,
-        stats: [],
+        stats: ['d', 'd', 'd', 'd', 'd'],
+        attr: ['loseTrueLive'],
         pictureName: 'sacrifice'
     },
     {
@@ -446,6 +445,7 @@ const allCards = [
         ],
         cost: 5,
         stats: [],
+        attr: ['loseTrueLive', 'x2'],
         pictureName: 'Furry3'
     },
     {

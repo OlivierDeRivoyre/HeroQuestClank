@@ -61,7 +61,7 @@ class LevelView {
                 }
             }
         }
-    }    
+    }
     heroAction(hero, targetCell) {
         if (hero.hasAttacked) {
             hero.isSelected = false;
@@ -77,8 +77,8 @@ class LevelView {
             hero.hasAttacked = true;
             hero.isSelected = false;
             this.diceZone.lockDices();
-            if(hero.circularAttack){
-                for(let otherMonster of this.monsters.filter(m=> m !== monster && m.life > 0 && hero.isAround(monster.cell))){
+            if (hero.circularAttack) {
+                for (let otherMonster of this.monsters.filter(m => m !== monster && m.life > 0 && hero.isAround(monster.cell))) {
                     otherMonster.takeDamage(dmg, hero);
                 }
             }
@@ -148,6 +148,7 @@ class LevelView {
             switch (attr) {
                 case 'recycle1': this.popup = new RecycleShopForm(this); break;
                 case 'lost1Life': this.cardEffectLost1Life(); break;
+                case 'loseTrueLive': this.cardEffectLostTrueLife(); break;
                 case 'bow': this.cardEffectBow(); break;
                 case 'drawCard': this.cardEffectDrawCard(); break;
                 case 'rerollDices': this.cardEffectRerollDices(); break;
@@ -173,6 +174,11 @@ class LevelView {
     cardEffectLost1Life() {
         for (let h of this.heroes) {
             h.takeDamage(1, null);
+        }
+    }
+    cardEffectLostTrueLife() {
+        for (let h of this.heroes) {
+            h.life = Math.max(0, h.life - 1);
         }
     }
     cardEffectGain1Life() {
@@ -224,8 +230,8 @@ class LevelView {
             this.diceZone.addAttackDice();
         }
     }
-    cardEffectCircularAttack(){
-        for(let h of this.heroes){
+    cardEffectCircularAttack() {
+        for (let h of this.heroes) {
             h.circularAttack = true;
         }
     }
