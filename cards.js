@@ -422,13 +422,14 @@ const allCards = [
         ],
         cost: 4,
         stats: [],
+        attr: ['circularAttack'],
         pictureName: 'attCircular'
     },
     {
         title: 'Sacrifice',
         type: 'T2',
         desc: [
-            ['Perdez 1 vie, et obtenez trois'],
+            ['Perdez 1 vie, et obtenez trois'],///5d
             ['fois : soignez 1 vie d’un autre'],
             ['joueur.']
         ],

@@ -61,7 +61,7 @@ class LevelView {
                 }
             }
         }
-    }
+    }    
     heroAction(hero, targetCell) {
         if (hero.hasAttacked) {
             hero.isSelected = false;
@@ -71,12 +71,17 @@ class LevelView {
             console.log('attack ' + monster.type);
             const dmg = this.diceZone.getSumAttack();
             monster.takeDamage(dmg, hero);
-            if (monster.life == 0) {
-                this.monsters.splice(this.monsters.findIndex(m => m === monster), 1);
-            }
+            //if (monster.life == 0) {
+            //    this.monsters.splice(this.monsters.findIndex(m => m === monster), 1);
+            //}
             hero.hasAttacked = true;
             hero.isSelected = false;
             this.diceZone.lockDices();
+            if(hero.circularAttack){
+                for(let otherMonster of this.monsters.filter(m=> m !== monster && m.life > 0 && hero.isAround(monster.cell))){
+                    otherMonster.takeDamage(dmg, hero);
+                }
+            }
             return;
         }
         const otherHero = this.heroes.find(m => m.cell.x == targetCell.x && m.cell.y == targetCell.y);
@@ -151,7 +156,7 @@ class LevelView {
                 case 'attackPerDrawnCard': this.cardEffectAttackPerDrawnCard(); break;
                 case 'walkToAttack': this.cardEffectWalkToAttack(); break;
                 case 'shieldToAttack': this.cardEffectShieldToAttack(); break;
-
+                case 'circularAttack': this.cardEffectCircularAttack(); break;
 
                 default: console.log('Unmanaged card attr: ' + attr);
             }
@@ -217,6 +222,11 @@ class LevelView {
     cardEffectShieldToAttack() {
         for (let i = 0; i < this.diceZone.shield; i++) {
             this.diceZone.addAttackDice();
+        }
+    }
+    cardEffectCircularAttack(){
+        for(let h of this.heroes){
+            h.circularAttack = true;
         }
     }
     refreshShopButton() {
@@ -386,6 +396,7 @@ class Character {
         this.aggro = null;
         this.deadSprite = new Sprite(shikashiTileSet, 0, 0, 32, 32, 1);
         this.hasBow = false;
+        this.circularAttack = false;
     }
     static getHeroes() {
         const h1 = new Character();
@@ -412,7 +423,10 @@ class Character {
         return monster;
     }
     static getEnnemies(level) {
-        return [Character.getGobelin(11, 0)];
+        switch (level) {
+            case 2: return [Character.getGobelin(11, 0), Character.getGobelin(11, 2)];
+            default: return [Character.getGobelin(11, 0)];
+        }
     }
     getRect() {
         return {
@@ -479,6 +493,8 @@ class Character {
     onNewTurn() {
         this.shield = 0;
         this.hasAttacked = false;
+        this.circularAttack = false;
+        this.hasBow = false;
         this.movedStep = 0;
         this.isSelected = false;
     }
