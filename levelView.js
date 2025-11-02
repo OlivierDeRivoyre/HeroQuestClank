@@ -450,7 +450,7 @@ class Character {
         const monster = new Character();
         monster.type = "gobelin";
         monster.sprite = getDungeonTileSetVilainSprite(0, 12);
-        monster.marginY = 2;
+        monster.marginY = 6;
         monster.life = monster.maxLife = 20;
         monster.cell = { x, y };
         return monster;
