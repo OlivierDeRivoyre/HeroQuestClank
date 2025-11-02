@@ -253,12 +253,12 @@ class LevelView {
     cardEffectMirror() {
         let size = game.cards.playerDeck.played.length;
         if (size >= 2) {
-            const duplicate =  game.cards.playerDeck.played[size - 2];
+            const duplicate = game.cards.playerDeck.played[size - 2];
             console.log('Mirror ' + duplicate.title);
             this.applyCardEffect(duplicate);
         }
     }
-    cardEffectYams(){
+    cardEffectYams() {
         this.diceZone.yams();
     }
     refreshShopButton() {
@@ -416,13 +416,14 @@ class Character {
         this.life = 3;
         this.maxLife = 3;
         this.shield = 0;
-        this.lookLeft = false;
+        this.lookLeft = true;
         this.marginY = 0;
         this.hasAttacked = false;
         this.movedStep = 0;
         this.monsterMaxWalkSteps = 8;
         this.monsterDamage = 1;
         this.isSelected = false;
+        this.hasStoneHearts = false;
         this.aggro = null;
         this.deadSprite = new Sprite(shikashiTileSet, 0, 0, 32, 32, 1);
         this.hasBow = false;
@@ -435,14 +436,16 @@ class Character {
         h1.sprite = getDungeonTileSetHeroSprite(0, 14);
         h2.sprite = getDungeonTileSetHeroSprite(3, 10);
         h3.sprite = getDungeonTileSetHeroSprite(5, 10);
+        h1.lookLeft = h2.lookLeft = h3.lookLeft = false;
         h1.marginY = -10;
         h2.marginY = -16;
         h3.marginY = -16;
-        h1.cell.y = 0;
-        h2.cell.x = 2;
-        h3.cell.x = 4;
+        h1.cell = { x: 0, y: 2 };
+        h2.cell = { x: 2, y: 4 };
+        h3.cell = { x: 0, y: 5 };
         return [h1, h2, h3];
     }
+    // 20 lives
     static getGobelin(x, y) {
         const monster = new Character();
         monster.type = "gobelin";
@@ -452,9 +455,126 @@ class Character {
         monster.cell = { x, y };
         return monster;
     }
-    static getEnnemies(level) {
+    // 1 heart at 10+
+    static getSkeleton(x, y) {
+        const monster = new Character();
+        monster.type = "skeleton";
+        monster.sprite = getDungeonTileSetVilainSprite(3, 10);
+        monster.marginY = 2;
+        monster.life = monster.maxLife = 1;
+        monster.hasStoneHearts = true;
+        monster.shield = 10;
+        monster.cell = { x, y };
+        return monster;
+    }
+    // 40 life
+    static getMommy(x, y) {
+        const monster = new Character();
+        monster.type = "mommy";
+        monster.sprite = getDungeonTileSetVilainSprite(4, 10);
+        monster.marginY = 2;
+        monster.life = monster.maxLife = 40;
+        monster.cell = { x, y };
+        monster.monsterMaxWalkSteps = 4;
+        return monster;
+    }
+    // 3 def, 20 life
+    static getZomby(x, y) {
+        const monster = new Character();
+        monster.type = "zomby";
+        monster.sprite = getDungeonTileSetVilainSprite(5, 8);
+        monster.marginY = 2;
+        monster.life = monster.maxLife = 20;
+        monster.shield = 3;
+        monster.cell = { x, y };
+         monster.monsterMaxWalkSteps = 3;
+        return monster;
+    }
+    // 60 life, circular att
+    static getOrc(x, y) {
+        const monster = new Character();
+        monster.type = "orc";
+        monster.sprite = getDungeonTileSetVilainSprite(7, 8);
+        monster.marginY = 2;
+        monster.life = monster.maxLife = 60;
+        monster.circularAttack = true;
+        monster.cell = { x, y };
+        monster.monsterMaxWalkSteps = 6;
+        return monster;
+    }
+    // 30 life, dist att, target weaker
+    static getMage(x, y) {
+        const monster = new Character();
+        monster.type = "mage";
+        monster.sprite = getDungeonTileSetVilainSprite(9, 8);
+        monster.marginY = 2;
+        monster.life = monster.maxLife = 30;
+        monster.hasBow = true;
+        monster.cell = { x, y };
+        monster.monsterMaxWalkSteps = 5;
+        return monster;
+    }
+    // 40 life, 10 att reduc
+    static getKnight(x, y) {
+        const monster = new Character();
+        monster.type = "knight";
+        monster.sprite = getDungeonTileSetVilainSprite(13, 4);
+        monster.marginY = -6;
+        monster.life = monster.maxLife = 40;
+        monster.shield = 10;
+        monster.cell = { x, y };
+        monster.monsterMaxWalkSteps = 5;
+        return monster;
+    }
+    // 5 hearths 20+
+    static getGargoyle(x, y) {
+        const monster = new Character();
+        monster.type = "gobelin";
+        monster.sprite = getDungeonTileSetVilainSprite(11, 6);
+        monster.marginY = -4;
+        monster.life = monster.maxLife = 5;
+        monster.shield = 20;
+        monster.hasStoneHearts = true;
+        monster.cell = { x, y };
+        monster.monsterMaxWalkSteps = 5;
+        return monster;
+    }
+    static getEnnemies(level) {        
         switch (level) {
-            case 2: return [Character.getGobelin(11, 0), Character.getGobelin(11, 2)];
+            case 1: return [
+                Character.getGobelin(11, 3)
+            ];
+            case 2: return [
+                Character.getSkeleton(10, 3)
+            ];
+            case 3: return [
+                Character.getMommy(10, 3)
+            ];
+            case 4: return [
+                Character.getZomby(10, 3)
+            ];
+            case 5: return [
+                Character.getOrc(10, 3)
+            ];
+            case 6: return [
+                Character.getMage(11, 0)
+            ];
+            case 7: return [
+                Character.getKnight(10, 3)
+            ];
+            case 8: return [
+                Character.getGargoyle(9, 3)
+            ];
+            case 3: return [
+                Character.getGobelin(10, 0),
+                Character.getSkeleton(10, 1),
+                Character.getMommy(10, 2),
+                Character.getZomby(10, 3),
+                Character.getOrc(10, 4),
+                Character.getMage(10, 5),
+                Character.getKnight(10, 6),
+                Character.getGargoyle(10, 7)
+            ];
             default: return [Character.getGobelin(11, 0)];
         }
     }
@@ -513,7 +633,11 @@ class Character {
                 this.shield -= shielded;
             }
         }
-        this.life = Math.max(0, this.life - dmg);
+        if (!this.hasStoneHearts) {
+            this.life = Math.max(0, this.life - dmg);
+        } else if (dmg > 0) {
+            this.life = Math.max(0, this.life - 1);
+        }
         console.log(this.type + ' take ' + dmg + ' damages. Life: ' + this.life);
         if (this.aggro == null || this.aggro.life == 0) {
             if (fromCharacter && fromCharacter.type === 'hero' && this.isAround(fromCharacter.cell)) {
@@ -785,11 +909,11 @@ class DiceZone {
         }
         this.refresh();
     }
-    yams(){
+    yams() {
         const dupes = new Array(7);
         let max = 1;
-        for(let d of this.walkDices.concat(this.attackDices)){
-            const v = (dupes[d.value]||0) + 1;
+        for (let d of this.walkDices.concat(this.attackDices)) {
+            const v = (dupes[d.value] || 0) + 1;
             dupes[d.value] = v;
             max = Math.max(v, max);
         }
