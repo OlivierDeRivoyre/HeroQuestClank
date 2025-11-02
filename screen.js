@@ -3,8 +3,6 @@ const CanvasCellHeight = 9;
 const GameScreenWidth = 64 * CanvasCellWidth;//1024
 const GameScreenHeight = 64 * CanvasCellHeight;//576
 
-
-
 class Screen {
     constructor() {
         this.width = GameScreenWidth;
@@ -15,31 +13,15 @@ class Screen {
         this.windowResize();
 
         window.addEventListener('resize', () => this.windowResize(), false);
-        window.addEventListener('mousemove', (e) => this.mouseMove(e), false);
-        window.addEventListener('mousedown', (e) => this.mouseDown(e), false);
-        window.addEventListener('mouseup', (e) => this.mouseUp(e), false);
+        window.addEventListener('click', (e) => this.click(e), false);
     }
     clear() {
         this.canvas.clear();
     }
 
-    mouseMove(event) {
-        input.mouseMove(this.canvas.toCanvasCoord(event.offsetX, event.offsetY));
-    }
-    mouseButton(e, pressed) {
-        let rightclick = false;
-        if (e.which) {
-            rightclick = (e.which == 3);
-        } else if (e.button) {
-            rightclick = (e.button == 2);
-        }
-        input.mouseButton(this.canvas.toCanvasCoord(e.offsetX, e.offsetY), pressed, rightclick);
-    }
-    mouseDown(event) {
-        this.mouseButton(event, true);
-    }
-    mouseUp(event) {
-        this.mouseButton(event, false);
+    click(e) {
+        //console.log(e);
+        game.click(this.canvas.toCanvasCoord(e.offsetX, e.offsetY))
     }
     windowResize() {
         if (document.fullscreenElement) {

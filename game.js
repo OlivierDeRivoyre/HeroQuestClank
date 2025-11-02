@@ -2,15 +2,13 @@ let tickNumber = 0;
 
 class Game {
     constructor() {
-        this.screen = new Screen();
+        this.screen = screen;
         this.cards = new CardGameRun();        
         this.currentView = null;
     }
-    update() {
-        this.currentView.update();
-        input.reset();
-    }
-
+    click(mouseCoord) {
+        this.currentView.click(mouseCoord);        
+    }    
     paint() {
         this.currentView.paint();      
     }

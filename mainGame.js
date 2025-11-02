@@ -2,7 +2,7 @@ const TickDuration = 30;//30ms, it is around 30 ticks per second
 
 function runTick() {
     tickNumber++;
-    game.update();
+   // game.update();
     game.paint();
     setTimeout(() => this.runTick(), TickDuration);
 }

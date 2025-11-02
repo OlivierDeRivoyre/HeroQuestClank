@@ -19,33 +19,30 @@ class LevelView {
         this.refreshShopButton();
     }
 
-    update() {
+    click(mouseCoord) {
         if (this.popup) {
-            this.popup.update();
+            this.popup.click(mouseCoord);
             return;
         }
-        this.hand.update();
-        this.diceZone.update()
-        this.shopButton.update();
-        this.endTurnButton.update();
-        this.updateHeroes();
-        if (input.mouseClicked)
-            this.floor.refresh();
+        this.hand.click(mouseCoord);
+        this.diceZone.click(mouseCoord)
+        this.shopButton.click(mouseCoord);
+        this.endTurnButton.click(mouseCoord);
+        this.updateHeroes(mouseCoord);
+        this.floor.refresh();
     }
-    updateHeroes() {
-        if (!input.mouseClicked)
-            return;
+    updateHeroes(mouseCoord) {
         const allChars = this.heroes.concat(this.monsters);
         const selectedChar = allChars.find(c => c.isSelected);
         if (selectedChar) {
-            if (isInsideRect(input.mouse, selectedChar.getRect())) {
+            if (isInsideRect(mouseCoord, selectedChar.getRect())) {
                 selectedChar.isSelected = false;
                 return;
             }
             if (selectedChar.type !== "hero") {
                 return;
             }
-            const targetCell = this.floor.getCell(input.mouse);
+            const targetCell = this.floor.getCell(mouseCoord);
             if (!targetCell) {
                 selectedChar.isSelected = false;
                 return;
@@ -54,7 +51,7 @@ class LevelView {
             return;
         }
         for (let c of allChars) {
-            if (isInsideRect(input.mouse, c.getRect())) {
+            if (isInsideRect(mouseCoord, c.getRect())) {
                 c.isSelected = !c.isSelected;
                 if (selectedChar && c != selectedChar) {
                     selectedChar.isSelected = false;
@@ -365,16 +362,14 @@ class CardZone {
         if (this.popup)
             this.popup.paint();
     }
-    update() {
+    click(mouseCoord) {
         if (this.popup) {
-            this.popup.update();
+            this.popup.click(mouseCoord);
             return;
         }
-        if (!input.mouseClicked)
-            return;
         for (let c of this.cardRects) {
-            if (isInsideRect(input.mouse, c)) {
-                if (isInsideRect({ x: input.mouse.x, y: input.mouse.y - c.height / 2 }, c)) {
+            if (isInsideRect(mouseCoord, c)) {
+                if (isInsideRect({ x: mouseCoord.x, y: mouseCoord.y - c.height / 2 }, c)) {
                     this.popup = new ZoomCardForm(this, c.card);
                     return;
                 }
@@ -741,14 +736,14 @@ class DiceZone {
         arr2[index2].isSelected = false;
         this.refresh();
     }
-    update() {
-        if (!input.mouseClicked || this.locked)
+    click(mouseCoord) {
+        if (this.locked)
             return;
 
         const selectedWalk = this.zoneRects.walkRects.findIndex(r => r.isSelected);
         const selectedAtt = this.zoneRects.attackRects.findIndex(r => r.isSelected);
         for (let r of this.zoneRects.attackRects) {
-            if (!isInsideRect(input.mouse, r))
+            if (!isInsideRect(mouseCoord, r))
                 continue;
             if (r.isSelected) {
                 r.isSelected = false;
@@ -765,7 +760,7 @@ class DiceZone {
             }
         }
         for (let r of this.zoneRects.walkRects) {
-            if (!isInsideRect(input.mouse, r))
+            if (!isInsideRect(mouseCoord, r))
                 continue;
 
             if (r.isSelected) {
@@ -798,10 +793,9 @@ class Button {
         const margin = (this.rect.width - size) / 2;
         screen.canvas.fillText(this.text, this.rect.x + margin, this.rect.y + 26);
     }
-    update() {
-        if (!input.mouseClicked)
-            return;
-        if (isInsideRect(input.mouse, this.rect))
+    click(mouseCoord) {
+
+        if (isInsideRect(mouseCoord, this.rect))
             this.clickFunc();
     }
 }
@@ -829,9 +823,9 @@ class ShopForm {
         this.cardZone.paint();
         this.closeButton.paint();
     }
-    update() {
-        this.cardZone.update();
-        this.closeButton.update();
+    click(mouseCoord) {
+        this.cardZone.click(mouseCoord);
+        this.closeButton.click(mouseCoord);
     }
     tryBuyCard(card) {
         console.log("try to buy " + card.title);
@@ -854,7 +848,7 @@ class DeadScreen {
     constructor(parent) {
         this.parent = parent;
     }
-    update() {
+    click(mouseCoord) {
 
     }
 
@@ -871,8 +865,8 @@ class WinLevelScreen {
         this.parent = parent;
         this.closeButton = new Button('Next level', 400, 400, 120, 40, () => this.nextLevel());
     }
-    update() {
-        this.closeButton.update();
+    click(mouseCoord) {
+        this.closeButton.click(mouseCoord);
     }
 
     paint() {
@@ -908,9 +902,7 @@ class ZoomCardForm {
         screen.canvas.drawFixedCanvas(this.cardCanvas, x, y);
 
     }
-    update() {
-        if (!input.mouseClicked)
-            return;
+    click(mouseCoord) {
         this.parent.popup = null;
     }
 }
@@ -935,9 +927,9 @@ class RecycleShopForm {
         this.cardZone.paint();
         this.closeButton.paint();
     }
-    update() {
-        this.cardZone.update();
-        this.closeButton.update();
+    click(mouseCoord) {
+        this.cardZone.click(mouseCoord);
+        this.closeButton.click(mouseCoord);
     }
     recycle(card) {
         console.log("Recycle " + card.title);
@@ -979,11 +971,10 @@ class RerollDicesForm {
         }
         this.closeButton.paint();
     }
-    update() {
-        if (!input.mouseClicked)
-            return;
+    click(mouseCoord) {
+
         for (let r of this.zoneRects.walkRects.concat(this.zoneRects.attackRects)) {
-            if (!isInsideRect(input.mouse, r))
+            if (!isInsideRect(mouseCoord, r))
                 continue;
             if (r.isSelected)
                 continue;
@@ -993,7 +984,7 @@ class RerollDicesForm {
             this.reroll(r.dice);
         }
 
-        this.closeButton.update();
+        this.closeButton.click(mouseCoord);
     }
     reroll(dice) {
         console.log("Reroll " + dice.value);
