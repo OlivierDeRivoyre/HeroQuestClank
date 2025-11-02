@@ -4,7 +4,7 @@ class LevelView {
     constructor(level) {
         this.level = level;
         this.heroes = Character.getHeroes();
-        this.monsters = Character.getEnnemies(level);
+        this.monsters = Character.getEnnemies(this);
         this.floor = new Floor(this);
         this.diceZone = new DiceZone(500, 50);
         this.hand = new CardZone(50, 350, GameScreenWidth - 100, (c) => this.playCard(c));
@@ -465,6 +465,7 @@ class Character {
         monster.hasStoneHearts = true;
         monster.shield = 10;
         monster.cell = { x, y };
+        monster.monsterMaxWalkSteps = 5;
         return monster;
     }
     // 40 life
@@ -487,7 +488,7 @@ class Character {
         monster.life = monster.maxLife = 20;
         monster.shield = 3;
         monster.cell = { x, y };
-         monster.monsterMaxWalkSteps = 3;
+        monster.monsterMaxWalkSteps = 3;
         return monster;
     }
     // 60 life, circular att
@@ -539,8 +540,8 @@ class Character {
         monster.monsterMaxWalkSteps = 5;
         return monster;
     }
-    static getEnnemies(level) {        
-        switch (level) {
+    static getEnnemies(levelView) {
+        switch (levelView.level) {
             case 1: return [
                 Character.getGobelin(11, 3)
             ];
@@ -548,24 +549,44 @@ class Character {
                 Character.getSkeleton(10, 3)
             ];
             case 3: return [
-                Character.getMommy(10, 3)
+                Character.getSkeleton(11, 0),
+                Character.getSkeleton(11, 7)
             ];
             case 4: return [
-                Character.getZomby(10, 3)
+                Character.getGobelin(9, 0),
+                Character.getGobelin(10, 1),
+                Character.getSkeleton(11, 7)
             ];
-            case 5: return [
-                Character.getOrc(10, 3)
-            ];
+            case 5: {
+                levelView.heroes[0].cell = { x: 4, y: 3 };
+                levelView.heroes[1].cell = { x: 6, y: 4 };
+                levelView.heroes[2].cell = { x: 5, y: 4 };
+                return [
+                    Character.getGobelin(0, 0),
+                    Character.getGobelin(0, 7),
+                    Character.getGobelin(11, 0),
+                    Character.getGobelin(11, 7),
+                ];
+            }
             case 6: return [
-                Character.getMage(11, 0)
+                Character.getMommy(10, 3)
             ];
             case 7: return [
-                Character.getKnight(10, 3)
+                Character.getZomby(10, 3)
             ];
             case 8: return [
+                Character.getOrc(10, 3)
+            ];
+            case 9: return [
+                Character.getMage(11, 0)
+            ];
+            case 10: return [
+                Character.getKnight(10, 3)
+            ];
+            case 11: return [
                 Character.getGargoyle(9, 3)
             ];
-            case 3: return [
+            default: return [
                 Character.getGobelin(10, 0),
                 Character.getSkeleton(10, 1),
                 Character.getMommy(10, 2),
@@ -575,7 +596,6 @@ class Character {
                 Character.getKnight(10, 6),
                 Character.getGargoyle(10, 7)
             ];
-            default: return [Character.getGobelin(11, 0)];
         }
     }
     getRect() {
