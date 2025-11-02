@@ -493,6 +493,7 @@ const allCards = [
         ],
         cost: 6,
         stats: [],
+        attr: ['mirror'],
         pictureName: 'mirror'
     },
     {
@@ -509,6 +510,7 @@ const allCards = [
         desc: [['Doublez vos dégats.']],
         cost: 7,
         stats: [],
+        attr: ['x2'],
         pictureName: 'Furry1'
     },
     {
@@ -521,6 +523,7 @@ const allCards = [
         ],
         cost: 7,
         stats: [],
+        attr: ['yams'],
         pictureName: 'Dices6'
     },
 ];

@@ -131,6 +131,11 @@ class LevelView {
     playCard(card) {
         console.log("play " + card.title);
         game.cards.playerDeck.handToPlayed(card);
+        this.applyCardEffect(card);
+        this.hand.refresh(game.cards.playerDeck.hand);
+        this.refreshShopButton();
+    }
+    applyCardEffect(card) {
         for (let s of card.stats) {
             switch (s) {
                 case 'a': this.diceZone.addAttackDice(); break;
@@ -159,13 +164,13 @@ class LevelView {
                 case 'd': this.cardEffectAddShield(); break;
                 case 'diceOneBecameSix': this.cardEffectDiceOneBecameSix(); break;
                 case 'rollNewDiceOnSix': this.cardEffectRollNewDiceOnSix(); break;
-                
+                case 'mirror': this.cardEffectMirror(); break;
+                case 'yams': this.cardEffectYams(); break;
                 default: console.log('Unmanaged card attr: ' + attr);
             }
         }
-        this.hand.refresh(game.cards.playerDeck.hand);
-        this.refreshShopButton();
     }
+
     cardEffectAddShield() {
         this.diceZone.shield++;
         for (let h of this.heroes) {
@@ -242,8 +247,19 @@ class LevelView {
     cardEffectDiceOneBecameSix() {
         this.diceZone.oneBecameSix();
     }
-    cardEffectRollNewDiceOnSix(){
+    cardEffectRollNewDiceOnSix() {
         this.diceZone.rollNewDiceForSix();
+    }
+    cardEffectMirror() {
+        let size = game.cards.playerDeck.played.length;
+        if (size >= 2) {
+            const duplicate =  game.cards.playerDeck.played[size - 2];
+            console.log('Mirror ' + duplicate.title);
+            this.applyCardEffect(duplicate);
+        }
+    }
+    cardEffectYams(){
+        this.diceZone.yams();
     }
     refreshShopButton() {
         const cards = game.cards.commonCards.concat(game.cards.uncommonShop.hand);
@@ -718,23 +734,25 @@ class DiceZone {
     }
     addWalkDice() {
         const d = new Dice('w');
-        if(this.changeOnebySix && d.value == 1)
+        if (this.changeOnebySix && d.value == 1)
             d.value = 6;
         this.walkDices.push(d);
-        if(this.rollNewDiceOnSix && d.value == 6)
+        if (this.rollNewDiceOnSix && d.value == 6)
             this.addWalkDice();
         this.refresh();
     }
     addAttackDice() {
         const d = new Dice('a');
-        if(this.changeOnebySix && d.value == 1)
+        if (this.changeOnebySix && d.value == 1)
             d.value = 6;
         this.attackDices.push(d);
-        if(this.rollNewDiceOnSix && d.value == 6)
+        if (this.rollNewDiceOnSix && d.value == 6)
             this.addAttackDice();
         this.refresh();
     }
     oneBecameSix() {
+        if (this.changeOnebySix)
+            return;
         this.changeOnebySix = true;
         for (let d of this.walkDices) {
             if (d.value == 1) {
@@ -753,6 +771,8 @@ class DiceZone {
         this.refresh();
     }
     rollNewDiceForSix() {
+        if (this.rollNewDiceOnSix)
+            return;
         this.rollNewDiceOnSix = true;
         for (let d of this.walkDices) {
             if (d.value == 6)
@@ -764,6 +784,16 @@ class DiceZone {
             }
         }
         this.refresh();
+    }
+    yams(){
+        const dupes = new Array(7);
+        let max = 1;
+        for(let d of this.walkDices.concat(this.attackDices)){
+            const v = (dupes[d.value]||0) + 1;
+            dupes[d.value] = v;
+            max = Math.max(v, max);
+        }
+        this.multiplyDamage *= max;
     }
     onNewTurn() {
         this.walkDices = [];
