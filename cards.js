@@ -399,17 +399,18 @@ const allCards = [
         ],
         cost: 5,
         stats: [],
+        attr: ['walkToAttack'],
         pictureName: 'charge'
     },
     {
         title: 'Bouclier de Feu',
         type: 'T2',
         desc: [
-            ['Chaque ', 'd', ' peut être converti'],
-            ['en ', 'a']
+            ['Chaque ', 'd', ' donne une ', 'a']            
         ],
         cost: 5,
         stats: ['d'],
+        attr: ['shieldToAttack'],
         pictureName: 'shieldFire'
     },
     {

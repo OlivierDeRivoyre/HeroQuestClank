@@ -149,7 +149,10 @@ class LevelView {
                 case 'destroyCurrentCard': this.cardEffectDestroyCurrentCard(); break;
                 case 'destroyPreviousCard': this.cardEffectDestroyPreviousCard(); break;
                 case 'attackPerDrawnCard': this.cardEffectAttackPerDrawnCard(); break;
-              
+                case 'walkToAttack': this.cardEffectWalkToAttack(); break;
+                case 'shieldToAttack': this.cardEffectShieldToAttack(); break;
+
+
                 default: console.log('Unmanaged card attr: ' + attr);
             }
         }
@@ -182,8 +185,8 @@ class LevelView {
         game.cards.playerDeck.drawOne();
         this.turnDrawnCardBonus++;
     }
-    cardEffectAttackPerDrawnCard(){
-        for(let i = 0; i < this.turnDrawnCardBonus; i++)
+    cardEffectAttackPerDrawnCard() {
+        for (let i = 0; i < this.turnDrawnCardBonus; i++)
             this.diceZone.addAttackDice();
     }
     cardEffectRerollDices() {
@@ -202,6 +205,18 @@ class LevelView {
         } else {
             console.log('Destroy ' + game.cards.playerDeck.played[size - 1].title);
             game.cards.playerDeck.played.splice(size - 1, 1);
+        }
+    }
+    cardEffectWalkToAttack() {
+        for (let i = 0; i < this.diceZone.walkDices.length; i++) {
+            this.diceZone.addAttackDice();
+            this.diceZone.attackDices[this.diceZone.attackDices.length - 1].value = 0;
+        }
+        this.diceZone.refresh();
+    }
+    cardEffectShieldToAttack() {
+        for (let i = 0; i < this.diceZone.shield; i++) {
+            this.diceZone.addAttackDice();
         }
     }
     refreshShopButton() {
