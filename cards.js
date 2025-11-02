@@ -193,6 +193,7 @@ const allCards = [
         ],
         cost: 2,
         stats: [],
+        attr: ['destroyCurrentCard', 'drawCard', 'drawCard', 'drawCard'],
         pictureName: 'thunder'
     },
     {

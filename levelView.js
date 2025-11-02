@@ -144,6 +144,7 @@ class LevelView {
                 case 'bow': this.cardEffectBow(); break;
                 case 'drawCard': this.cardEffectDrawCard(); break;
                 case 'rerollDices': this.cardEffectRerollDices(); break;
+                case 'destroyCurrentCard': this.cardEffectDestroyCurrentCard(card); break;
                 default: console.log('Unmanaged card attr: ' + attr);
             }
         }
@@ -171,6 +172,14 @@ class LevelView {
     }
     cardEffectRerollDices() {
         this.popup = new RerollDicesForm(this);
+    }
+    cardEffectDestroyCurrentCard(card) {
+        if (game.cards.playerDeck.played[game.cards.playerDeck.played.length - 1] !== card) {
+            console.log("ERROR: expected " + card.title + ", got " +
+                game.cards.played.playCard[game.cards.playerDeck.played.length - 1].title);
+            return;
+        }
+        game.cards.playerDeck.played.splice(game.cards.playerDeck.played.length - 1);
     }
     refreshShopButton() {
         const cards = game.cards.commonCards.concat(game.cards.uncommonShop.hand);
