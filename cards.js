@@ -181,7 +181,7 @@ const allCards = [
         ],
         cost: 2,
         stats: [],
-        attr: ['rollDices'],
+        attr: ['rerollDices'],
         pictureName: 'clover1'
     },
     {

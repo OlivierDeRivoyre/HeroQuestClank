@@ -143,6 +143,7 @@ class LevelView {
                 case 'lost1Life': this.cardEffectLost1Life(); break;
                 case 'bow': this.cardEffectBow(); break;
                 case 'drawCard': this.cardEffectDrawCard(); break;
+                case 'rerollDices': this.cardEffectRerollDices(); break;
                 default: console.log('Unmanaged card attr: ' + attr);
             }
         }
@@ -167,6 +168,9 @@ class LevelView {
     }
     cardEffectDrawCard() {
         game.cards.playerDeck.drawOne();
+    }
+    cardEffectRerollDices() {
+        this.popup = new RerollDicesForm(this);
     }
     refreshShopButton() {
         const cards = game.cards.commonCards.concat(game.cards.uncommonShop.hand);
@@ -527,16 +531,16 @@ class Dice {
         screen.canvas.fillStyle = '#FFA';
         let margin = (24 - screen.canvas.measureTextWidth(this.value)) / 2;
         screen.canvas.fillText(this.value, x + margin, y + 20);
-
+    }
+    reroll() {
+        this.value = Math.floor(1 + Math.random() * 6);
     }
 }
 class DiceZone {
     constructor(topX, topY) {
         this.topX = topX;
         this.topY = topY;
-        this.walkDices = [];
         this.attackDices = [];
-        this.walkRects = [];
         this.attackRects = [];
         this.shield = 0;
         this.energy = 0;
@@ -545,56 +549,70 @@ class DiceZone {
         this.walkLogo = LogoStepImage;
         this.shieldLogo = LogoDefImage;
         this.energyLogo = LogoStarImage;
+        this.zoneRects = null;
         this.onNewTurn();
     }
 
-    refresh() {
+    getZoneRects(topX, topY) {
         const logoSize = 28;
         const lineMargin = 34;
         const diceMargin = 3;
-        this.walkRects = [];
-        this.attackRects = [];
-        let topX = this.topX;
-        let topY = this.topY;
+        const textMargin = 23;
+        let walkRects = [];
+        let attackRects = [];
+        let y = topY;
         for (let i = 0; i < this.walkDices.length; i++) {
             const rect = {
                 x: topX + logoSize + 4 + i * 32,
-                y: topY + diceMargin,
+                y: y + diceMargin,
                 width: 24,
                 height: 24,
                 dice: this.walkDices[i],
                 index: i,
                 isSelected: false
             };
-            this.walkRects.push(rect)
+            walkRects.push(rect)
         }
-        topY += lineMargin;
+        y += lineMargin;
         for (let i = 0; i < this.attackDices.length; i++) {
             const rect = {
                 x: topX + logoSize + 4 + i * 32,
-                y: topY + diceMargin,
+                y: y + diceMargin,
                 width: 24,
                 height: 24,
                 dice: this.attackDices[i],
                 index: i,
                 isSelected: false
             };
-            this.attackRects.push(rect)
+            attackRects.push(rect)
+        }
+        return {
+            topX,
+            topY,
+            logoSize,
+            lineMargin,
+            diceMargin,
+            textMargin,
+            walkRects,
+            attackRects
         }
     }
+    refresh() {
+        this.zoneRects = this.getZoneRects(this.topX, this.topY);
+    }
     paint() {
-        const logoSize = 28;
-        const textMargin = 23;
-        const lineMargin = 34;
+        const logoSize = this.zoneRects.logoSize;
+        const textMargin = this.zoneRects.textMargin;
+        const lineMargin = this.zoneRects.lineMargin;
         let topX = this.topX;
         let topY = this.topY;
         screen.canvas.drawImage(this.walkLogo, topX, topY, logoSize, logoSize);
-        for (let rect of this.walkRects) {
+        for (let rect of this.zoneRects.walkRects) {
             rect.dice.paint(rect.x, rect.y, rect.isSelected);
         }
         topY += lineMargin;
         screen.canvas.drawImage(this.attackLogo, topX, topY, logoSize, logoSize);
-        for (let rect of this.attackRects) {
+        for (let rect of this.zoneRects.attackRects) {
             rect.dice.paint(rect.x, rect.y, rect.isSelected);
         }
         topY += lineMargin;
@@ -657,9 +675,9 @@ class DiceZone {
         if (!input.mouseClicked || this.locked)
             return;
 
-        const selectedWalk = this.walkRects.findIndex(r => r.isSelected);
-        const selectedAtt = this.attackRects.findIndex(r => r.isSelected);
-        for (let r of this.attackRects) {
+        const selectedWalk = this.zoneRects.walkRects.findIndex(r => r.isSelected);
+        const selectedAtt = this.zoneRects.attackRects.findIndex(r => r.isSelected);
+        for (let r of this.zoneRects.attackRects) {
             if (!isInsideRect(input.mouse, r))
                 continue;
             if (r.isSelected) {
@@ -676,7 +694,7 @@ class DiceZone {
                 r.isSelected = true;
             }
         }
-        for (let r of this.walkRects) {
+        for (let r of this.zoneRects.walkRects) {
             if (!isInsideRect(input.mouse, r))
                 continue;
 
@@ -863,37 +881,53 @@ class RecycleShopForm {
     }
 }
 
-class RollDicesForm {
+class RerollDicesForm {
     constructor(parent) {
         this.parent = parent;
-        this.cardZone = new CardZone(120, 200, GameScreenWidth - 240, (c) => this.recycle(c));
+        this.zoneRects = this.parent.diceZone.getZoneRects(400, 200);
         this.closeButton = new Button('Close', GameScreenWidth - 160, GameScreenHeight - 120, 80, 40, () => this.close());
-        this.refresh();
-    }
-    refresh() {
-        const cards = game.cards.uncommonShop.hand;
-        cards.sort((c1, c2) => c1.cost - c2.cost)
-        this.cardZone.refresh(cards);
     }
     paint() {
         const margin = 50;
         screen.canvas.fillRect('#EEE', margin, margin, GameScreenWidth - margin * 2, GameScreenHeight - margin * 2);
         screen.canvas.fontColor = '#040';
         screen.canvas.fontSize = 24;
-        screen.canvas.fillText('Select the card to remove from store', margin + 50, margin + 50);
-        this.cardZone.paint();
+        screen.canvas.fillText('Select dices to reroll', margin + 50, margin + 50);
+
+        const logoSize = this.zoneRects.logoSize;
+        const lineMargin = this.zoneRects.lineMargin;
+        let topX = this.zoneRects.topX;
+        let topY = this.zoneRects.topY;
+        screen.canvas.drawImage(this.parent.diceZone.walkLogo, topX, topY, logoSize, logoSize);
+        for (let rect of this.zoneRects.walkRects) {
+            rect.dice.paint(rect.x, rect.y, rect.isSelected);
+        }
+        topY += lineMargin;
+        screen.canvas.drawImage(this.parent.diceZone.attackLogo, topX, topY, logoSize, logoSize);
+        for (let rect of this.zoneRects.attackRects) {
+            rect.dice.paint(rect.x, rect.y, rect.isSelected);
+        }
         this.closeButton.paint();
     }
     update() {
-        this.cardZone.update();
+        if (!input.mouseClicked)
+            return;
+        for (let r of this.zoneRects.walkRects.concat(this.zoneRects.attackRects)) {
+            if (!isInsideRect(input.mouse, r))
+                continue;
+            if (r.isSelected)
+                continue;
+            if (r.dice.value == 0)
+                continue;
+            r.isSelected = true;
+            this.reroll(r.dice);
+        }
+
         this.closeButton.update();
     }
-    recycle(card) {
-        console.log("Recycle " + card.title);
-        game.cards.uncommonShop.handToDiscard(card);
-        game.cards.uncommonShop.drawOne();
-        this.parent.refreshShopButton();
-        this.parent.popup = new ShopForm(this.parent);
+    reroll(dice) {
+        console.log("Reroll " + dice.value);
+        dice.reroll();
     }
     close() {
         this.parent.popup = null;
