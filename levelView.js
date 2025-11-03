@@ -6,17 +6,16 @@ class LevelView {
         this.heroes = Character.getHeroes();
         this.monsters = Monsters.getEnnemies(this);
         this.floor = new Floor(this);
-        this.diceZone = new DiceZone(500, 50);
-        this.hand = new CardZone(50, 350, GameScreenWidth - 100, (c) => this.playCard(c));
-        this.shopButton = new Button('Shop', 500, 200, 80, 40, () => this.openShop());
-        this.endTurnButton = new Button('End turn', 588, 200, 120, 40, () => this.endTurn());
+        this.menuZone = new MenuZone(this);
+        this.diceZone = new DiceZone(this.heroes, 10, 40);
+        this.hand = new CardZone(50, 350, GameScreenWidth - 100, (c) => this.playCard(c));        
         game.cards.playerDeck.drawToCount(5);
         game.cards.uncommonShop.drawToCount(4);
         this.hand.refresh(game.cards.playerDeck.hand);
         this.popup = null;
         this.buyableCards = 0;
         this.turnDrawnCardBonus = 0;
-        this.refreshShopButton();
+        this.menuZone.refresh();
     }
 
     click(mouseCoord) {
@@ -26,8 +25,7 @@ class LevelView {
         }
         this.hand.click(mouseCoord);
         this.diceZone.click(mouseCoord)
-        this.shopButton.click(mouseCoord);
-        this.endTurnButton.click(mouseCoord);
+        this.menuZone.click(mouseCoord);        
         this.updateHeroes(mouseCoord);
         this.floor.refresh();
     }
@@ -66,11 +64,11 @@ class LevelView {
         const monster = this.monsters.find(m => m.cell.x == targetCell.x && m.cell.y == targetCell.y);
         if (monster && (hero.hasBow || hero.isAround(targetCell))) {
             console.log('attack ' + monster.type);
-            const dmg = this.diceZone.getSumAttack();
+            const dmg = this.diceZone.getSumAttack(hero);
             monster.takeDamage(dmg, hero);
             hero.hasAttacked = true;
             hero.isSelected = false;
-            this.diceZone.lockDices();
+            this.diceZone.lockDices(hero);
             if (hero.circularAttack) {
                 for (let otherMonster of this.monsters.filter(m => m !== monster && m.life > 0 && hero.isAround(monster.cell))) {
                     otherMonster.takeDamage(dmg, hero);
@@ -85,11 +83,11 @@ class LevelView {
             return;
         }
         const d = hero.getWalkingDistance(targetCell)
-        const maxDist = this.diceZone.getSumWalk();
+        const maxDist = this.diceZone.getSumWalk(hero);
         if (d + hero.movedStep <= maxDist) {
             hero.movedStep += d;
             hero.cell = targetCell;
-            this.diceZone.lockDices();
+            this.diceZone.lockDices(hero);
             if (hero.movedStep >= maxDist && !this.monsters.find(m => m.isAround(targetCell))) {
                 hero.hasAttacked = true;
                 hero.isSelected = false;
@@ -106,38 +104,27 @@ class LevelView {
         for (let c of this.monsters) {
             c.paint();
         }
-        this.shopButton.paint();
-        this.paintBuyableCards();
-        this.endTurnButton.paint();
+        this.menuZone.paint();        
         this.diceZone.paint();
         this.hand.paint();
         if (this.popup) {
             this.popup.paint();
         }
     }
-    paintBuyableCards() {
-        if (this.buyableCards == 0)
-            return;
-        const topX = this.shopButton.rect.x;
-        const topY = this.shopButton.rect.y - 6;
-        const margin = (this.shopButton.rect.width - 10 * this.buyableCards) / 2
-        for (let i = 0; i < this.buyableCards; i++) {
-            screen.canvas.drawImage(PureStarImage, topX + margin + i * 10, topY, 12, 12);
-        }
-    }
+
     playCard(card) {
         console.log("play " + card.title);
         game.cards.playerDeck.handToPlayed(card);
         this.applyCardEffect(card);
         this.hand.refresh(game.cards.playerDeck.hand);
-        this.refreshShopButton();
+        this.menuZone.refresh();
     }
     applyCardEffect(card) {
         for (let s of card.stats) {
             switch (s) {
                 case 'a': this.diceZone.addAttackDice(); break;
                 case 's': this.diceZone.addWalkDice(); break;
-                case 'e': this.diceZone.energy++; break;
+                case 'e': this.menuZone.energy++; break;
                 case 'd': this.cardEffectAddShield(); break;
                 case 'l': this.cardEffectGain1Life(); break;
                 default: console.log('Unmanaged card stat: ' + s);
@@ -169,7 +156,7 @@ class LevelView {
     }
 
     cardEffectAddShield() {
-        this.diceZone.shield++;
+        this.menuZone.shield++;
         for (let h of this.heroes) {
             h.shield++;
         }
@@ -229,7 +216,7 @@ class LevelView {
         this.diceZone.refresh();
     }
     cardEffectShieldToAttack() {
-        for (let i = 0; i < this.diceZone.shield; i++) {
+        for (let i = 0; i < this.menuZone.shield; i++) {
             this.diceZone.addAttackDice();
         }
     }
@@ -239,7 +226,7 @@ class LevelView {
         }
     }
     cardEffectDoubleDamages() {
-        this.diceZone.multiplyDamage *= 2;
+        this.diceZone.doubleDamages();
     }
     cardEffectDiceOneBecameSix() {
         this.diceZone.oneBecameSix();
@@ -258,10 +245,7 @@ class LevelView {
     cardEffectYams() {
         this.diceZone.yams();
     }
-    refreshShopButton() {
-        const cards = game.cards.commonCards.concat(game.cards.uncommonShop.hand);
-        this.buyableCards = cards.filter(c => c.cost <= this.diceZone.energy).length;
-    }
+
     openShop() {
         this.popup = new ShopForm(this);
     }
@@ -339,13 +323,13 @@ class LevelView {
         game.cards.playerDeck.drawToCount(5);
         game.cards.uncommonShop.drawToCount(4);
         this.hand.refresh(game.cards.playerDeck.hand);
-        this.refreshShopButton();
+        this.menuZone.refresh();
     }
 }
 
 
 class Floor {
-    static TopX = 16;
+    static TopX = 316;
     static TopY = 16;
     constructor(levelView) {
         this.levelView = levelView;
@@ -396,7 +380,7 @@ class Floor {
         const allChars = this.levelView.heroes.concat(this.levelView.monsters);
         const selectedChar = allChars.find(c => c.isSelected);
         const walkDist = !selectedChar ? 1
-            : selectedChar.type === 'hero' ? this.levelView.diceZone.getSumWalk() - selectedChar.movedStep
+            : selectedChar.type === 'hero' ? this.levelView.diceZone.getSumWalk(selectedChar) - selectedChar.movedStep
                 : selectedChar.monsterMaxWalkSteps;
         for (let j = 0; j < this.height; j++) {
             for (let i = 0; i < this.width; i++) {

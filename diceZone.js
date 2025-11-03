@@ -17,37 +17,97 @@ class Dice {
         this.value = Math.floor(1 + Math.random() * 6);
     }
 }
+
 class DiceZone {
-    constructor(topX, topY) {
+    constructor(heroes, topX, topY) {
         this.topX = topX;
         this.topY = topY;
-        this.attackDices = [];
-        this.attackRects = [];
-        this.shield = 0;
-        this.energy = 0;
-        this.locked = false;
-        this.attackLogo = LogoAttImage;
-        this.walkLogo = LogoStepImage;
         this.shieldLogo = LogoDefImage;
         this.energyLogo = LogoStarImage;
-        this.zoneRects = null;
-        this.multiplyDamage = 1;
-        this.changeOnebySix = false;
-        this.rollNewDiceOnSix = false;
+        this.heroDices = [];
+        for (let i = 0; i < heroes.length; i++)
+            this.heroDices.push(new HeroDiceZone(heroes[i], topX, topY + i * 72));
         this.onNewTurn();
     }
+    refresh() {
+        for (let hd of this.heroDices)
+            hd.refresh();
+    }
+    paint() {
+        for (let hd of this.heroDices)
+            hd.paint();
+    }
+    addWalkDice() {
+        for (let hd of this.heroDices)
+            hd.addWalkDice();
+    }
+    addAttackDice() {
+        for (let hd of this.heroDices)
+            hd.addAttackDice();
+    }
+    doubleDamages() {
+        for (let hd of this.heroDices)
+            hd.doubleDamages();
+    }
+    oneBecameSix() {
+        for (let hd of this.heroDices)
+            hd.oneBecameSix();
+    }
+    rollNewDiceForSix() {
+        for (let hd of this.heroDices)
+            hd.rollNewDiceForSix();
+    }
+    yams() {
+        for (let hd of this.heroDices)
+            hd.yams();
+    }
+    onNewTurn() {
+        this.shield = 0;
+        this.energy = 0;
+        for (let hd of this.heroDices)
+            hd.onNewTurn();
+    }
+    lockDices(hero) {
+        this.heroDices[hero.heroIndex].lockDices();
+    }
+    getSumWalk(hero) {
+        return this.heroDices[hero.heroIndex].getSumWalk();
+    }
+    getSumAttack(hero) {
+        return this.heroDices[hero.heroIndex].getSumAttack();
+    }
 
+    click(mouseCoord) {
+        for (let hd of this.heroDices)
+            hd.click(mouseCoord);
+    }
+}
+
+class HeroDiceZone {
+    constructor(hero, topX, topY) {
+        this.hero = hero;
+        this.topX = topX;
+        this.topY = topY;
+        this.heroSprite = hero.sprite;
+        this.attackLogo = LogoAttImage;
+        this.walkLogo = LogoStepImage;
+        this.multiplyDamage = 1;
+        this.isLocked = false;
+        this.attackDices = [];
+        this.attackRects = [];
+    }
     getZoneRects(topX, topY) {
+        const heroSize = 32;
         const logoSize = 28;
-        const lineMargin = 34;
-        const diceMargin = 3;
+        const lineMargin = 32;
+        const diceMargin = 2;
         const textMargin = 23;
         let walkRects = [];
         let attackRects = [];
         let y = topY;
         for (let i = 0; i < this.walkDices.length; i++) {
             const rect = {
-                x: topX + logoSize + 4 + i * 32,
+                x: topX + heroSize + 4 + logoSize + 8 + i * 32,
                 y: y + diceMargin,
                 width: 24,
                 height: 24,
@@ -60,7 +120,7 @@ class DiceZone {
         y += lineMargin;
         for (let i = 0; i < this.attackDices.length; i++) {
             const rect = {
-                x: topX + logoSize + 4 + i * 32,
+                x: topX + heroSize + 4 + logoSize + 8 + i * 32,
                 y: y + diceMargin,
                 width: 24,
                 height: 24,
@@ -73,6 +133,7 @@ class DiceZone {
         return {
             topX,
             topY,
+            heroSize,
             logoSize,
             lineMargin,
             diceMargin,
@@ -85,38 +146,30 @@ class DiceZone {
         this.zoneRects = this.getZoneRects(this.topX, this.topY);
     }
     paint() {
-        const logoSize = this.zoneRects.logoSize;
-        const textMargin = this.zoneRects.textMargin;
+        const heroSize = this.zoneRects.heroSize;
+        const logoSize = this.zoneRects.logoSize;        
         const lineMargin = this.zoneRects.lineMargin;
         let topX = this.topX;
         let topY = this.topY;
-        screen.canvas.drawImage(this.walkLogo, topX, topY, logoSize, logoSize);
+
+        this.heroSprite.paint(topX, topY + 8 + this.hero.marginY);
+
+        screen.canvas.drawImage(this.walkLogo, topX + 4 + heroSize, topY, logoSize, logoSize);
         for (let rect of this.zoneRects.walkRects) {
             rect.dice.paint(rect.x, rect.y, rect.isSelected);
         }
         topY += lineMargin;
         if (this.multiplyDamage != 1) {
-            screen.canvas.fontSize = 24;
+            screen.canvas.fontSize = 20;
             screen.canvas.fillStyle = '#C22';
             const text = this.multiplyDamage + ' x';
             const w = screen.canvas.measureTextWidth(text);
-            screen.canvas.fillText(text, topX - 6 - w, topY + 22)
+            screen.canvas.fillText(text, topX + heroSize - w, topY + 22)
         }
-        screen.canvas.drawImage(this.attackLogo, topX, topY, logoSize, logoSize);
+        screen.canvas.drawImage(this.attackLogo, topX + 4 + heroSize, topY, logoSize, logoSize);
         for (let rect of this.zoneRects.attackRects) {
             rect.dice.paint(rect.x, rect.y, rect.isSelected);
         }
-        topY += lineMargin;
-        screen.canvas.drawImage(this.shieldLogo, topX, topY, logoSize, logoSize);
-        screen.canvas.fontSize = 24;
-        screen.canvas.fillStyle = '#222';
-        screen.canvas.fillText(this.shield, topX + logoSize + 4, topY + textMargin);
-
-        topY += lineMargin;
-        screen.canvas.drawImage(this.energyLogo, topX, topY, logoSize, logoSize);
-        screen.canvas.fontSize = 24;
-        screen.canvas.fillStyle = '#222';
-        screen.canvas.fillText(this.energy, topX + logoSize + 4, topY + textMargin);
     }
     addWalkDice() {
         const d = new Dice('w');
@@ -135,6 +188,9 @@ class DiceZone {
         if (this.rollNewDiceOnSix && d.value == 6)
             this.addAttackDice();
         this.refresh();
+    }
+    doubleDamages() {
+        this.multiplyDamage *= 2;
     }
     oneBecameSix() {
         if (this.changeOnebySix)
@@ -261,5 +317,4 @@ class DiceZone {
             }
         }
     }
-
 }

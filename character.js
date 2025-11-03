@@ -18,11 +18,15 @@ class Character {
         this.deadSprite = new Sprite(shikashiTileSet, 0, 0, 32, 32, 1);
         this.hasBow = false;
         this.circularAttack = false;
+        this.heroIndex = -1;
     }
     static getHeroes() {
         const h1 = new Character();
         const h2 = new Character();
         const h3 = new Character();
+        h1.heroIndex = 0;
+        h2.heroIndex = 1;
+        h3.heroIndex = 2;
         h1.sprite = getDungeonTileSetHeroSprite(0, 14);
         h2.sprite = getDungeonTileSetHeroSprite(3, 10);
         h3.sprite = getDungeonTileSetHeroSprite(5, 10);
