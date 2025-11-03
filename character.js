@@ -10,8 +10,7 @@ class Character {
         this.marginY = 0;
         this.hasAttacked = false;
         this.movedStep = 0;
-        this.monsterMaxWalkSteps = 8;
-        this.monsterDamage = 1;
+        this.monsterMaxWalkSteps = 8;        
         this.isSelected = false;
         this.hasStoneHearts = false;
         this.aggro = null;

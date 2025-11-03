@@ -14,7 +14,7 @@ class LevelView {
         this.hand.refresh(game.cards.playerDeck.hand);
         this.popup = null;
         this.buyableCards = 0;
-        this.turnDrawnCardBonus = 0;
+        this.turnDrawnCardBonus = 0;        
         this.menuZone.refresh();
     }
 
@@ -274,8 +274,7 @@ class LevelView {
             monster.cell = newCell;
         }
         if (monster.isAround(target.cell)) {
-            target.takeDamage(monster.monsterDamage, monster);
-            monster.monsterDamage++;
+            target.takeDamage(this.menuZone.monsterDamage, monster);            
         }
     }
 
@@ -319,6 +318,7 @@ class LevelView {
             hero.onNewTurn();
         }
         this.turnDrawnCardBonus = 0;
+        this.menuZone.endTurn();
         this.diceZone.onNewTurn();
         game.cards.playerDeck.endTurn();
         game.cards.playerDeck.drawToCount(5);

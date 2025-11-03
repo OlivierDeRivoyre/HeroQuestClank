@@ -1,28 +1,31 @@
 class MenuZone {
     constructor(levelView) {
         this.levelView = levelView;
-        this.topX = Floor.TopX + 10;;
-        this.topY = 280;//+6
+        this.topX = Floor.TopX;
+        this.topY = 280;
         this.shield = 0;
         this.energy = 0;
         this.buyableCards = 0;
         this.shieldLogo = LogoDefImage;
         this.energyLogo = LogoStarImage;
-        this.shopButton = new Button('Shop', this.topX + 160, this.topY, 80, 40, () => levelView.openShop());
-        this.endTurnButton = new Button('End turn', this.topX + 250, this.topY, 120, 40, () => levelView.endTurn());
+        this.shopButton = new Button('Shop', this.topX + 124, this.topY, 80, 40, () => levelView.openShop());
+        this.endTurnButton = new Button('End turn', this.topX + 214, this.topY, 120, 40, () => levelView.endTurn());
+        this.monsterDamage = 1;
+        this.monsterDamageSprite = getShikashiSprite(2, 3);
+        this.monsterLevelUpTurnCount = 2;
     }
     paint() {
         const logoSize = 28;
         const textMargin = 23;
         let topX = this.topX;
-        let topY = this.topY;
+        let topY = this.topY + 6;
 
         screen.canvas.drawImage(this.shieldLogo, topX, topY, logoSize, logoSize);
         screen.canvas.fontSize = 24;
         screen.canvas.fillStyle = '#222';
         screen.canvas.fillText(this.shield, topX + logoSize + 4, topY + textMargin);
 
-        topX += 80;
+        topX += 65;
         screen.canvas.drawImage(this.energyLogo, topX, topY, logoSize, logoSize);
         screen.canvas.fontSize = 24;
         screen.canvas.fillStyle = '#222';
@@ -31,6 +34,11 @@ class MenuZone {
         this.shopButton.paint();
         this.endTurnButton.paint();
         this.paintBuyableCards();
+
+        this.monsterDamageSprite.paint(topX + 278, topY - 2);
+        screen.canvas.fontSize = 24;
+        screen.canvas.fillStyle = '#822';
+        screen.canvas.fillText(this.monsterDamage, topX + 276 + 32 + 4, topY + textMargin);
     }
     click(mouseCoord) {
         this.shopButton.click(mouseCoord);
@@ -44,6 +52,13 @@ class MenuZone {
         const margin = (this.shopButton.rect.width - 10 * this.buyableCards) / 2
         for (let i = 0; i < this.buyableCards; i++) {
             screen.canvas.drawImage(PureStarImage, topX + margin + i * 10, topY, 12, 12);
+        }
+    }
+    endTurn() {
+        this.monsterLevelUpTurnCount--;
+        if (this.monsterLevelUpTurnCount <= 0) {
+            this.monsterDamage++;
+            this.monsterLevelUpTurnCount = this.monsterDamage;
         }
     }
     refresh() {
