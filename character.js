@@ -31,7 +31,7 @@ class Character {
         h2.sprite = getDungeonTileSetHeroSprite(3, 10);
         h3.sprite = getDungeonTileSetHeroSprite(5, 10);
         h1.lookLeft = h2.lookLeft = h3.lookLeft = false;
-        h1.marginY = -10;
+        h1.marginY = -7;
         h2.marginY = -16;
         h3.marginY = -16;
         h1.cell = { x: 0, y: 2 };
@@ -39,7 +39,7 @@ class Character {
         h3.cell = { x: 0, y: 5 };
         return [h1, h2, h3];
     }
-   
+
     getRect() {
         return {
             x: Floor.TopX + this.cell.x * 32,
@@ -67,14 +67,25 @@ class Character {
         this.sprite.paint(
             rect.x, rect.y + this.marginY,
             tickNumber % 20 > 10, this.lookLeft);
-        const totalLife = this.maxLife + this.shield;
-        const lifePx = Math.floor(30 * this.life / totalLife);
-        const armorPx = Math.floor(30 * this.shield / totalLife);
-        const barY = rect.y + 28;
-        screen.canvas.fillRect('#000', rect.x, barY, 32, 4);
-        const lifeColor = this.type == 'hero' ? '#0B0' : '#B00';
-        screen.canvas.fillRect(lifeColor, rect.x + 1, barY + 1, lifePx + armorPx / 2, 2);
-        screen.canvas.fillRect('#2af', rect.x + 1 + lifePx, barY + 1, armorPx, 2);
+
+        screen.canvas.fontSize = 12;
+        screen.canvas.fillStyle = '#FFF';
+        if (this.life > 0) {
+            const text = this.life;
+            const size = screen.canvas.measureText(text);
+            screen.canvas.fillRect(this.hasStoneHearts ? '#2af8' : '#B228',
+                rect.x, rect.y + rect.height - 2 - size.height,
+                size.width + 2, size.height + 2);
+            screen.canvas.fillText(text, rect.x + 1, rect.y + rect.height - 1);
+        }
+        if (this.shield > 0) {
+            const text = this.shield;
+            const size = screen.canvas.measureText(text);
+            screen.canvas.fillRect('#333A',
+                rect.x + rect.width - size.width - 2, rect.y + rect.height - 2 - size.height,
+                size.width + 2, size.height + 2);
+            screen.canvas.fillText(text, rect.x + rect.width - size.width - 1, rect.y + rect.height - 1);
+        }
     }
     isAround(cell) {
         return Math.abs(this.cell.x - cell.x) <= 1 && Math.abs(this.cell.y - cell.y) <= 1;

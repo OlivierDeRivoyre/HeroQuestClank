@@ -57,6 +57,14 @@ class FixedCanvas {
         const textWidth = textMetrics.width;
         return Math.ceil(textWidth / this.ratio);
     }
+    measureText(text) {
+        this.screenCtx.font = this.getFont();
+        const textMetrics = this.screenCtx.measureText(text);        
+        return {
+            width: Math.ceil(textMetrics.width / this.ratio),
+            height:Math.ceil((textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent) / this.ratio)
+        };
+    }
     fillText(text, x, y) {
         this.screenCtx.font = this.getFont();
         this.screenCtx.fillStyle = this.fillStyle; 
