@@ -15,7 +15,7 @@ class Character {
         this.isSelected = false;
         this.hasStoneHearts = false;
         this.aggro = null;
-        this.deadSprite = new Sprite(shikashiTileSet, 0, 0, 32, 32, 1);
+        this.deadSprite = getShikashiSprite(0, 0);
         this.hasBow = false;
         this.circularAttack = false;
         this.heroIndex = -1;

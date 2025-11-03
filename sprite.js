@@ -15,6 +15,9 @@ function getDungeonTileSetFloorSprite() {
     const y = 64;
     return new Sprite(dungeonTileSet, x, y, 16, 16, 2);
 }
+function getShikashiSprite(i, j){
+     return new Sprite(shikashiTileSet, i * 32, j * 32, 32, 32, 1);
+}
 
 class Sprite {
     constructor(tile, sx, sy, sWidth, sHeight, ratio) {

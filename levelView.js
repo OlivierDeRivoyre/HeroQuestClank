@@ -61,7 +61,7 @@ class LevelView {
         if (hero.hasAttacked) {
             hero.isSelected = false;
         }
-        const monster = this.monsters.find(m => m.cell.x == targetCell.x && m.cell.y == targetCell.y);
+        const monster = this.monsters.find(m => m.cell.x == targetCell.x && m.cell.y == targetCell.y && m.life > 0);
         if (monster && (hero.hasBow || hero.isAround(targetCell))) {
             console.log('attack ' + monster.type);
             const dmg = this.diceZone.getSumAttack(hero);
@@ -76,9 +76,10 @@ class LevelView {
             }
             return;
         }
-        const otherHero = this.heroes.find(m => m.cell.x == targetCell.x && m.cell.y == targetCell.y);
-        if (otherHero) {
-            otherHero.isSelected = true;
+        const otherChar = this.heroes.concat(this.monsters)
+            .find(m => m.cell.x == targetCell.x && m.cell.y == targetCell.y && m.life > 0);
+        if (otherChar) {
+            otherChar.isSelected = true;
             hero.isSelected = false;
             return;
         }
@@ -400,7 +401,7 @@ class Floor {
         const d = selectedChar.getWalkingDistance({ x: i, y: j });
         if (d > walkDist)
             return null;
-        const occuped = allChars.find(c => c.cell.x == i && c.cell.y == j);
+        const occuped = allChars.find(c => c.cell.x == i && c.cell.y == j && c.life > 0);
         if (!occuped)
             return 'rgba(0, 255, 0, 0.10)';
         const isOccupedByHero = occuped.type === 'hero';
