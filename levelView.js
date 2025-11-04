@@ -9,13 +9,13 @@ class LevelView {
         this.floor = new Floor(this);
         this.menuZone = new MenuZone(this);
         this.diceZone = new DiceZone(this.heroes, 10, 40);
-        this.hand = new CardZone(50, 350, GameScreenWidth - 100, (c) => this.playCard(c));        
+        this.hand = new CardZone(50, 350, GameScreenWidth - 100, (c) => this.playCard(c));
         game.cards.playerDeck.drawToCount(5);
         game.cards.uncommonShop.drawToCount(4);
         this.hand.refresh(game.cards.playerDeck.hand);
         this.popup = null;
         this.buyableCards = 0;
-        this.turnDrawnCardBonus = 0;        
+        this.turnDrawnCardBonus = 0;
         this.menuZone.refresh();
     }
 
@@ -26,7 +26,7 @@ class LevelView {
         }
         this.hand.click(mouseCoord);
         this.diceZone.click(mouseCoord)
-        this.menuZone.click(mouseCoord);        
+        this.menuZone.click(mouseCoord);
         this.updateHeroes(mouseCoord);
         this.floor.refresh();
     }
@@ -106,7 +106,7 @@ class LevelView {
         for (let c of this.monsters) {
             c.paint();
         }
-        this.menuZone.paint();        
+        this.menuZone.paint();
         this.diceZone.paint();
         this.hand.paint();
         if (this.popup) {
@@ -268,14 +268,14 @@ class LevelView {
         }
         if (!target || target.life <= 0)
             return;
-        if (!monster.isAround(target.cell)) {
+        if (!monster.hasBow && !monster.isAround(target.cell)) {
             const newCell = this.getCellToMoveTo(monster, target.cell, monster.monsterMaxWalkSteps);
             if (!newCell)
                 return;
             monster.cell = newCell;
         }
-        if (monster.isAround(target.cell)) {
-            target.takeDamage(this.menuZone.monsterDamage, monster);            
+        if (monster.hasBow || monster.isAround(target.cell)) {
+            target.takeDamage(this.menuZone.monsterDamage, monster);
         }
     }
 

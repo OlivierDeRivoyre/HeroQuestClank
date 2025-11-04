@@ -61,6 +61,8 @@ class MenuZone {
         }
     }
     endTurn() {
+        this.shield = 0;
+        this.energy = 0;        
         this.monsterLevelUpTurnCount++;
         if (this.monsterLevelUpTurnCount >= this.monsterLevelUpAt) {
             this.monsterDamage++;
