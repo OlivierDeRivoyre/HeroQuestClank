@@ -65,7 +65,7 @@ class Character {
         }
         this.sprite.paint(
             rect.x, rect.y + this.marginY,
-            tickNumber % 20 > 10, this.lookLeft);
+            tickNumber % 4 >= 2, this.lookLeft);
 
         screen.canvas.fontSize = 12;
         screen.canvas.fillStyle = '#FFF';

@@ -7,7 +7,8 @@ class Game {
         this.currentView = null;
     }
     click(mouseCoord) {
-        this.currentView.click(mouseCoord);        
+        this.currentView.click(mouseCoord);       
+        this. paint(); 
     }    
     paint() {
         this.currentView.paint();      
