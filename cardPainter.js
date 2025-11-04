@@ -41,7 +41,6 @@ function loadCardImages() {
     }  
 }
 
-
 function paintCard(card, canvas) {        
     
     canvas.drawImage(bgImage, 0, 0, canvas.width, canvas.height);

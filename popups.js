@@ -67,17 +67,29 @@ class ShopForm {
 class DeadScreen {
     constructor(parent) {
         this.parent = parent;
+        this.retryButton = new Button('Retry level ' + this.parent.level, 260, 400, 200, 40, () => this.retryLevel());
+        this.restartButton = new Button('Restart game', 540, 400, 200, 40, () => this.restartGame());
     }
     click(mouseCoord) {
-
+        this.retryButton.click(mouseCoord);
+        this.restartButton.click(mouseCoord);
     }
-
     paint() {
         const margin = 50;
-        screen.canvas.fillRect('#EEE', margin, margin, GameScreenWidth - margin * 2, GameScreenHeight - margin * 2);
+        screen.canvas.fillRect('#EEED', margin, margin, GameScreenWidth - margin * 2, GameScreenHeight - margin * 2);
         screen.canvas.fontSize = 40;
         screen.canvas.fillStyle = 'red'
         screen.canvas.fillText('You have lost', margin + 50, margin + 50);
+        this.retryButton.paint();
+        this.restartButton.paint();
+    }
+    retryLevel(){
+        const backup = this.parent.cardBackup;
+        game.cards.restore(backup);
+        game.currentView = new LevelView(this.parent.level);
+    }
+    restartGame(){
+        game.newGame();
     }
 }
 class WinLevelScreen {
@@ -155,7 +167,7 @@ class RecycleShopForm {
         console.log("Recycle " + card.title);
         game.cards.uncommonShop.handToDiscard(card);
         game.cards.uncommonShop.drawOne();
-        this.parent.refreshShopButton();
+        this.parent.menuZone.refresh();
         this.parent.popup = new ShopForm(this.parent);
     }
     close() {

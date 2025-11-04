@@ -49,8 +49,8 @@ class Deck {
         this.hand.splice(index, 1);
         this.played.push(foundCard);
     }
-    endTurn(){
-        for(let c of this.played)
+    endTurn() {
+        for (let c of this.played)
             this.discard.push(c);
         this.played = [];
     }
@@ -59,6 +59,20 @@ class Deck {
         const foundCard = this.hand[index];
         this.hand.splice(index, 1);
         this.discard.push(foundCard);
+    }
+    backup() {
+        return {
+            drawPile: Array.from(this.drawPile),
+            hand: Array.from(this.hand),
+            played: Array.from(this.played),
+            discard: Array.from(this.discard)
+        }
+    }
+    restore(backup) {
+        this.drawPile = backup.drawPile
+        this.hand = backup.hand;
+        this.played = backup.played;
+        this.discard = backup.discard;
     }
 }
 
@@ -99,5 +113,15 @@ class CardGameRun {
             }
         }
         return new Deck(deck);
+    }
+    backup() {
+        return {
+            playerDeck: this.playerDeck.backup(),
+            uncommonShop: this.uncommonShop.backup(),
+        }
+    }
+    restore(backup) {
+        this.playerDeck.restore(backup.playerDeck);
+        this.uncommonShop.restore(backup.uncommonShop);
     }
 }

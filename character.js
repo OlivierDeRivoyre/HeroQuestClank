@@ -10,7 +10,7 @@ class Character {
         this.marginY = 0;
         this.hasAttacked = false;
         this.movedStep = 0;
-        this.monsterMaxWalkSteps = 8;        
+        this.monsterMaxWalkSteps = 8;
         this.isSelected = false;
         this.hasStoneHearts = false;
         this.aggro = null;
@@ -98,6 +98,9 @@ class Character {
         return this.getWalkingDistance(cell) == 1;
     }
     takeDamage(dmg, fromCharacter) {
+        if (this.hasStoneHearts && dmg >= this.shield && dmg > 0) {
+            this.life = Math.max(0, this.life - 1);
+        }
         if (this.shield != 0) {
             const shielded = Math.min(dmg, this.shield);
             dmg -= shielded;
@@ -107,9 +110,7 @@ class Character {
         }
         if (!this.hasStoneHearts) {
             this.life = Math.max(0, this.life - dmg);
-        } else if (dmg > 0) {
-            this.life = Math.max(0, this.life - 1);
-        }
+        } 
         console.log(this.type + ' take ' + dmg + ' damages. Life: ' + this.life);
         if (this.aggro == null || this.aggro.life == 0) {
             if (fromCharacter && fromCharacter.type === 'hero' && this.isAround(fromCharacter.cell)) {

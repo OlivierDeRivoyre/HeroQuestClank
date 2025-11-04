@@ -3,6 +3,7 @@ class LevelView {
 
     constructor(level) {
         this.level = level;
+        this.cardBackup = game.cards.backup();
         this.heroes = Character.getHeroes();
         this.monsters = Monsters.getEnnemies(this);
         this.floor = new Floor(this);
