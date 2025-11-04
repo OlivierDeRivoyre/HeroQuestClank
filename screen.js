@@ -28,8 +28,9 @@ class Screen {
             this.screenCanvas.width = window.innerWidth;
             this.screenCanvas.height = window.innerHeight;
         } else {
-            let w = window.innerWidth - 40;
-            let h = window.innerHeight - 80;
+            console.log("devicePixelRatio: " + window.devicePixelRatio)
+            let w = (window.innerWidth - 40) * window.devicePixelRatio;
+            let h = (window.innerHeight - 40) * window.devicePixelRatio;
             if (h * 16 > w * 9) {
                 h = Math.floor(w * 9 / 16);
             } else {
