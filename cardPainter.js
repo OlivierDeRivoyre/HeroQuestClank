@@ -28,6 +28,11 @@ bgImage.onload = function () {
 function loadCardImages() {
     for (let c of allCards) {
         c.img = loadImg(c.pictureName + '.png');
+        c.img.onload = function(){
+            screen.canvas.fontSize = Math.ceil(Math.random() * 20 + 5);
+            screen.canvas.fillStyle = '#' + Math.floor(Math.random() * 8) + '' + Math.floor(Math.random() * 8)+ '' + Math.floor(Math.random() * 8);
+            screen.canvas.fillText(c.pictureName, Math.random() * GameScreenWidth, Math.random() * GameScreenHeight)
+        };
     }
     if(onCardImageReadyfunc){
         allCards[allCards.length - 1].img.onload = function(){
