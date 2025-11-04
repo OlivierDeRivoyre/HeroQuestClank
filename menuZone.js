@@ -41,7 +41,6 @@ class MenuZone {
         for (let i = 0; i < this.monsterLevelUpAt; i++) {
             screen.canvas.fillRect(i <= this.monsterLevelUpTurnCount ? '#66F' : '#BBB',
                 topX + 278 + i * barWidth, topY - 8 + 32, barWidth - 2, 8);
-
         }
         screen.canvas.fontSize = 24;
         screen.canvas.fillStyle = '#822';
