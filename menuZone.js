@@ -12,7 +12,8 @@ class MenuZone {
         this.endTurnButton = new Button('End turn', this.topX + 214, this.topY, 120, 40, () => levelView.endTurn());
         this.monsterDamage = 1;
         this.monsterDamageSprite = getShikashiSprite(2, 3);
-        this.monsterLevelUpTurnCount = 2;
+        this.monsterLevelUpTurnCount = 0;
+        this.monsterLevelUpAt = 2;
     }
     paint() {
         const logoSize = 28;
@@ -35,7 +36,13 @@ class MenuZone {
         this.endTurnButton.paint();
         this.paintBuyableCards();
 
-        this.monsterDamageSprite.paint(topX + 278, topY - 2);
+        this.monsterDamageSprite.paint(topX + 278, topY - 8);
+        const barWidth = Math.ceil(32 / this.monsterLevelUpAt);
+        for (let i = 0; i < this.monsterLevelUpAt; i++) {
+            screen.canvas.fillRect(i <= this.monsterLevelUpTurnCount ? '#66F' : '#BBB',
+                topX + 278 + i * barWidth, topY - 8 + 32, barWidth - 2, 8);
+
+        }
         screen.canvas.fontSize = 24;
         screen.canvas.fillStyle = '#822';
         screen.canvas.fillText(this.monsterDamage, topX + 276 + 32 + 4, topY + textMargin);
@@ -55,10 +62,11 @@ class MenuZone {
         }
     }
     endTurn() {
-        this.monsterLevelUpTurnCount--;
-        if (this.monsterLevelUpTurnCount <= 0) {
+        this.monsterLevelUpTurnCount++;
+        if (this.monsterLevelUpTurnCount >= this.monsterLevelUpAt) {
             this.monsterDamage++;
-            this.monsterLevelUpTurnCount = this.monsterDamage;
+            this.monsterLevelUpAt = this.monsterDamage;
+            this.monsterLevelUpTurnCount = 0;
         }
     }
     refresh() {
