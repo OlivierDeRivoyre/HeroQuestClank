@@ -48,7 +48,7 @@ class CardZone {
             this.popup.click(mouseCoord);
             return;
         }
-        for (let c of this.cardRects) {
+        for (let c of this.cardRects.slice().reverse()) {
             if (isInsideRect(mouseCoord, c)) {
                 if (isInsideRect({ x: mouseCoord.x, y: mouseCoord.y - c.height / 2 }, c)) {
                     this.popup = new ZoomCardForm(this, c.card);

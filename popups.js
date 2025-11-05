@@ -95,7 +95,12 @@ class DeadScreen {
 class WinLevelScreen {
     constructor(parent) {
         this.parent = parent;
+        this.message = 'You enter the level ' + (this.parent.level + 1) + ' / 20';
         this.closeButton = new Button('Enter level', 400, 400, 120, 40, () => this.nextLevel());
+        if(this.parent.level >= 20){
+            this.message = 'You finished the game in ' + game.turnNumber + ' turns';
+            this.closeButton = new Button('Replay', 600, 400, 120, 40, () => game.newGame());
+        }
     }
     click(mouseCoord) {
         this.closeButton.click(mouseCoord);
@@ -106,7 +111,11 @@ class WinLevelScreen {
         screen.canvas.fillRect('#EEE', margin, margin, GameScreenWidth - margin * 2, GameScreenHeight - margin * 2);
         screen.canvas.fontSize = 40;
         screen.canvas.fillStyle = 'green'
-        screen.canvas.fillText('You enter the level ' + (this.parent.level + 1), margin + 50, margin + 50);
+        screen.canvas.fillText(this.message, margin + 150, margin + 150);        
+        screen.canvas.fontSize = 20;
+        screen.canvas.fillStyle = 'gray'
+        screen.canvas.fillText('Turns: ' + game.turnNumber, margin + 50, margin + 390);
+        
         this.closeButton.paint();
     }
     nextLevel() {
@@ -168,7 +177,7 @@ class RecycleShopForm {
         game.cards.uncommonShop.handToDiscard(card);
         game.cards.uncommonShop.drawOne();
         this.parent.menuZone.refresh();
-        this.parent.popup = new ShopForm(this.parent);
+        this.parent.popup = null;
     }
     close() {
         this.parent.popup = null;

@@ -113,7 +113,7 @@ class Monsters {
                 Monsters.getMummy(11, 7)
             ];
             case 5: return [
-                 Monsters.getSkeleton(10, 3)               
+                Monsters.getSkeleton(10, 3)
             ];
             case 6: return [
                 Monsters.getMummy(10, 3),
@@ -159,17 +159,32 @@ class Monsters {
                 Monsters.getGobelin(11, 4),
             ];
             case 14: return [
-                Monsters.getKnight(10, 3)
+                Monsters.getOrc(10, 3),
+                Monsters.getGobelin(11, 2),
+                Monsters.getGobelin(11, 4),
+                Monsters.getGobelin(9, 2),
+                Monsters.getGobelin(9, 4),
             ];
             case 15: return [
+                Monsters.getKnight(10, 3)
+            ];
+            case 16: return [
                 Monsters.getKnight(10, 3),
                 Monsters.getGobelin(11, 2),
                 Monsters.getGobelin(11, 4),
             ];
-            case 16: return [
-                Monsters.getGargoyle(9, 3),
-                Monsters.getGobelin(8, 2),
-                Monsters.getGobelin(8, 4),
+            case 17: return [
+                Monsters.getOrc(10, 3),
+                Monsters.getKnight(11, 2),
+                Monsters.getSkeleton(11, 4),
+            ];
+            case 18: return [
+                Monsters.getOrc(10, 3),
+                Monsters.getOrc(10, 6),
+                Monsters.getMage(11, 0),
+            ];
+            case 19: return [
+                Monsters.getGargoyle(10, 4),
             ];
             default: return [
                 Monsters.getGobelin(9, 0),

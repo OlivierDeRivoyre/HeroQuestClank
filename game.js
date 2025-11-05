@@ -5,6 +5,7 @@ class Game {
         this.screen = screen;
         this.cards = new CardGameRun();
         this.currentView = null;
+        this.turnNumber = 1;
     }
     click(mouseCoord) {
         this.currentView.click(mouseCoord);
@@ -15,6 +16,7 @@ class Game {
     }
     newGame() {
         this.cards = new CardGameRun();
+        this.turnNumber = 1;
         this.currentView = new LevelView(1);
     }
     save() {

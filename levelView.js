@@ -71,7 +71,7 @@ class LevelView {
             hero.isSelected = false;
             this.diceZone.lockDices(hero);
             if (hero.circularAttack) {
-                for (let otherMonster of this.monsters.filter(m => m !== monster && m.life > 0 && hero.isAround(monster.cell))) {
+                for (let otherMonster of this.monsters.filter(m => m !== monster && m.life > 0 && hero.isAround(m.cell))) {
                     otherMonster.takeDamage(dmg, hero);
                 }
             }
@@ -301,6 +301,7 @@ class LevelView {
     }
 
     endTurn() {
+        game.turnNumber++;
         for (let m of this.monsters) {
             this.playMonster(m);
         }
