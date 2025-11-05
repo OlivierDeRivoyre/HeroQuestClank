@@ -24,11 +24,11 @@ class Monsters {
         return monster;
     }
     // 15 life
-    static getMommy(x, y) {
+    static getMummy(x, y) {
         const monster = new Character();
-        monster.type = "mommy";
-        monster.sprite = getDungeonTileSetVilainSprite(4, 10);
-        monster.marginY = 2;
+        monster.type = "mummy";
+        monster.sprite = getDungeonTileSetVilainSprite(14, 6);
+        monster.marginY = -6;
         monster.life = monster.maxLife = 15;
         monster.cell = { x, y };
         monster.monsterMaxWalkSteps = 4;
@@ -101,22 +101,22 @@ class Monsters {
                 Monsters.getGobelin(11, 3)
             ];
             case 2: return [
-                Monsters.getSkeleton(10, 3)
+                Monsters.getMummy(10, 3)
             ];
             case 3: return [
-                Monsters.getSkeleton(11, 0),
-                Monsters.getSkeleton(11, 7)
+                Monsters.getMummy(11, 1),
+                Monsters.getGobelin(10, 4)
             ];
             case 4: return [
                 Monsters.getGobelin(9, 0),
                 Monsters.getGobelin(10, 1),
-                Monsters.getSkeleton(11, 7)
+                Monsters.getMummy(11, 7)
             ];
             case 5: return [
-                Monsters.getMommy(10, 3)
+                 Monsters.getSkeleton(10, 3)               
             ];
             case 6: return [
-                Monsters.getMommy(10, 3),
+                Monsters.getMummy(10, 3),
                 Monsters.getSkeleton(11, 7)
             ];
             case 7: return [
@@ -174,7 +174,7 @@ class Monsters {
             default: return [
                 Monsters.getGobelin(9, 0),
                 Monsters.getSkeleton(10, 1),
-                Monsters.getMommy(11, 2),
+                Monsters.getMummy(11, 2),
                 Monsters.getZomby(10, 3),
                 Monsters.getOrc(9, 4),
                 Monsters.getMage(10, 5),
