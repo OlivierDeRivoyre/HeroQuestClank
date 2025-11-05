@@ -432,7 +432,7 @@ const allCards = [
             ['ennemis adjacents.']
         ],
         cost: 4,
-        stats: [],
+        stats: ['a'],
         attr: ['circularAttack'],
         pictureName: 'attCircular'
     },
@@ -442,10 +442,21 @@ const allCards = [
         desc: [
             ['Perdez 1 vie']
         ],
-        cost: 4,
-        stats: ['d', 'd', 'd', 'd', 'd'],
-        attr: ['loseTrueLive'],
+        cost: 3,
+        stats: ['e', 'e', 'e'],
+        attr: ['lost1Life'],
         pictureName: 'sacrifice'
+    },
+    {
+        title: 'Rage Sanguinaire',
+        type: 'T2',
+        desc: [
+            ['Perdez 1 vie']
+        ],
+        cost: 3,
+        stats: ['a', 'a', 'a'],
+        attr: ['lost1Life'],
+        pictureName: 'fury3'
     },
     {
         title: 'Rage Berserker',
@@ -456,7 +467,7 @@ const allCards = [
         ],
         cost: 5,
         stats: [],
-        attr: ['loseTrueLive', 'x2'],
+        attr: ['lost1Life', 'x2'],
         pictureName: 'Furry3'
     },
     {
@@ -468,7 +479,7 @@ const allCards = [
         ],
         cost: 4,
         stats: [],
-        attr: ['d','d','d'],
+        attr: ['d', 'd', 'd'],
         pictureName: 'wall'
     },
     {
