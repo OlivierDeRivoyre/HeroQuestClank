@@ -95,7 +95,7 @@ class DeadScreen {
 class WinLevelScreen {
     constructor(parent) {
         this.parent = parent;
-        this.closeButton = new Button('Next level', 400, 400, 120, 40, () => this.nextLevel());
+        this.closeButton = new Button('Enter level', 400, 400, 120, 40, () => this.nextLevel());
     }
     click(mouseCoord) {
         this.closeButton.click(mouseCoord);
@@ -106,7 +106,7 @@ class WinLevelScreen {
         screen.canvas.fillRect('#EEE', margin, margin, GameScreenWidth - margin * 2, GameScreenHeight - margin * 2);
         screen.canvas.fontSize = 40;
         screen.canvas.fillStyle = 'green'
-        screen.canvas.fillText('You have clear the level ' + this.parent.level, margin + 50, margin + 50);
+        screen.canvas.fillText('You enter the level ' + (this.parent.level + 1), margin + 50, margin + 50);
         this.closeButton.paint();
     }
     nextLevel() {

@@ -32,7 +32,7 @@ class LevelView {
     }
     updateHeroes(mouseCoord) {
         const allChars = this.heroes.concat(this.monsters);
-        const selectedChar = allChars.find(c => c.isSelected);
+        const selectedChar = allChars.find(c => c.isSelected && c.life > 0);
         if (selectedChar) {
             if (isInsideRect(mouseCoord, selectedChar.getRect())) {
                 selectedChar.isSelected = false;
@@ -49,7 +49,7 @@ class LevelView {
             this.heroAction(selectedChar, targetCell);
             return;
         }
-        for (let c of allChars) {
+        for (let c of allChars.filter(c => c.life > 0)) {
             if (isInsideRect(mouseCoord, c.getRect())) {
                 c.isSelected = !c.isSelected;
                 if (selectedChar && c != selectedChar) {
@@ -100,12 +100,9 @@ class LevelView {
     paint() {
         screen.clear();
         this.floor.paint();
-        for (let c of this.heroes) {
+        for (let c of this.heroes.concat(this.monsters).sort((c1, c2) => c1.life - c2.life)) {
             c.paint();
-        }
-        for (let c of this.monsters) {
-            c.paint();
-        }
+        }        
         this.menuZone.paint();
         this.diceZone.paint();
         this.hand.paint();
