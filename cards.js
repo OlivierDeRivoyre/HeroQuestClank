@@ -408,7 +408,7 @@ const allCards = [
             ['Chaque ', 's', ' peut être converti'],
             ['en ', 'a']
         ],
-        cost: 4,
+        cost: 3,
         stats: ['s'],
         attr: ['walkToAttack'],
         pictureName: 'charge'
@@ -419,7 +419,7 @@ const allCards = [
         desc: [
             ['Chaque ', 'd', ' donne une ', 'a']
         ],
-        cost: 5,
+        cost: 4,
         stats: ['d'],
         attr: ['shieldToAttack'],
         pictureName: 'shieldFire'
@@ -431,7 +431,7 @@ const allCards = [
             ['Infligez des dégâts à tous les'],
             ['ennemis adjacents.']
         ],
-        cost: 4,
+        cost: 3,
         stats: ['a'],
         attr: ['circularAttack'],
         pictureName: 'attCircular'
@@ -521,18 +521,22 @@ const allCards = [
     {
         title: 'Excalibur',
         type: 'T2',
-        desc: [],
+        desc: [['Piochez une carte.']],
         cost: 7,
         stats: ['a', 'e', 'd', 's', 'l'],
+        attr: ['drawCard'],
         pictureName: 'dragonSword'
     },
     {
         title: 'Coup Critique',
         type: 'T2',
-        desc: [['Doublez vos dégats.']],
+        desc: [
+            ['Doublez vos dégats.'],
+            ['Piochez une carte.']
+        ],
         cost: 7,
         stats: [],
-        attr: ['x2'],
+        attr: ['x2', 'drawCard'],
         pictureName: 'Furry1'
     },
     {

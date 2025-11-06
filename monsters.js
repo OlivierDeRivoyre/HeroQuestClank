@@ -23,25 +23,25 @@ class Monsters {
         monster.monsterMaxWalkSteps = 5;
         return monster;
     }
-    // 15 life
+    // 25 life
     static getMummy(x, y) {
         const monster = new Character();
         monster.type = "mummy";
         monster.sprite = getDungeonTileSetVilainSprite(14, 6);
         monster.marginY = -6;
-        monster.life = monster.maxLife = 15;
+        monster.life = monster.maxLife = 25;
         monster.cell = { x, y };
         monster.monsterMaxWalkSteps = 4;
         return monster;
     }
-    // 3 def, 12 life
+    // 5 def, 20 life
     static getZomby(x, y) {
         const monster = new Character();
         monster.type = "zomby";
         monster.sprite = getDungeonTileSetVilainSprite(5, 8);
         monster.marginY = 2;
         monster.life = monster.maxLife = 20;
-        monster.shield = 3;
+        monster.shield = 5;
         monster.cell = { x, y };
         monster.monsterMaxWalkSteps = 3;
         return monster;

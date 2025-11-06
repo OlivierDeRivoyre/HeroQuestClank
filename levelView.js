@@ -49,18 +49,19 @@ class LevelView {
         const allChars = this.heroes.concat(this.monsters);
         const selectedChar = allChars.find(c => c.isSelected && c.life > 0);
         if (selectedChar) {
-            if (isInsideRect(mouseCoord, selectedChar.getRect())) {
+             if (selectedChar.type !== "hero") {
                 selectedChar.isSelected = false;
                 return;
             }
-            if (selectedChar.type !== "hero") {
+            if (isInsideRect(mouseCoord, selectedChar.getRect())) {
+                selectedChar.isSelected = false;
                 return;
-            }
+            }            
             const targetCell = this.floor.getCell(mouseCoord);
             if (!targetCell) {
                 selectedChar.isSelected = false;
                 return;
-            }
+            }           
             this.heroAction(selectedChar, targetCell);
             return;
         }
