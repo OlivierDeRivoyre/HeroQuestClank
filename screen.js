@@ -25,7 +25,7 @@ class Screen {
     }
     windowResize() {
         let w = (window.outerWidth - 40);
-        let h = (window.outerHeight - 40);
+        let h = (window.outerHeight - 108);
         if (h * 16 > w * 9) {
             h = Math.floor(w * 9 / 16);
         } else {
