@@ -162,7 +162,7 @@ class RecycleShopForm {
     paint() {
         const margin = 50;
         screen.canvas.fillRect('#EEE', margin, margin, GameScreenWidth - margin * 2, GameScreenHeight - margin * 2);
-        screen.canvas.fontColor = '#040';
+        screen.canvas.fillStyle = '#040';
         screen.canvas.fontSize = 24;
         screen.canvas.fillText('Select the card to remove from store', margin + 50, margin + 50);
         this.cardZone.paint();
