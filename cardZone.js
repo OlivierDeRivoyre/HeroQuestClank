@@ -16,7 +16,8 @@ class CardZone {
         this.cardRects = []
         if (cards.length == 0)
             return;
-        const padding = Math.min(155, this.width / cards.length);
+        const padding =  cards.length <= 1 ? 0 :
+            Math.min(this.cardWith + 5, (this.width - this.cardWith) / (cards.length -1));
         for (let i = 0; i < cards.length; i++) {
             const x = this.topX + padding * i;
             const y = this.topY;
@@ -38,7 +39,7 @@ class CardZone {
             paintCard(c.card, this.cardCanvas);
             screen.canvas.drawFixedCanvas(this.cardCanvas, c.x, c.y);
             if (c.isEnabled === false)
-                screen.canvas.fillRect('rgba(0,0,0, 0.4)', c.x, c.y, c.width, c.height)
+                screen.canvas.fillRect('rgba(0,0,0, 0.3)', c.x, c.y, c.width, c.height)
         }
         if (this.popup)
             this.popup.paint();

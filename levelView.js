@@ -10,13 +10,26 @@ class LevelView {
         this.menuZone = new MenuZone(this);
         this.diceZone = new DiceZone(this.heroes, 10, 40);
         this.hand = new CardZone(50, 350, GameScreenWidth - 100, (c) => this.playCard(c));
+        this.shopZone = new CardZone(720, 20, 290, () => this.openShop());
+        this.shopZone.cardWith = 150 / 2;
+        this.shopZone.cardHeight = 210 / 2;
+        this.menuShopZone = new MenuShopZone(this);
         game.cards.playerDeck.drawToCount(5);
         game.cards.uncommonShop.drawToCount(4);
         this.hand.refresh(game.cards.playerDeck.hand);
         this.popup = null;
         this.buyableCards = 0;
         this.turnDrawnCardBonus = 0;
-        this.menuZone.refresh();
+        this.refreshShopZone();
+    }
+
+    refreshShopZone() {
+        const shopCards = game.cards.commonCards.concat(game.cards.uncommonShop.hand);
+        shopCards.sort((c1, c2) => c1.cost - c2.cost)
+        this.shopZone.refresh(shopCards);
+        const availableEnergy = this.menuShopZone.energy;
+        for (let rect of this.shopZone.cardRects)
+            rect.isEnabled = rect.card.cost <= availableEnergy;
     }
 
     click(mouseCoord) {
@@ -25,8 +38,10 @@ class LevelView {
             return;
         }
         this.hand.click(mouseCoord);
+        this.shopZone.click(mouseCoord);
         this.diceZone.click(mouseCoord)
         this.menuZone.click(mouseCoord);
+        this.menuShopZone.click(mouseCoord);
         this.updateHeroes(mouseCoord);
         this.floor.refresh();
     }
@@ -104,8 +119,10 @@ class LevelView {
             c.paint();
         }
         this.menuZone.paint();
+        this.menuShopZone.paint();
         this.diceZone.paint();
         this.hand.paint();
+        this.shopZone.paint();
         if (this.popup) {
             this.popup.paint();
         }
@@ -115,15 +132,16 @@ class LevelView {
         console.log("play " + card.title);
         game.cards.playerDeck.handToPlayed(card);
         this.applyCardEffect(card);
-        this.hand.refresh(game.cards.playerDeck.hand);
-        this.menuZone.refresh();
+        this.hand.refresh(game.cards.playerDeck.hand);        
+        this.menuShopZone.refresh();
+        this.refreshShopZone();
     }
     applyCardEffect(card) {
         for (let s of card.stats) {
             switch (s) {
                 case 'a': this.diceZone.addAttackDice(); break;
                 case 's': this.diceZone.addWalkDice(); break;
-                case 'e': this.menuZone.energy++; break;
+                case 'e': this.menuShopZone.energy++; break;
                 case 'd': this.cardEffectAddShield(); break;
                 case 'l': this.cardEffectGain1Life(); break;
                 default: console.log('Unmanaged card stat: ' + s);
@@ -212,12 +230,8 @@ class LevelView {
             this.hand.refresh(game.cards.playerDeck.hand);
         });
     }
-    cardEffectWalkToAttack() {
-        for (let i = 0; i < this.diceZone.walkDices.length; i++) {
-            this.diceZone.addAttackDice();
-            this.diceZone.attackDices[this.diceZone.attackDices.length - 1].value = 0;
-        }
-        this.diceZone.refresh();
+    cardEffectWalkToAttack() {        
+        this.diceZone.walkToAttack();
     }
     cardEffectShieldToAttack() {
         for (let i = 0; i < this.menuZone.shield; i++) {
@@ -323,12 +337,14 @@ class LevelView {
         }
         this.turnDrawnCardBonus = 0;
         this.menuZone.endTurn();
+        this.menuShopZone.endTurn();
         this.diceZone.onNewTurn();
         game.cards.playerDeck.endTurn();
         game.cards.playerDeck.drawToCount(5);
         game.cards.uncommonShop.drawToCount(4);
-        this.hand.refresh(game.cards.playerDeck.hand);
-        this.menuZone.refresh();
+        this.hand.refresh(game.cards.playerDeck.hand);     
+        this.menuShopZone.refresh();
+        this.refreshShopZone();
     }
 }
 

@@ -26,13 +26,15 @@ class ShopForm {
         this.refresh();
     }
     refresh() {
-        this.availableEnergy = this.parent.menuZone.energy;
+        this.availableEnergy = this.parent.menuShopZone.energy;
         const cards = game.cards.commonCards.concat(game.cards.uncommonShop.hand);
         cards.sort((c1, c2) => c1.cost - c2.cost)
         this.cardZone.refresh(cards);
-        this.parent.menuZone.refresh();
-        for (let rect of this.cardZone.cardRects)
+        for (let rect of this.cardZone.cardRects){
             rect.isEnabled = rect.card.cost <= this.availableEnergy;
+        }        
+        this.parent.menuShopZone.refresh();
+        this.parent.refreshShopZone();        
     }
     paint() {
         const margin = 50;
@@ -51,7 +53,7 @@ class ShopForm {
         console.log("try to buy " + card.title);
         if (this.availableEnergy >= card.cost) {
             this.availableEnergy -= card.cost;
-            this.parent.menuZone.energy = this.availableEnergy;
+            this.parent.menuShopZone.energy = this.availableEnergy;
             game.cards.playerDeck.discard.push(card);
             if (card.type !== "common") {
                 game.cards.uncommonShop.hand.splice(game.cards.uncommonShop.hand.findIndex(c => c === card), 1);
@@ -176,7 +178,8 @@ class RecycleShopForm {
         console.log("Recycle " + card.title);
         game.cards.uncommonShop.handToDiscard(card);
         game.cards.uncommonShop.drawOne();
-        this.parent.menuZone.refresh();
+        this.parent.menuShopZone.refresh();
+        this.parent.refreshShopZone();
         this.parent.popup = null;
     }
     close() {

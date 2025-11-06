@@ -49,6 +49,10 @@ class DiceZone {
         for (let hd of this.heroDices)
             hd.doubleDamages();
     }
+    walkToAttack() {
+        for (let hd of this.heroDices)
+            hd.walkToAttack();
+    }    
     oneBecameSix() {
         for (let hd of this.heroDices)
             hd.oneBecameSix();
@@ -147,7 +151,7 @@ class HeroDiceZone {
     }
     paint() {
         const heroSize = this.zoneRects.heroSize;
-        const logoSize = this.zoneRects.logoSize;        
+        const logoSize = this.zoneRects.logoSize;
         const lineMargin = this.zoneRects.lineMargin;
         let topX = this.topX;
         let topY = this.topY;
@@ -191,6 +195,13 @@ class HeroDiceZone {
     }
     doubleDamages() {
         this.multiplyDamage *= 2;
+    }
+    walkToAttack() {
+        for (let i = 0; i < this.walkDices.length; i++) {
+            this.addAttackDice();
+            this.attackDices[this.attackDices.length - 1].value = 0;
+        }
+        this.refresh();
     }
     oneBecameSix() {
         if (this.changeOnebySix)
