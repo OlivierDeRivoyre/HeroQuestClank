@@ -437,6 +437,19 @@ const allCards = [
         pictureName: 'attCircular'
     },
     {
+        title: 'Cyclone d’Acier',
+        type: 'T2',
+        desc: [
+            ['Infligez des dégâts à tous les'],
+            ['ennemis adjacents.'],
+            ['Piochez une carte.']
+        ],
+        cost: 3,
+        stats: [],
+        attr: ['circularAttack', 'drawCard'],
+        pictureName: 'attCirulaire3'
+    },
+    {
         title: 'Sacrifice',
         type: 'T2',
         desc: [
