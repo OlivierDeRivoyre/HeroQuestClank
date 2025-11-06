@@ -102,7 +102,7 @@ class LevelView {
         this.floor.paint();
         for (let c of this.heroes.concat(this.monsters).sort((c1, c2) => c1.life - c2.life)) {
             c.paint();
-        }        
+        }
         this.menuZone.paint();
         this.diceZone.paint();
         this.hand.paint();
@@ -138,7 +138,7 @@ class LevelView {
                 case 'drawCard': this.cardEffectDrawCard(); break;
                 case 'rerollDices': this.cardEffectRerollDices(); break;
                 case 'destroyCurrentCard': this.cardEffectDestroyCurrentCard(); break;
-                case 'destroyPreviousCard': this.cardEffectDestroyPreviousCard(); break;
+                case 'destroyACard': this.cardEffectDestroyACard(); break;
                 case 'attackPerDrawnCard': this.cardEffectAttackPerDrawnCard(); break;
                 case 'walkToAttack': this.cardEffectWalkToAttack(); break;
                 case 'shieldToAttack': this.cardEffectShieldToAttack(); break;
@@ -197,15 +197,20 @@ class LevelView {
         console.log('Destroy ' + game.cards.playerDeck.played[size - 1].title);
         game.cards.playerDeck.played.splice(size - 1, 1);
     }
-    cardEffectDestroyPreviousCard() {
-        let size = game.cards.playerDeck.played.length;
-        if (size >= 2) {
-            console.log('Destroy ' + game.cards.playerDeck.played[size - 2].title);
-            game.cards.playerDeck.played.splice(size - 2, 1);
-        } else {
-            console.log('Destroy ' + game.cards.playerDeck.played[size - 1].title);
-            game.cards.playerDeck.played.splice(size - 1, 1);
-        }
+    cardEffectDestroyACard() {
+        this.popup = new SelectPlayedCardForm(this, 'Select card to remove from your deck', (card) => {
+            let index = game.cards.playerDeck.played.findIndex(c => c == card);
+            if (index >= 0) {
+                game.cards.playerDeck.played.splice(index, 1);
+            } else {
+                index = game.cards.playerDeck.hand.findIndex(c => c == card);
+                if (index >= 0) {
+                    game.cards.playerDeck.hand.splice(index, 1);
+
+                }
+            }
+            this.hand.refresh(game.cards.playerDeck.hand);
+        });
     }
     cardEffectWalkToAttack() {
         for (let i = 0; i < this.diceZone.walkDices.length; i++) {

@@ -83,12 +83,12 @@ class DeadScreen {
         this.retryButton.paint();
         this.restartButton.paint();
     }
-    retryLevel(){
+    retryLevel() {
         const backup = this.parent.cardBackup;
         game.cards.restore(backup);
         game.currentView = new LevelView(this.parent.level);
     }
-    restartGame(){
+    restartGame() {
         game.newGame();
     }
 }
@@ -97,7 +97,7 @@ class WinLevelScreen {
         this.parent = parent;
         this.message = 'You enter the level ' + (this.parent.level + 1) + ' / 20';
         this.closeButton = new Button('Enter level', 400, 400, 120, 40, () => this.nextLevel());
-        if(this.parent.level >= 20){
+        if (this.parent.level >= 20) {
             this.message = 'You finished the game in ' + game.turnNumber + ' turns';
             this.closeButton = new Button('Replay', 600, 400, 120, 40, () => game.newGame());
         }
@@ -111,11 +111,11 @@ class WinLevelScreen {
         screen.canvas.fillRect('#EEE', margin, margin, GameScreenWidth - margin * 2, GameScreenHeight - margin * 2);
         screen.canvas.fontSize = 40;
         screen.canvas.fillStyle = 'green'
-        screen.canvas.fillText(this.message, margin + 150, margin + 150);        
+        screen.canvas.fillText(this.message, margin + 150, margin + 150);
         screen.canvas.fontSize = 20;
         screen.canvas.fillStyle = 'gray'
         screen.canvas.fillText('Turns: ' + game.turnNumber, margin + 50, margin + 390);
-        
+
         this.closeButton.paint();
     }
     nextLevel() {
@@ -178,6 +178,40 @@ class RecycleShopForm {
         game.cards.uncommonShop.drawOne();
         this.parent.menuZone.refresh();
         this.parent.popup = null;
+    }
+    close() {
+        this.parent.popup = null;
+    }
+}
+
+class SelectPlayedCardForm {
+    constructor(parent, text, callback) {
+        this.parent = parent;
+        this.text = text;
+        this.callback = callback;
+        this.cardZone = new CardZone(120, 200, GameScreenWidth - 240, (c) => {
+            this.close();
+            this.callback(c);
+        });
+        this.closeButton = new Button('None', GameScreenWidth - 160, GameScreenHeight - 120, 80, 40, () => this.close());
+        this.refresh();
+    }
+    refresh() {
+        const cards = game.cards.playerDeck.hand.concat(game.cards.playerDeck.played);
+        this.cardZone.refresh(cards);
+    }
+    paint() {
+        const margin = 50;
+        screen.canvas.fillRect('#EEE', margin, margin, GameScreenWidth - margin * 2, GameScreenHeight - margin * 2);
+        screen.canvas.fillStyle = '#040';
+        screen.canvas.fontSize = 24;
+        screen.canvas.fillText(this.text, margin + 50, margin + 50);
+        this.cardZone.paint();
+        this.closeButton.paint();
+    }
+    click(mouseCoord) {
+        this.cardZone.click(mouseCoord);
+        this.closeButton.click(mouseCoord);
     }
     close() {
         this.parent.popup = null;

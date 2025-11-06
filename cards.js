@@ -205,7 +205,7 @@ const allCards = [
         ],
         cost: 2,
         stats: [],
-        attr: ['destroyPreviousCard'],
+        attr: ['destroyACard'],
         pictureName: 'mop'
     },
     {
@@ -217,7 +217,7 @@ const allCards = [
         ],
         cost: 3,
         stats: ['e'],
-        attr: ['destroyPreviousCard'],
+        attr: ['destroyACard'],
         pictureName: 'broom'
     },
     {
