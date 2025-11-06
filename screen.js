@@ -12,8 +12,8 @@ class Screen {
         this.screenCtx = this.screenCanvas.getContext("2d");
         this.windowResize();
 
-        window.addEventListener('resize', () => this.windowResize(), false);
-        window.addEventListener('click', (e) => this.click(e), false);
+        window.addEventListener('resize', () => this.windowResize(), false);        
+        this.screenCanvas.onmouseup = (e) => this.click(e);
     }
     clear() {
         this.canvas.clear();
@@ -23,9 +23,9 @@ class Screen {
         //console.log(e);
         game.click(this.canvas.toCanvasCoord(e.offsetX, e.offsetY))
     }
-    windowResize() {        
-        let w = (window.outerWidth - 40) ;
-        let h = (window.outerHeight - 40) ;
+    windowResize() {
+        let w = (window.outerWidth - 40);
+        let h = (window.outerHeight - 40);
         if (h * 16 > w * 9) {
             h = Math.floor(w * 9 / 16);
         } else {
