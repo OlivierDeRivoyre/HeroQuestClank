@@ -23,31 +23,19 @@ class Screen {
         //console.log(e);
         game.click(this.canvas.toCanvasCoord(e.offsetX, e.offsetY))
     }
-    windowResize() {
-        if (document.fullscreenElement) {
-            this.screenCanvas.width = window.innerWidth;
-            this.screenCanvas.height = window.innerHeight;
+    windowResize() {        
+        let w = (window.outerWidth - 40) ;
+        let h = (window.outerHeight - 40) ;
+        if (h * 16 > w * 9) {
+            h = Math.floor(w * 9 / 16);
         } else {
-            console.log("devicePixelRatio: " + window.devicePixelRatio)
-            let w = (window.innerWidth - 40) * window.devicePixelRatio;
-            let h = (window.innerHeight - 40) * window.devicePixelRatio;
-            if (h * 16 > w * 9) {
-                h = Math.floor(w * 9 / 16);
-            } else {
-                w = Math.floor(h * 16 / 9);
-            }
-            this.screenCanvas.width = w;
-            this.screenCanvas.height = h;
+            w = Math.floor(h * 16 / 9);
         }
+        this.screenCanvas.width = w;
+        this.screenCanvas.height = h;
+
         this.canvas.onCanvasSizeChanged();
     }
-    fullScreen() {
-        if (this.screenCanvas.webkitRequestFullScreen) {
-            this.screenCanvas.webkitRequestFullScreen();
-        }
-        else {
-            this.screenCanvas.mozRequestFullScreen();
-        }
-    }
+
 }
 const screen = new Screen();
