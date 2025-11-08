@@ -49,19 +49,19 @@ class LevelView {
         const allChars = this.heroes.concat(this.monsters);
         const selectedChar = allChars.find(c => c.isSelected && c.life > 0);
         if (selectedChar) {
-             if (selectedChar.type !== "hero") {
+            if (selectedChar.type !== "hero") {
                 selectedChar.isSelected = false;
                 return;
             }
             if (isInsideRect(mouseCoord, selectedChar.getRect())) {
                 selectedChar.isSelected = false;
                 return;
-            }            
+            }
             const targetCell = this.floor.getCell(mouseCoord);
             if (!targetCell) {
                 selectedChar.isSelected = false;
                 return;
-            }           
+            }
             this.heroAction(selectedChar, targetCell);
             return;
         }
@@ -77,6 +77,7 @@ class LevelView {
     heroAction(hero, targetCell) {
         if (hero.hasAttacked) {
             hero.isSelected = false;
+            return;
         }
         const monster = this.monsters.find(m => m.cell.x == targetCell.x && m.cell.y == targetCell.y && m.life > 0);
         if (monster && (hero.hasBow || hero.isAround(targetCell))) {
@@ -133,7 +134,7 @@ class LevelView {
         console.log("play " + card.title);
         game.cards.playerDeck.handToPlayed(card);
         this.applyCardEffect(card);
-        this.hand.refresh(game.cards.playerDeck.hand);        
+        this.hand.refresh(game.cards.playerDeck.hand);
         this.menuShopZone.refresh();
         this.refreshShopZone();
     }
@@ -231,7 +232,7 @@ class LevelView {
             this.hand.refresh(game.cards.playerDeck.hand);
         });
     }
-    cardEffectWalkToAttack() {        
+    cardEffectWalkToAttack() {
         this.diceZone.walkToAttack();
     }
     cardEffectShieldToAttack() {
@@ -254,12 +255,10 @@ class LevelView {
         this.diceZone.rollNewDiceForSix();
     }
     cardEffectMirror() {
-        let size = game.cards.playerDeck.played.length;
-        if (size >= 2) {
-            const duplicate = game.cards.playerDeck.played[size - 2];
-            console.log('Mirror ' + duplicate.title);
-            this.applyCardEffect(duplicate);
-        }
+        this.popup = new SelectPlayedCardForm(this, 'Select card to mirror', (card) => {
+            console.log('Mirror ' + card.title);
+            this.applyCardEffect(card);
+        });
     }
     cardEffectYams() {
         this.diceZone.yams();
@@ -343,7 +342,7 @@ class LevelView {
         game.cards.playerDeck.endTurn();
         game.cards.playerDeck.drawToCount(5);
         game.cards.uncommonShop.drawToCount(4);
-        this.hand.refresh(game.cards.playerDeck.hand);     
+        this.hand.refresh(game.cards.playerDeck.hand);
         this.menuShopZone.refresh();
         this.refreshShopZone();
     }

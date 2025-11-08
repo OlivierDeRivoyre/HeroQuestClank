@@ -21,9 +21,7 @@ class Dice {
 class DiceZone {
     constructor(heroes, topX, topY) {
         this.topX = topX;
-        this.topY = topY;
-        this.shieldLogo = LogoDefImage;
-        this.energyLogo = LogoStarImage;
+        this.topY = topY;           
         this.heroDices = [];
         for (let i = 0; i < heroes.length; i++)
             this.heroDices.push(new HeroDiceZone(heroes[i], topX, topY + i * 72));
@@ -52,7 +50,7 @@ class DiceZone {
     walkToAttack() {
         for (let hd of this.heroDices)
             hd.walkToAttack();
-    }    
+    }
     oneBecameSix() {
         for (let hd of this.heroDices)
             hd.oneBecameSix();
@@ -66,8 +64,6 @@ class DiceZone {
             hd.yams();
     }
     onNewTurn() {
-        this.shield = 0;
-        this.energy = 0;
         for (let hd of this.heroDices)
             hd.onNewTurn();
     }
@@ -99,6 +95,8 @@ class HeroDiceZone {
         this.isLocked = false;
         this.attackDices = [];
         this.attackRects = [];
+        this.rollNewDiceOnSix = false;
+        this.changeOnebySix = false;
     }
     getZoneRects(topX, topY) {
         const heroSize = 32;
@@ -251,13 +249,13 @@ class HeroDiceZone {
     onNewTurn() {
         this.walkDices = [];
         this.attackDices = [];
-        this.addAttackDice();
-        this.addWalkDice();
-        this.shield = 0;
-        this.energy = 0;
+        this.shield = 0;        
         this.multiplyDamage = 1;
         this.changeOnebySix = false;
+        this.rollNewDiceOnSix = false;
         this.locked = false;
+        this.addAttackDice();
+        this.addWalkDice();
     }
     lockDices() {
         this.locked = true;

@@ -70,27 +70,27 @@ class Monsters {
         monster.monsterMaxWalkSteps = 5;
         return monster;
     }
-    // 20 life, 10 att reduc
+    // 3 life, 15 amor
     static getKnight(x, y) {
         const monster = new Character();
         monster.type = "knight";
         monster.sprite = getDungeonTileSetVilainSprite(13, 4);
         monster.marginY = -6;
-        monster.life = monster.maxLife = 20;
-        monster.shield = 10;
+        monster.hasStoneHearts = true;
+        monster.shield = 15;
+        monster.life = monster.maxLife = 3;
         monster.cell = { x, y };
         monster.monsterMaxWalkSteps = 5;
         return monster;
     }
-    // 5 hearths 12+
+    // 99 life
     static getGargoyle(x, y) {
         const monster = new Character();
         monster.type = "gobelin";
         monster.sprite = getDungeonTileSetVilainSprite(11, 6);
         monster.marginY = -4;
-        monster.life = monster.maxLife = 5;
-        monster.shield = 12;
-        monster.hasStoneHearts = true;
+        monster.life = monster.maxLife = 200;
+        monster.shield = 0;
         monster.cell = { x, y };
         monster.monsterMaxWalkSteps = 5;
         return monster;
@@ -166,7 +166,7 @@ class Monsters {
                 Monsters.getGobelin(9, 4),
             ];
             case 15: return [
-                Monsters.getKnight(10, 3)
+                Monsters.getKnight(6, 4)
             ];
             case 16: return [
                 Monsters.getKnight(10, 3),
@@ -179,13 +179,29 @@ class Monsters {
                 Monsters.getSkeleton(11, 4),
             ];
             case 18: return [
-                Monsters.getOrc(10, 3),
-                Monsters.getOrc(10, 6),
                 Monsters.getMage(11, 0),
+                Monsters.getOrc(6, 3),
+                Monsters.getOrc(6, 4),
+                Monsters.getMage(11, 7),
             ];
             case 19: return [
-                Monsters.getGargoyle(10, 4),
+                Monsters.getGobelin(11, 0),
+                Monsters.getSkeleton(10, 1),
+                Monsters.getMummy(9, 2),
+                Monsters.getZomby(8, 3),
+                Monsters.getOrc(8, 4),
+                Monsters.getGobelin(9, 5),
+                Monsters.getSkeleton(10, 6),
+                Monsters.getGobelin(11, 7),
             ];
+            case 20: {
+                levelView.heroes[0].cell = { x: 5, y: 6 };
+                levelView.heroes[1].cell = { x: 6, y: 6 };
+                levelView.heroes[2].cell = { x: 5, y: 7 };
+                return [
+                    Monsters.getGargoyle(5, 2),
+                ];
+            }
             default: return [
                 Monsters.getGobelin(9, 0),
                 Monsters.getSkeleton(10, 1),
