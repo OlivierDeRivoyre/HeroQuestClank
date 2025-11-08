@@ -5,7 +5,7 @@ const TemplateCardHeight = 2100;
 
 function loadImg(file) {
     const image = new Image();
-    image.src = "img/"+ file;
+    image.src = "img/" + file;
     return image;
 }
 const CadreExtImage = loadImg('CadreExt.png');
@@ -26,36 +26,44 @@ bgImage.onload = function () {
 };
 
 function loadCardImages() {
-    screen.canvas.fontSize = 40;
-    screen.canvas.fillStyle = 'green';
-    screen.canvas.fillText("Loading...", 50, 500);
+    if (screen.canvas) {
+        screen.canvas.fontSize = 40;
+        screen.canvas.fillStyle = 'green';
+        screen.canvas.fillText("Loading...", 50, 500);
+    }
     for (let c of allCards) {
         c.img = loadImg(c.pictureName + '.png');
-        c.img.onload = function(){
-            if(!screen.canvas)
+        c.img.onload = function () {
+            if (!screen.canvas)
                 return;
             screen.canvas.fontSize = Math.ceil(Math.random() * 20 + 5);
-            screen.canvas.fillStyle = '#' + Math.floor(Math.random() * 8) + '' + Math.floor(Math.random() * 8)+ '' + Math.floor(Math.random() * 8);
+            screen.canvas.fillStyle = '#' + Math.floor(Math.random() * 8) + '' + Math.floor(Math.random() * 8) + '' + Math.floor(Math.random() * 8);
             screen.canvas.fillText(c.pictureName, Math.random() * GameScreenWidth, Math.random() * GameScreenHeight)
         };
     }
-    if(onCardImageReadyfunc){
-        allCards[allCards.length - 1].img.onload = function(){
+    if (onCardImageReadyfunc) {
+        allCards[allCards.length - 1].img.onload = function () {
             onCardImageReadyfunc();
         }
-    }  
+    }
 }
 
-function paintCard(card, canvas) {        
-    
+function paintCard(card, canvas) {
+
     canvas.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
     if (card.type == 'base') {
         canvas.fillColor('rgba(0, 0, 20, 0.25)');
     }
-    if (card.type == 'common') {        
-        canvas.fillColor('rgba(243, 239, 7, 0.25)');        
+    else if (card.type == 'common') {
+        canvas.fillColor('rgba(140, 140, 200, 0.2)');
     }
-   
+    else if (card.type == 'T1') {
+        //  canvas.fillColor('rgba(243, 239, 7, 0.15)');
+    }
+    else if (card.type == 'T2') {
+        canvas.fillColor('rgba(243, 239, 7, 0.25)');
+    }
+
     const ratio = 2;
     const margin = (canvas.width - CadreExtImage.width * ratio) / 2;
     let top = margin + 40;
@@ -78,7 +86,7 @@ function paintCard(card, canvas) {
     // Title
     const text = card.title;
     canvas.fontSize = 112;
-    canvas.fillStyle = '#002';    
+    canvas.fillStyle = '#002';
     const textWidth = canvas.measureTextWidth(text);
     const x = (canvas.width - textWidth) / 2;
     canvas.fillText(text, x, top + 104);

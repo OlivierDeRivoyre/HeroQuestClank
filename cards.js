@@ -101,16 +101,32 @@ const allCards = [
         pictureName: 'EnergyCard',
         quantity: 12
     },
+    // T1
     {
         title: 'Rencontre',
         type: 'T1',
-        desc: [
-            ['e', ': Gagnez un point d’énergie.'],
-            ['d', ': prévenez un dégât.']
-        ],
+        desc: [],
         cost: 1,
         stats: ['e', 'd'],
         pictureName: 'ReceivingShield2',
+    },
+    {
+        title: 'Soin',
+        type: 'T1',
+        desc: [
+            ['l', ': Récupérez un point de vie']
+        ],
+        cost: 1,
+        stats: ['l'],
+        pictureName: 'heal1'
+    },
+    {
+        title: 'Frappe Énergique',
+        type: 'T1',
+        desc: [],
+        cost: 1,
+        stats: ['a', 'e'],
+        pictureName: 'swordEnergy1'
     },
     {
         title: 'Arc',
@@ -174,65 +190,6 @@ const allCards = [
         pictureName: 'starBow'
     },
     {
-        title: 'Seconde chance',
-        type: 'T1',
-        desc: [
-            ['Relancez les dés de votre choix']
-        ],
-        cost: 2,
-        stats: [],
-        attr: ['rerollDices'],
-        pictureName: 'clover1'
-    },
-    {
-        title: 'Coup de foudre',
-        type: 'T1',
-        desc: [
-            ['Détruisez cette carte, piochez'],
-            ['3 cartes.']
-        ],
-        cost: 2,
-        stats: [],
-        attr: ['destroyCurrentCard', 'drawCard', 'drawCard', 'drawCard'],
-        pictureName: 'thunder'
-    },
-    {
-        title: 'Serpillière',
-        type: 'T1',
-        desc: [
-            ['Détruisez une carte jouée de'],
-            ['votre choix.']
-        ],
-        cost: 2,
-        stats: [],
-        attr: ['destroyACard'],
-        pictureName: 'mop'
-    },
-    {
-        title: 'Balai',
-        type: 'T1',
-        desc: [
-            ['Détruisez une carte jouée de'],
-            ['votre choix.']
-        ],
-        cost: 3,
-        stats: ['e'],
-        attr: ['destroyACard'],
-        pictureName: 'broom'
-    },
-    {
-        title: 'BOOM!',
-        type: 'T1',
-        desc: [
-            ['Usage unique, détruisez cette'],
-            ['carte une fois jouée.']
-        ],
-        cost: 2,
-        stats: ['a', 'a', 'a'],
-        attr: ['destroyCurrentCard'],
-        pictureName: 'boom'
-    },
-    {
         title: 'Bouclier Tranchant',
         type: 'T1',
         desc: [],
@@ -247,14 +204,6 @@ const allCards = [
         cost: 3,
         stats: ['a', 'l'],
         pictureName: 'daggerVamp'
-    },
-    {
-        title: 'Frappe Énergique',
-        type: 'T1',
-        desc: [],
-        cost: 1,
-        stats: ['a', 'e'],
-        pictureName: 'swordEnergy1'
     },
     {
         title: 'Essence de Vie',
@@ -336,30 +285,63 @@ const allCards = [
         pictureName: 'heal2'
     },
     {
-        title: 'Soin',
+        title: 'Attaque circulaire',
         type: 'T1',
         desc: [
-            ['l', ': Récupérez un point de vie']
+            ['Infligez des dégâts à tous les'],
+            ['ennemis adjacents.']
         ],
-        cost: 1,
-        stats: ['l'],
-        pictureName: 'heal1'
+        cost: 3,
+        stats: ['a'],
+        attr: ['circularAttack'],
+        pictureName: 'attCircular'
     },
-    // T2
     {
-        title: 'Jumeaux',
-        type: 'T2',
+        title: 'Cyclone d’Acier',
+        type: 'T1',
         desc: [
-            ['Piochez deux cartes.']
+            ['Infligez des dégâts à tous les'],
+            ['ennemis adjacents.'],
+            ['Piochez une carte.']
         ],
-        cost: 4,
+        cost: 3,
         stats: [],
-        attr: ['drawCard', 'drawCard'],
-        pictureName: 'twins'
+        attr: ['circularAttack', 'drawCard'],
+        pictureName: 'attCirulaire3'
+    },
+    {
+        title: 'Sacrifice',
+        type: 'T1',
+        desc: [
+            ['Perdez 1 vie']
+        ],
+        cost: 3,
+        stats: ['e', 'e', 'e'],
+        attr: ['lost1Life'],
+        pictureName: 'sacrifice'
+    },
+    {
+        title: 'Rage Sanguinaire',
+        type: 'T1',
+        desc: [
+            ['Perdez 1 vie']
+        ],
+        cost: 3,
+        stats: ['a', 'a', 'a'],
+        attr: ['lost1Life'],
+        pictureName: 'fury3'
+    },
+    {
+        title: 'Licorne',
+        type: 'T1',
+        desc: [],
+        cost: 4,
+        stats: ['a', 'e', 'e'],
+        pictureName: 'unicorn'
     },
     {
         title: 'Assaut Éclair',
-        type: 'T2',
+        type: 'T1',
         desc: [],
         cost: 4,
         stats: ['a', 'a', 's'],
@@ -367,7 +349,7 @@ const allCards = [
     },
     {
         title: 'Choc Énergétique',
-        type: 'T2',
+        type: 'T1',
         desc: [],
         cost: 5,
         stats: ['a', 'e', 'd'],
@@ -375,31 +357,72 @@ const allCards = [
     },
     {
         title: 'Force Inébranlable',
-        type: 'T2',
+        type: 'T1',
         desc: [],
         cost: 5,
         stats: ['a', 'a', 'd'],
         pictureName: 'elfWarrior'
     },
+
+    // T2
     {
-        title: 'Licorne',
-        type: 'T2',
-        desc: [],
-        cost: 4,
-        stats: ['a', 'e', 'e'],
-        pictureName: 'unicorn'
-    },
-    {
-        title: 'Force Accumulée',
+        title: 'Seconde chance',
         type: 'T2',
         desc: [
-            ['Ajoutez +1 ', 'a', ' par carte piochée'],
-            ['supplémentaire.']
+            ['Relancez les dés de votre choix']
         ],
-        cost: 4,
+        cost: 2,
         stats: [],
-        attr: ['attackPerDrawnCard'],
-        pictureName: 'necro'
+        attr: ['rerollDices'],
+        pictureName: 'clover1'
+    },
+    {
+        title: 'Coup de foudre',
+        type: 'T2',
+        desc: [
+            ['Détruisez cette carte, piochez'],
+            ['3 cartes.']
+        ],
+        cost: 2,
+        stats: [],
+        attr: ['destroyCurrentCard', 'drawCard', 'drawCard', 'drawCard'],
+        pictureName: 'thunder'
+    },
+    {
+        title: 'BOOM!',
+        type: 'T2',
+        desc: [
+            ['Usage unique, détruisez cette'],
+            ['carte une fois jouée.']
+        ],
+        cost: 2,
+        stats: ['a', 'a', 'a'],
+        attr: ['destroyCurrentCard'],
+        pictureName: 'boom'
+    },
+    {
+        title: 'Serpillière',
+        type: 'T2',
+        desc: [
+            ['Détruisez une carte jouée de'],
+            ['votre choix.']
+        ],
+        cost: 2,
+        stats: [],
+        attr: ['destroyACard'],
+        pictureName: 'mop'
+    },
+    {
+        title: 'Balai',
+        type: 'T2',
+        desc: [
+            ['Détruisez une carte jouée de'],
+            ['votre choix.']
+        ],
+        cost: 3,
+        stats: ['e'],
+        attr: ['destroyACard'],
+        pictureName: 'broom'
     },
     {
         title: 'Charge Stratégique',
@@ -414,6 +437,30 @@ const allCards = [
         pictureName: 'charge'
     },
     {
+        title: 'Jumeaux',
+        type: 'T2',
+        desc: [
+            ['Piochez deux cartes.']
+        ],
+        cost: 4,
+        stats: [],
+        attr: ['drawCard', 'drawCard'],
+        pictureName: 'twins'
+    },
+
+    {
+        title: 'Force Accumulée',
+        type: 'T2',
+        desc: [
+            ['Ajoutez +1 ', 'a', ' par carte piochée'],
+            ['supplémentaire.']
+        ],
+        cost: 4,
+        stats: [],
+        attr: ['attackPerDrawnCard'],
+        pictureName: 'necro'
+    },
+    {
         title: 'Bouclier de Feu',
         type: 'T2',
         desc: [
@@ -423,53 +470,6 @@ const allCards = [
         stats: ['d'],
         attr: ['shieldToAttack'],
         pictureName: 'shieldFire'
-    },
-    {
-        title: 'Attaque circulaire',
-        type: 'T2',
-        desc: [
-            ['Infligez des dégâts à tous les'],
-            ['ennemis adjacents.']
-        ],
-        cost: 3,
-        stats: ['a'],
-        attr: ['circularAttack'],
-        pictureName: 'attCircular'
-    },
-    {
-        title: 'Cyclone d’Acier',
-        type: 'T2',
-        desc: [
-            ['Infligez des dégâts à tous les'],
-            ['ennemis adjacents.'],
-            ['Piochez une carte.']
-        ],
-        cost: 3,
-        stats: [],
-        attr: ['circularAttack', 'drawCard'],
-        pictureName: 'attCirulaire3'
-    },
-    {
-        title: 'Sacrifice',
-        type: 'T2',
-        desc: [
-            ['Perdez 1 vie']
-        ],
-        cost: 3,
-        stats: ['e', 'e', 'e'],
-        attr: ['lost1Life'],
-        pictureName: 'sacrifice'
-    },
-    {
-        title: 'Rage Sanguinaire',
-        type: 'T2',
-        desc: [
-            ['Perdez 1 vie']
-        ],
-        cost: 3,
-        stats: ['a', 'a', 'a'],
-        attr: ['lost1Life'],
-        pictureName: 'fury3'
     },
     {
         title: 'Rage Berserker',
@@ -538,7 +538,7 @@ const allCards = [
         cost: 7,
         stats: ['a', 'e', 'd', 's', 'l'],
         attr: ['drawCard'],
-        pictureName: 'dragonSword'
+        pictureName: 'excalibur'
     },
     {
         title: 'Coup Critique',
