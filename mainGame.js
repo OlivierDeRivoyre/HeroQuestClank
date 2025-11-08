@@ -23,6 +23,7 @@ if (urlCardIndexes) {
             game.cards.playerDeck.hand.push(allCards[i])
 }
 game.currentView = new LevelView(urlLevel);
+
 onCardImageReadyfunc = () => {
     requestAnimationFrame(animate);
 };

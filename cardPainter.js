@@ -26,6 +26,9 @@ bgImage.onload = function () {
 };
 
 function loadCardImages() {
+    screen.canvas.fontSize = 40;
+    screen.canvas.fillStyle = 'green';
+    screen.canvas.fillText("Loading...", 50, 500);
     for (let c of allCards) {
         c.img = loadImg(c.pictureName + '.png');
         c.img.onload = function(){

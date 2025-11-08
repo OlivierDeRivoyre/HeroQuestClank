@@ -1,4 +1,5 @@
 // Draw as if the canvas was of fixed size
+// Note that it is overkill. See my HealthGame for a better pattern.
 class FixedCanvas {
     constructor(width, height, screenCanvas) {
         this.width = width;
