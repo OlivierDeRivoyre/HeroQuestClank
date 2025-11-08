@@ -366,17 +366,6 @@ const allCards = [
 
     // T2
     {
-        title: 'Seconde chance',
-        type: 'T2',
-        desc: [
-            ['Relancez les dés de votre choix']
-        ],
-        cost: 2,
-        stats: [],
-        attr: ['rerollDices'],
-        pictureName: 'clover1'
-    },
-    {
         title: 'Coup de foudre',
         type: 'T2',
         desc: [
@@ -423,6 +412,18 @@ const allCards = [
         stats: ['e'],
         attr: ['destroyACard'],
         pictureName: 'broom'
+    },
+    {
+        title: 'Seconde chance',
+        type: 'T2',
+        desc: [
+            ['Relancez les dés de votre choix'],
+            ['Piochez une carte.']
+        ],
+        cost: 3,
+        stats: [],
+        attr: ['rerollDices', 'drawCard'],
+        pictureName: 'clover2'
     },
     {
         title: 'Charge Stratégique',
