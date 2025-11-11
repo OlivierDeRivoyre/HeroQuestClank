@@ -4,7 +4,7 @@ This is a card game that can be printed.
 
 The game is designed to be played on a board, typically using games like HeroQuest or Descent as support. Instead of traditional dices, the rules are modified to be played with cards (and basic D6 dices). 
 
-The player have a deck of cards. Each turn, the player can buy some new card to improve is deck.
+The players have a deck of cards. Each turn, the player can buy some new card to improve is deck.
 
 # The board game rules are:
  - Players start with the 11 basic cards.
