@@ -1,28 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Canvas Paint Example</title>
     <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; }
-        canvas { border: 1px solid #333; display: block; margin: 20px auto; }
-        button {font-size: 72px;}
+        body {
+            margin: 0;
+        }
+
+        canvas {
+            border: 1px solid #333;
+            display: block;
+            margin: 20px auto;
+        }
+
+        button {
+            font-size: 72px;
+        }
     </style>
-    
+
 </head>
+
 <body>
     <script>
         console.clear();        
     </script>
     <canvas id="paintCanvas" width="1500" height="2100"></canvas>
     <button onclick="show(-1)">Previous</button>
-    <button onclick="show(1)">Next</button></body>
-    <br/>
-    <button onclick="createMinatutes()">Miniatures</button></body>
-    <script src="fixedCanvas.js"></script>
-    <script src="cardPainter.js"></script>
-    <script src="cards.js"></script>
-    <script src="printCards.js"></script>
+    <button onclick="show(1)">Next</button>
 </body>
+<br />
+<button onclick="createMinatutes()" id="MiniaturesButton">Miniatures</button>
+<br />
+<button onclick="downloadImages()">Download All</button>
+</body>
+<script src="fixedCanvas.js"></script>
+<script src="cardPainter.js"></script>
+<script src="cards.js"></script>
+<script src="printCards.js"></script>
+</body>
+
 </html>

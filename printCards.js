@@ -7,20 +7,36 @@ let currentCardIndex = parseInt(params.get('index') || 0);
 function show(incr) {
     currentCardIndex = Math.max(0, Math.min(currentCardIndex + incr, allCards.length - 1));
     const card = allCards[currentCardIndex];
-    const screenCanvas = document.getElementById('paintCanvas');
-    const fixedCanvas = new FixedCanvas(TemplateCardWidth, TemplateCardHeight, screenCanvas);
-    paintCard(card, fixedCanvas);   
+    showCard(card);
     url.searchParams.set('index', currentCardIndex);
     window.history.pushState({}, '', url);
 }
+function showCard(card) {
+    const screenCanvas = document.getElementById('paintCanvas');
+    const fixedCanvas = new FixedCanvas(TemplateCardWidth, TemplateCardHeight, screenCanvas);
+    paintCard(card, fixedCanvas);
+}
 
-onCardImageReadyfunc = () => show(0);
+onCardImageReadyfunc = () => {
+    show(0);
+    let count = 0;
+    for(let c of allCards){
+        count += (c.quantity || 1);
+    }
+    document.getElementById("MiniaturesButton").innerText ="Miniatures of " + count + " cards";
+}
 
-function downloadAsImage() {
-    const link = document.createElement('a');
-    link.download = 'canvas-image.png';
-    link.href = canvas.toDataURL('image/png');
-    link.click();
+function downloadImages() {    
+   
+    for (let i = 0; i < allCards.length; i++) {
+        const card = allCards[i];
+        showCard(card);
+        const screenCanvas = document.getElementById('paintCanvas');
+        const link = document.createElement('a');
+        link.download = 'card' + i + 'x' + (card.quantity || 1) + '.png';
+        link.href = screenCanvas.toDataURL('image/png');
+        link.click();
+    }
 }
 
 function createFixedCardCanvasForMiniatures(cardWidth, cardHeight) {
@@ -53,8 +69,8 @@ function createMinatutes() {
     let page;
     let index = 0;
     const fixedCanvas = createFixedCardCanvasForMiniatures(cardWidth, cardHeight);
-    for (let card of allCards) {        
-         paintCard(card, fixedCanvas);
+    for (let card of allCards) {
+        paintCard(card, fixedCanvas);
         const quantity = card.quantity || 1;
         for (let i = 0; i < quantity; i++) {
             const coord = index % (nbCardPerLine * nbCardPerLine);
