@@ -1,5 +1,6 @@
 
 class Monsters {
+    static MaxLevel = 14;
     // 6 lives
     static getGobelin(x, y) {
         const monster = new Character();
@@ -101,103 +102,99 @@ class Monsters {
                 Monsters.getGobelin(11, 3)
             ];
             case 2: return [
+                Monsters.getMummy(4, 3),
                 Monsters.getMummy(10, 3)
             ];
             case 3: return [
                 Monsters.getMummy(11, 1),
-                Monsters.getGobelin(10, 4)
+                Monsters.getGobelin(4, 0),
+                Monsters.getGobelin(5, 2),
+                Monsters.getGobelin(5, 5),
+                Monsters.getGobelin(4, 7),
             ];
             case 4: return [
-                Monsters.getGobelin(9, 0),
-                Monsters.getGobelin(10, 1),
+                Monsters.getSkeleton(5, 4),
+                Monsters.getGobelin(7, 3),
+                Monsters.getMummy(11, 0),
                 Monsters.getMummy(11, 7)
             ];
-            case 5: return [
-                Monsters.getSkeleton(10, 3)
-            ];
-            case 6: return [
-                Monsters.getMummy(10, 3),
-                Monsters.getSkeleton(11, 7)
-            ];
-            case 7: return [
-                Monsters.getMage(11, 0)
-            ];
-            case 8: {
-                levelView.heroes[0].cell = { x: 4, y: 7 };
-                levelView.heroes[1].cell = { x: 6, y: 7 };
-                levelView.heroes[2].cell = { x: 5, y: 7 };
+            case 5: {
+                levelView.heroes[0].cell = { x: 0, y: 6 };
+                levelView.heroes[1].cell = { x: 1, y: 6 };
+                levelView.heroes[2].cell = { x: 1, y: 7 };
                 return [
                     Monsters.getMage(11, 0),
-                    Monsters.getMage(0, 0),
+                    Monsters.getMage(11, 7),
+                    Monsters.getMage(0, 0)
+                ];
+            }
+            case 6: return [
+                Monsters.getSkeleton(11, 1),
+                Monsters.getSkeleton(5, 1),
+                Monsters.getSkeleton(7, 4),
+                Monsters.getSkeleton(5, 6),
+                Monsters.getSkeleton(11, 6)
+            ];
+            case 7: return [
+                Monsters.getZomby(10, 3),
+            ];
+            case 8: {
+                levelView.heroes[0].cell = { x: 0, y: 0 };
+                levelView.heroes[1].cell = { x: 11, y: 0 };
+                levelView.heroes[2].cell = { x: 11, y: 7 };
+                return [
+                    Monsters.getZomby(5, 4),
+                    Monsters.getGobelin(0, 4),
+                    Monsters.getGobelin(0, 7),
+                    Monsters.getGobelin(5, 7),
+                    Monsters.getGobelin(8, 2),
                 ];
             }
             case 9: return [
-                Monsters.getZomby(10, 3),
+                Monsters.getOrc(11, 2),
+                Monsters.getOrc(8, 3),
+                Monsters.getOrc(11, 5),
             ];
             case 10: return [
-                Monsters.getGobelin(11, 0),
-                Monsters.getZomby(10, 3)
+                Monsters.getMage(11, 0),
+                Monsters.getSkeleton(8, 3),
+                Monsters.getGobelin(6, 4),
+                Monsters.getOrc(10, 5)
             ];
             case 11: {
                 levelView.heroes[0].cell = { x: 4, y: 3 };
                 levelView.heroes[1].cell = { x: 6, y: 4 };
                 levelView.heroes[2].cell = { x: 5, y: 4 };
                 return [
-                    Monsters.getGobelin(0, 0),
-                    Monsters.getGobelin(0, 7),
-                    Monsters.getGobelin(11, 0),
-                    Monsters.getGobelin(11, 7),
+                    Monsters.getMage(0, 0),
+                    Monsters.getSkeleton(0, 7),
+                    Monsters.getZomby(11, 0),
+                    Monsters.getOrc(11, 7),
                 ];
             }
 
-            case 12: return [
-                Monsters.getOrc(10, 3)
-            ];
-            case 13: return [
-                Monsters.getOrc(10, 3),
-                Monsters.getGobelin(11, 2),
-                Monsters.getGobelin(11, 4),
-            ];
-            case 14: return [
-                Monsters.getOrc(10, 3),
-                Monsters.getGobelin(11, 2),
-                Monsters.getGobelin(11, 4),
-                Monsters.getGobelin(9, 2),
-                Monsters.getGobelin(9, 4),
-            ];
-            case 15: return [
-                Monsters.getKnight(6, 4)
-            ];
-            case 16: return [
-                Monsters.getKnight(10, 3),
-                Monsters.getGobelin(11, 2),
-                Monsters.getGobelin(11, 4),
-            ];
-            case 17: return [
-                Monsters.getOrc(10, 3),
-                Monsters.getKnight(11, 2),
-                Monsters.getSkeleton(11, 4),
-            ];
-            case 18: return [
-                Monsters.getMage(11, 0),
-                Monsters.getOrc(6, 3),
-                Monsters.getOrc(6, 4),
-                Monsters.getMage(11, 7),
-            ];
-            case 19: return [
-                Monsters.getGobelin(11, 0),
-                Monsters.getSkeleton(10, 1),
-                Monsters.getMummy(9, 2),
-                Monsters.getZomby(8, 3),
-                Monsters.getOrc(8, 4),
-                Monsters.getGobelin(9, 5),
-                Monsters.getSkeleton(10, 6),
-                Monsters.getGobelin(11, 7),
-            ];
-            case 20: {
+            case 12: {
+                levelView.heroes[0].cell = { x: 4, y: 2 };
+                levelView.heroes[1].cell = { x: 6, y: 5 };
+                levelView.heroes[2].cell = { x: 8, y: 2 };
+                return [
+                    Monsters.getOrc(4, 4),
+                    Monsters.getSkeleton(6, 1),
+                    Monsters.getOrc(8, 4),
+                ];
+            }
+            case 13: {
+                levelView.heroes[0].cell = { x: 4, y: 1 };
+                levelView.heroes[1].cell = { x: 8, y: 1 };
+                levelView.heroes[2].cell = { x: 6, y: 6 };
+                return [
+                    Monsters.getKnight(6, 3)
+                ];
+            }
+            case 14: {
                 levelView.heroes[0].cell = { x: 5, y: 6 };
                 levelView.heroes[1].cell = { x: 6, y: 6 };
-                levelView.heroes[2].cell = { x: 5, y: 7 };
+                levelView.heroes[2].cell = { x: 4, y: 6 };
                 return [
                     Monsters.getGargoyle(5, 2),
                 ];

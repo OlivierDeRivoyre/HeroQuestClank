@@ -97,9 +97,9 @@ class DeadScreen {
 class WinLevelScreen {
     constructor(parent) {
         this.parent = parent;
-        this.message = 'You enter the level ' + (this.parent.level + 1) + ' / 20';
+        this.message = 'You enter the level ' + (this.parent.level + 1) + ' / ' + Monsters.MaxLevel;
         this.closeButton = new Button('Enter level', 400, 400, 120, 40, () => this.nextLevel());
-        if (this.parent.level >= 20) {
+        if (this.parent.level >= Monsters.MaxLevel) {
             this.message = 'You finished the game in ' + game.turnNumber + ' turns';
             this.closeButton = new Button('Replay', 600, 400, 120, 40, () => game.newGame());
         }
