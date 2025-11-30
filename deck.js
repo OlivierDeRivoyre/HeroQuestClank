@@ -106,7 +106,7 @@ class CardGameRun {
     static createUncommonShop() {
         const deck = [];
         for (let card of allCards) {
-            if (card.type !== "base" && card.type !== "common") {
+            if (card.type !== "base" && card.type !== "common" && card.type !== "monster") {
                 for (let i = 0; i < (card.quantity || 1); i++) {
                     deck.push(card);
                 }

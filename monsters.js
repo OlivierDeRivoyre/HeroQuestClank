@@ -36,9 +36,9 @@ class Monsters {
         return monster;
     }
     // 5 def, 20 life
-    static getZomby(x, y) {
+    static getZombie(x, y) {
         const monster = new Character();
-        monster.type = "zomby";
+        monster.type = "zombie";
         monster.sprite = getDungeonTileSetVilainSprite(5, 8);
         monster.marginY = 2;
         monster.life = monster.maxLife = 20;
@@ -136,14 +136,14 @@ class Monsters {
                 Monsters.getSkeleton(11, 6)
             ];
             case 7: return [
-                Monsters.getZomby(10, 3),
+                Monsters.getZombie(10, 3),
             ];
             case 8: {
                 levelView.heroes[0].cell = { x: 0, y: 0 };
                 levelView.heroes[1].cell = { x: 11, y: 0 };
                 levelView.heroes[2].cell = { x: 11, y: 7 };
                 return [
-                    Monsters.getZomby(5, 4),
+                    Monsters.getZombie(5, 4),
                     Monsters.getGobelin(0, 4),
                     Monsters.getGobelin(0, 7),
                     Monsters.getGobelin(5, 7),
@@ -168,7 +168,7 @@ class Monsters {
                 return [
                     Monsters.getMage(0, 0),
                     Monsters.getSkeleton(0, 7),
-                    Monsters.getZomby(11, 0),
+                    Monsters.getZombie(11, 0),
                     Monsters.getOrc(11, 7),
                 ];
             }
@@ -203,7 +203,7 @@ class Monsters {
                 Monsters.getGobelin(9, 0),
                 Monsters.getSkeleton(10, 1),
                 Monsters.getMummy(11, 2),
-                Monsters.getZomby(10, 3),
+                Monsters.getZombie(10, 3),
                 Monsters.getOrc(9, 4),
                 Monsters.getMage(10, 5),
                 Monsters.getKnight(11, 6),

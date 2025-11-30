@@ -4,6 +4,120 @@
 
 const allCards = [
     {
+        title: 'Gobelin',
+        type: 'monster',
+        desc: [
+            [],
+            ['              8 ', 'l', '        8 ', 's'],
+        ],
+        cost: 0,
+        stats: [],
+        pictureName: 'monster/Gobelin',
+        quantity: 1
+    },
+    {
+        title: 'Gobelin Archer',
+        type: 'monster',
+        desc: [
+            [],
+            ['              6 ', 'l', '     5 ', 's'],
+            ['           Attaque à distance'],
+        ],
+        cost: 0,
+        stats: [],
+        pictureName: 'monster/GobelinBow',
+        quantity: 1
+    },
+    {
+        title: 'Skeleton',
+        type: 'monster',
+        desc: [
+            [],
+            ['         9 ', 'd', '    1 ', 'l', '     5 ', 's']
+        ],
+        cost: 0,
+        stats: [],
+        pictureName: 'monster/Skeleton',
+        quantity: 1
+    },
+    {
+        title: 'Mummy',
+        type: 'monster',
+        desc: [
+            [],
+            ['              25 ', 'l', '     4 ', 's']
+        ],
+        cost: 0,
+        stats: [],
+        pictureName: 'monster/Mummy',
+        quantity: 1
+    },
+    {
+        title: 'Zombie',
+        type: 'monster',
+        desc: [
+            [],
+            ['         4 ', 'd', '     20 ', 'l', '     3 ', 's']
+        ],
+        cost: 0,
+        stats: [],
+        pictureName: 'monster/Zombie',
+        quantity: 1
+    },
+    {
+        title: 'Orc',
+        type: 'monster',
+        desc: [
+            [],
+            ['              40 ', 'l', '     6 ', 's'],
+            ['           Attaque circulaire'],
+        ],
+        cost: 0,
+        stats: [],
+        pictureName: 'monster/Orc',
+        quantity: 1
+    },
+    {
+        title: 'Abomination',
+        type: 'monster',
+        desc: [
+            [],
+            ['              100 ', 'l', '     7 ', 's'],
+            [],
+        ],
+        cost: 0,
+        stats: [],
+        pictureName: 'monster/Abomination',
+        quantity: 1
+    },
+    {
+        title: 'Guerrier de Chaos',
+        type: 'monster',
+        desc: [
+            [],
+            ['          14 ', 'd', '        5 ', 's'],
+           // [],
+            ['  Possède 3 cœurs de pierre'],
+        ],
+        cost: 0,
+        stats: [],
+        pictureName: 'monster/UndeadWarrior',
+        quantity: 1
+    },
+    {
+        title: 'Gargouille',
+        type: 'monster',
+        desc: [
+            [],
+            ['              200 ', 'l', '     5 ', 's'],
+            [],
+        ],
+        cost: 0,
+        stats: [],
+        pictureName: 'monster/Gargoyle',
+        quantity: 1
+    },
+    {
         title: 'Attaque',
         type: 'base',
         desc: [

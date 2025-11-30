@@ -63,7 +63,9 @@ function paintCard(card, canvas) {
     else if (card.type == 'T2') {
         canvas.fillColor('rgba(243, 239, 7, 0.25)');
     }
-
+    else if (card.type == 'monster') {
+        canvas.fillColor('rgba(16, 0, 0, 0.6)');
+    }
     const ratio = 2;
     const margin = (canvas.width - CadreExtImage.width * ratio) / 2;
     let top = margin + 40;
@@ -99,7 +101,7 @@ function paintCard(card, canvas) {
             if (word.length == 1) {
                 const logo = getLogo(word);
                 const logoRatio = 1.4;
-                canvas.drawImage(logo, x, descTop - logo.height - 6, logo.width * logoRatio, logo.height * logoRatio);
+                canvas.drawImage(logo, x, descTop - logo.height - 10, logo.width * logoRatio, logo.height * logoRatio);
                 x += logo.width + 26;
             } else {
                 canvas.fillText(word, x, descTop);
