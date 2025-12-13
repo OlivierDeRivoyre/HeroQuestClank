@@ -191,7 +191,7 @@ const cards_ext1 = [
         desc: [],
         cost: 5,
         stats: ['e', 'a', 'f'],
-        pictureName: 'ext1/weaponrack'
+        pictureName: 'ext1/gold2'
     },
     {
         title: 'Élan d’Avarice',
@@ -236,7 +236,18 @@ const cards_ext1 = [
         cost: 1,
         stats: [],
         pictureName: 'ext1/spying'
-    }
+    },
+        {
+        title: 'Râtelier d’armes',
+        type: 'T2',
+        desc: [
+             ['Un au choix: ', 'a', ' ou ', 'd', ' ou ', 's'],
+             ['ou ', 'e', ' ou ', 'f'],
+        ],
+        cost: 1,
+        stats: [],
+        pictureName: 'ext1/weaponrack'
+    },
 ];
 
 
