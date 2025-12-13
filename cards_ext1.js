@@ -182,7 +182,7 @@ const cards_ext1 = [
         desc: [],
         cost: 4,
         stats: ['e', 'd', 'f'],
-        pictureName: 'ext1/shieldMana'
+        pictureName: 'ext1/ShieldMana'
     },
     {
         title: 'Fortune Guerrière',
