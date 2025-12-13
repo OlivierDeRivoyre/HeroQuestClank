@@ -12,7 +12,7 @@ const allCards = [
         ],
         cost: 0,
         stats: [],
-        pictureName: 'monster/Gobelin',
+        pictureName: 'monster/Gobelin',//  style "Dungeon Crawler Board Game Art"
         quantity: 1
     },
     {

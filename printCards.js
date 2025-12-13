@@ -4,6 +4,13 @@ const url = new URL(window.location.href);
 const params = new URLSearchParams(url.search)
 let currentCardIndex = parseInt(params.get('index') || 0);
 
+
+function AddExt1()
+{
+    for(let c of cards_ext1)
+        allCards.push(c);
+}
+AddExt1();
 function show(incr) {
     currentCardIndex = Math.max(0, Math.min(currentCardIndex + incr, allCards.length - 1));
     const card = allCards[currentCardIndex];

@@ -16,6 +16,7 @@ const LogoLifeImage = loadImg('LogoLife.png');
 const LogoStarImage = loadImg('LogoStar.png');
 const LogoStepImage = loadImg('LogoStep.png');
 const PureStarImage = loadImg('PureStar.png');
+const LogoFlashImage = loadImg('ext1/flashlight.png');
 
 const bgImage = loadImg('Parchment1500_2100.png');
 
@@ -64,6 +65,9 @@ function paintCard(card, canvas) {
         canvas.fillColor('rgba(243, 239, 7, 0.25)');
     }
     else if (card.type == 'monster') {
+        canvas.fillColor('rgba(16, 0, 0, 0.6)');
+    }
+    else if (card.type == 'hero') {
         canvas.fillColor('rgba(16, 0, 0, 0.6)');
     }
     const ratio = 2;
@@ -129,5 +133,6 @@ function getLogo(c) {
         case 'e': return LogoStarImage;
         case 's': return LogoStepImage;
         case 'l': return LogoLifeImage;
+        case 'f': return LogoFlashImage;
     }
 }
