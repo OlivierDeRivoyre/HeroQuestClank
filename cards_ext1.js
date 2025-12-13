@@ -132,7 +132,7 @@ const cards_ext1 = [
         quantity: 4
     },
     {
-        title: 'Rituel Rapide',
+        title: 'Potion de mana',
         type: 'T1',
         desc: [
             ['Piochez une carte.']
@@ -140,7 +140,7 @@ const cards_ext1 = [
         cost: 3,
         stats: ['f'],
         attr: ['drawCard'],
-        pictureName: 'ext1/manaPotion'
+        pictureName: 'ext1/ManaPotion'
     },
     {
         title: 'Eclair',
