@@ -176,7 +176,7 @@ const cards_ext1 = [
         attr: [],
         pictureName: 'ext1/destiny'
     },
-    
+
     {
         title: 'Rituel de Protection',
         type: 'T1',
@@ -224,6 +224,18 @@ const cards_ext1 = [
         cost: 2,
         stats: ['d', 's', 'f'],
         pictureName: 'ext1/invocation1'
+    },
+    {
+        title: 'Espion',
+        type: 'T2',
+        desc: [  
+             ['Piochez une carte.'],
+             ['Regardez les 5 prochaines'],
+             ['cartes de la pioche.']
+            ],
+        cost: 1,
+        stats: [],
+        pictureName: 'ext1/spying'
     }
 ];
 
