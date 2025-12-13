@@ -176,6 +176,7 @@ const cards_ext1 = [
         attr: [],
         pictureName: 'ext1/destiny'
     },
+    
     {
         title: 'Rituel de Protection',
         type: 'T1',
