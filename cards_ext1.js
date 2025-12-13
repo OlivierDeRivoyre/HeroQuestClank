@@ -113,10 +113,10 @@ const cards_ext1 = [
             ['f', ': Utilisez une compétance'],
             [' de votre personage'],
         ],
-        cost: 0,
+        cost: 3,
         stats: ['e', 'f'],
         pictureName: 'ext1/mage2',
-        quantity: 6
+        quantity: 4
     },
     {
         title: 'Rituel de Puissance',
@@ -126,10 +126,10 @@ const cards_ext1 = [
             ['f', ': Utilisez une compétance'],
             [' de votre personage'],
         ],
-        cost: 0,
+        cost: 3,
         stats: ['a', 'f'],
         pictureName: 'ext1/mage3',
-        quantity: 6
+        quantity: 4
     },
     {
         title: 'Rituel Rapide',
