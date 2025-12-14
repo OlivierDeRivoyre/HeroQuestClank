@@ -55,6 +55,7 @@ function createFixedCardCanvasForMiniatures(cardWidth, cardHeight) {
     const fixedCanvas = new FixedCanvas(TemplateCardWidth, TemplateCardHeight, canvas);
     return fixedCanvas;
 }
+const backImage = loadImg('back3.png');
 
 function createMinatutes() {
     const a4Width = 2000;
@@ -92,6 +93,13 @@ function createMinatutes() {
             index++;
         }
     }
-
+    page = createPageCanvas();
+    for(let coord = 0; coord < nbCardPerLine * nbCardPerLine; coord++){
+        page.drawImage(backImage,
+                marginX + (coord % nbCardPerLine) * (cardWidth + 0),
+                marginY + Math.floor(coord / nbCardPerLine) * (cardHeight + 0),
+                cardWidth,
+                cardHeight);
+    }
 
 }
