@@ -7,9 +7,9 @@ const cards_ext1 = [
         title: 'Barbare',
         type: 'hero',
         desc: [
-            ['Premier ', 'f', ' : Attaque circulaire'],
+            ['Premier ', 'c', ' : Attaque circulaire'],
             [],
-            ['f', ' suivants : ', 'a'],
+            ['c', ' suivants : ', 'a'],
         ],
         cost: 0,
         stats: [],
@@ -20,9 +20,9 @@ const cards_ext1 = [
         title: 'Marchand',
         type: 'hero',
         desc: [
-            ['Premier ', 'f', ' : ', 'e', 'e'],
+            ['Premier ', 'c', ' : ', 'r', 'r'],
             [],
-            ['f', ' suivants : ', 'e'],
+            ['c', ' suivants : ', 'r'],
         ],
         cost: 0,
         stats: [],
@@ -33,9 +33,9 @@ const cards_ext1 = [
         title: 'Archer',
         type: 'hero',
         desc: [
-            ['Premier ', 'f', ' :'],
+            ['Premier ', 'c', ' :'],
             ['         Attaque à distance'],
-            ['f', ' suivants : ', 'a'],
+            ['c', ' suivants : ', 'a'],
         ],
         cost: 0,
         stats: [],
@@ -46,7 +46,7 @@ const cards_ext1 = [
         title: 'Tank',
         type: 'hero',
         desc: [
-            ['f', ' : gagner ', 'a', ' pour chaque ', 'd'],
+            ['c', ' : gagner ', 'a', ' pour chaque ', 'd'],
             [],
         ],
         cost: 0,
@@ -58,9 +58,9 @@ const cards_ext1 = [
         title: 'Aventurier',
         type: 'hero',
         desc: [
-            ['f', ' : au choix, une seule fois'],
+            ['c', ' : au choix, une seule fois'],
             // [''],
-            ['par choix ', 'a', ' ou ', 'e', ' ou ', 'd'],
+            ['par choix ', 'a', ' ou ', 'r', ' ou ', 'd'],
         ],
         cost: 0,
         stats: [],
@@ -71,7 +71,7 @@ const cards_ext1 = [
         title: 'Prophète',
         type: 'hero',
         desc: [
-            ['f', ' : au choix, une seule fois'],
+            ['c', ' : au choix, une seule fois'],
             ['- Relancer les dès'],
             ['- Détruire une carte'],
             ['- Piocher une carte'],
@@ -85,7 +85,7 @@ const cards_ext1 = [
         title: 'Nécromancien',
         type: 'hero',
         desc: [
-            ['f', ' si monstre meurt ce tour ci:'],
+            ['c', ' si monstre meurt ce tour ci:'],
             ['créer un squelette'],
         ],
         cost: 0,
@@ -97,11 +97,11 @@ const cards_ext1 = [
         title: 'Mana',
         type: 'base',
         desc: [
-            ['f', ': Utilisez une compétance'],
+            ['c', ': Utilisez une compétance'],
             [' de votre personage'],
         ],
         cost: 0,
-        stats: ['f'],
+        stats: ['c'],
         pictureName: 'ext1/mage1',
         quantity: 4
     },
@@ -109,12 +109,12 @@ const cards_ext1 = [
         title: 'Rituel de Prospérité',
         type: 'common',
         desc: [
-            ['e', ': Gagnez un point d’énergie.'],
-            ['f', ': Utilisez une compétance'],
+            ['r', ': Gagnez un point d’énergie.'],
+            ['c', ': Utilisez une compétance'],
             [' de votre personage'],
         ],
         cost: 3,
-        stats: ['e', 'f'],
+        stats: ['r', 'c'],
         pictureName: 'ext1/mage2',
         quantity: 4
     },
@@ -123,11 +123,11 @@ const cards_ext1 = [
         type: 'common',
         desc: [
             ['a', ': Gagnez un dé d’attaque'],
-            ['f', ': Utilisez une compétance'],
+            ['c', ': Utilisez une compétance'],
             [' de votre personage'],
         ],
         cost: 3,
-        stats: ['a', 'f'],
+        stats: ['a', 'c'],
         pictureName: 'ext1/mage3',
         quantity: 4
     },
@@ -138,7 +138,7 @@ const cards_ext1 = [
             ['Piochez une carte.']
         ],
         cost: 3,
-        stats: ['f'],
+        stats: ['c'],
         attr: ['drawCard'],
         pictureName: 'ext1/ManaPotion'
     },
@@ -149,7 +149,7 @@ const cards_ext1 = [
             ['Piochez une carte.']
         ],
         cost: 5,
-        stats: ['a', 'f'],
+        stats: ['a', 'c'],
         attr: ['drawCard'],
         pictureName: 'ext1/lightning'
     },
@@ -160,7 +160,7 @@ const cards_ext1 = [
             ['Piochez une carte.']
         ],
         cost: 5,
-        stats: ['e', 'f'],
+        stats: ['r', 'c'],
         attr: ['drawCard'],
         pictureName: 'ext1/gold1'
     },
@@ -182,7 +182,7 @@ const cards_ext1 = [
         type: 'T1',
         desc: [],
         cost: 4,
-        stats: ['e', 'd', 'f'],
+        stats: ['r', 'd', 'c'],
         pictureName: 'ext1/ShieldMana'
     },
     {
@@ -190,7 +190,7 @@ const cards_ext1 = [
         type: 'T1',
         desc: [],
         cost: 5,
-        stats: ['e', 'a', 'f'],
+        stats: ['r', 'a', 'c'],
         pictureName: 'ext1/gold2'
     },
     {
@@ -198,7 +198,7 @@ const cards_ext1 = [
         type: 'T1',
         desc: [],
         cost: 3,
-        stats: ['e', 's', 'f'],
+        stats: ['r', 's', 'c'],
         pictureName: 'ext1/Thief'
     },
     {
@@ -206,7 +206,7 @@ const cards_ext1 = [
         type: 'T1',
         desc: [],
         cost: 3,
-        stats: ['a', 's', 'f'],
+        stats: ['a', 's', 'c'],
         pictureName: 'ext1/dancing'
     },
     {
@@ -214,7 +214,7 @@ const cards_ext1 = [
         type: 'T1',
         desc: [],
         cost: 4,
-        stats: ['a', 'd', 'f'],
+        stats: ['a', 'd', 'c'],
         pictureName: 'ext1/dwarfShield'
     },
     {
@@ -222,7 +222,7 @@ const cards_ext1 = [
         type: 'T1',
         desc: [],
         cost: 2,
-        stats: ['d', 's', 'f'],
+        stats: ['d', 's', 'c'],
         pictureName: 'ext1/invocation1'
     },
     {
@@ -242,7 +242,7 @@ const cards_ext1 = [
         type: 'T2',
         desc: [
              ['Un au choix: ', 'a', ' ou ', 'd', ' ou ', 's'],
-             ['ou ', 'e', ' ou ', 'f'],
+             ['ou ', 'r', ' ou ', 'c'],
         ],
         cost: 1,
         stats: [],
