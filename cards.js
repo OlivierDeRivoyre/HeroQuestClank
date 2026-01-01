@@ -111,7 +111,7 @@ const allCards = [
         desc: [
             [],
             ['       200 ', 'l', '     5 ', 's', '     3 ', 'a'],
-            ['Attaque circulaire aux tours'], ['paires'],
+            ['Attaque générale aux tours'], ['paires'],
         ],
         cost: 0,
         stats: [],
