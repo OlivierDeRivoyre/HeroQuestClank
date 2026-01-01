@@ -160,7 +160,7 @@ const cards_ext1 = [
         title: 'Rituel de Prospérité',
         type: 'common',
         desc: [
-            ['g', ': Gagnez un point d’énergie.'],
+            ['g', ': Gagnez un diamant'],
             ['c', ': Utilisez une compétance'],
             [' de votre personage'],
         ],
@@ -210,7 +210,7 @@ const cards_ext1 = [
         desc: [
             ['Piochez une carte.']
         ],
-        cost: 5,
+        cost: 4,
         stats: ['g', 'c'],
         attr: ['drawCard'],
         pictureName: 'ext1/gold1'

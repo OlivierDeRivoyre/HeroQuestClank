@@ -12,7 +12,7 @@ const allCards = [
         ],
         cost: 0,
         stats: [],
-        pictureName: 'monster/Gobelin',//  style "Dungeon Crawler Board Game Art"
+        pictureName: 'monster/Gobelin',//  style "Dungeon Crawler Board old Game Art"
         quantity: 1
     },
     {
@@ -96,7 +96,7 @@ const allCards = [
         desc: [
             [],
             ['          14 ', 'd', '        5 ', 's'],
-           // [],
+            // [],
             ['  Possède 3 cœurs de pierre'],
         ],
         cost: 0,
@@ -196,7 +196,7 @@ const allCards = [
         desc: [
             ['a', ': Gagnez un dé d’attaque,'],
             ['supplémentaire'],
-            ['g', ': Gagnez un point d’énergie.'],
+            ['g', ': Gagnez un diamant.'],
         ],
         cost: 2,
         stats: ['a', 'g'],
@@ -207,8 +207,7 @@ const allCards = [
         title: 'Bénédiction',
         type: 'common',
         desc: [
-            ['g', 'g', ': Gagnez deux point'],
-            ['d’énergie.'],
+            ['g', 'g', ': Gagnez deux diamants']
         ],
         cost: 2,
         stats: ['g', 'g'],
@@ -230,7 +229,7 @@ const allCards = [
         desc: [
             ['l', ': Récupérez un point de vie']
         ],
-        cost: 1,
+        cost: 2,
         stats: ['l'],
         pictureName: 'heal1'
     },
@@ -315,7 +314,7 @@ const allCards = [
         title: 'Dague Vampirique',
         type: 'T1',
         desc: [['l', ': Récupérez un point de vie']],
-        cost: 3,
+        cost: 4,
         stats: ['a', 'l'],
         pictureName: 'daggerVamp'
     },
@@ -323,12 +322,12 @@ const allCards = [
         title: 'Essence de Vie',
         type: 'T1',
         desc: [],
-        cost: 2,
+        cost: 3,
         stats: ['g', 'l'],
         pictureName: 'arch'
     },
     {
-        title: 'Rempart d’Énergie',
+        title: 'Rempart Précieux',
         type: 'T1',
         desc: [],
         cost: 3,
@@ -339,7 +338,7 @@ const allCards = [
         title: 'Gardien Vital',
         type: 'T1',
         desc: [],
-        cost: 3,
+        cost: 4,
         stats: ['g', 'd', 'l'],
         pictureName: 'heal3'
     },
@@ -355,7 +354,7 @@ const allCards = [
         pictureName: 'fastAttack3'
     },
     {
-        title: 'Élan Énergique',
+        title: 'Bonne fortune',
         type: 'T1',
         desc: [
             ['Piochez une carte.']
@@ -478,22 +477,22 @@ const allCards = [
         pictureName: 'elfWarrior'
     },
 
-    // T2
+    // artifact
     {
         title: 'Coup de foudre',
-        type: 'T2',
+        type: 'artifact',
         desc: [
             ['Détruisez cette carte, piochez'],
-            ['3 cartes.']
+            ['2 cartes.']
         ],
         cost: 2,
         stats: [],
-        attr: ['destroyCurrentCard', 'drawCard', 'drawCard', 'drawCard'],
+        attr: ['destroyCurrentCard', 'drawCard', 'drawCard'],
         pictureName: 'thunder'
     },
     {
         title: 'BOOM!',
-        type: 'T2',
+        type: 'artifact',
         desc: [
             ['Usage unique, détruisez cette'],
             ['carte une fois jouée.']
@@ -528,26 +527,50 @@ const allCards = [
         pictureName: 'broom'
     },
     {
-        title: 'Seconde chance',
+        title: 'Eponge',
         type: 'T2',
         desc: [
-            ['Relancez les dés de votre choix'],
-            ['Piochez une carte.']
+            ['Piochez une carte.'],
+            ['Détruisez une carte jouée de'],
+            ['votre choix.']
         ],
         cost: 3,
         stats: [],
-        attr: ['rerollDices', 'drawCard'],
+        attr: ['destroyACard'],
+        pictureName: 'Sponge'
+    },
+    {
+        title: 'Brosse',
+        type: 'artifact',
+        desc: [
+            ['g', 'g', ': Détruisez une carte jouée'],
+            ['de votre choix.']
+        ],
+        cost: 3,
+        stats: [],
+        attr: ['destroyACard'],
+        pictureName: 'Brush'
+    },
+    {
+        title: 'Seconde chance',
+        type: 'artifact',
+        desc: [
+            ['Relancez les dés de votre choix']
+        ],
+        cost: 5,
+        stats: [],
+        attr: ['rerollDices'],
         pictureName: 'clover2'
     },
     {
         title: 'Charge Stratégique',
-        type: 'T2',
+        type: 'artifact',
         desc: [
             ['Chaque ', 's', ' peut être converti'],
             ['en ', 'a']
         ],
-        cost: 3,
-        stats: ['s'],
+        cost: 5,
+        stats: [],
         attr: ['walkToAttack'],
         pictureName: 'charge'
     },
@@ -565,24 +588,24 @@ const allCards = [
 
     {
         title: 'Force Accumulée',
-        type: 'T2',
+        type: 'artifact',
         desc: [
             ['Ajoutez +1 ', 'a', ' par carte piochée'],
             ['supplémentaire.']
         ],
-        cost: 4,
+        cost: 6,
         stats: [],
         attr: ['attackPerDrawnCard'],
         pictureName: 'necro'
     },
     {
         title: 'Bouclier de Feu',
-        type: 'T2',
+        type: 'artifact',
         desc: [
             ['Chaque ', 'd', ' donne une ', 'a']
         ],
-        cost: 4,
-        stats: ['d'],
+        cost: 5,
+        stats: [],
         attr: ['shieldToAttack'],
         pictureName: 'shieldFire'
     },
@@ -602,35 +625,35 @@ const allCards = [
         title: 'Fortification',
         type: 'T2',
         desc: [
-            ['Tous les joueurs gagnent 3 ', 'd'],
+            ['Tous les joueurs gagnent 1 ', 'd'],
             ['ce tour-ci.']
         ],
-        cost: 4,
+        cost: 3,
         stats: [],
-        attr: ['d', 'd', 'd'],
+        attr: [],
         pictureName: 'wall'
     },
     {
         title: 'Conquête des Un',
-        type: 'T2',
+        type: 'artifact',
         desc: [
             ['Vos 1 sur les dés deviennent'],
             ['des 6.']
         ],
-        cost: 5,
-        stats: ['a'],
+        cost: 6,
+        stats: [],
         attr: ['diceOneBecameSix'],
         pictureName: 'knight'
     },
     {
         title: 'Relance du Destin',
-        type: 'T2',
+        type: 'artifact',
         desc: [
             ['Cumulez et relancez chaque 6'],
             ['obtenu.']
         ],
         cost: 6,
-        stats: ['a'],
+        stats: [],
         attr: ['rollNewDiceOnSix'],
         pictureName: 'Dices6b'
     },
@@ -641,7 +664,7 @@ const allCards = [
             ['Cette carte crée une duplication'],
             ['d’une autre carte jouée.']
         ],
-        cost: 6,
+        cost: 5,
         stats: [],
         attr: ['mirror'],
         pictureName: 'mirror'
@@ -669,13 +692,11 @@ const allCards = [
     },
     {
         title: 'Yams',
-        type: 'T2',
+        type: 'artifact',
         desc: [
-            ['Multipliez vos dégâts selon vos'],
-            ['dés : paire x2, brelan x3, '],
-            ['carré x4, yams x5']
+            ['Vos paires deviennent des 5']
         ],
-        cost: 7,
+        cost: 5,
         stats: [],
         attr: ['yams'],
         pictureName: 'Dices6'

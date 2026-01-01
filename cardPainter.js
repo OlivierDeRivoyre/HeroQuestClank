@@ -17,7 +17,7 @@ const LogoDiamondImage = loadImg('LogoDiamond.png');
 const PureDiamondImage = loadImg('PureDiamond.png');
 const LogoStepImage = loadImg('LogoStep.png');
 const LogoCompetenceImage = loadImg('LogoCompetence.png');
-
+const CardTopHeaderImage = loadImg('cardTopHeader.png');
 const bgImage = loadImg('Parchment1500_2100.png');
 
 let onCardImageReadyfunc = null;
@@ -70,12 +70,22 @@ function paintCard(card, canvas) {
     else if (card.type == 'hero') {
         canvas.fillColor('rgba(16, 0, 0, 0.6)');
     }
+    else if (card.type == 'artifact') {
+        canvas.fillColor('rgba(243, 239, 7, 0.5)');
+    }
     const ratio = 2;
     const margin = (canvas.width - CadreExtImage.width * ratio) / 2;
     const anchor = 12;
     let top = margin + 40;
     canvas.drawImage(card.img, margin + anchor, top + anchor, CadreExtImage.width * ratio - 2 * anchor, CadreExtImage.height * ratio - 2 * anchor);
     canvas.drawImage(CadreExtImage, margin, top, CadreExtImage.width * ratio, CadreExtImage.height * ratio);
+
+    if (card.type == 'artifact'){
+        canvas.drawImage(CardTopHeaderImage, margin + 0, top - 48, CardTopHeaderImage.width * ratio, CardTopHeaderImage.height * ratio);
+        canvas.fontSize = 112;
+        canvas.fillStyle = '#dc9';
+        canvas.fillText('Artifact', margin + 28, top + 72);
+    }
 
     // Energy/cost
     if (card.cost) {
