@@ -13,7 +13,7 @@ const cards_ext1 = [
         ],
         cost: 0,
         stats: [],
-        pictureName: 'ext1/Barbare',//  style "Dungeon Crawler Board Game Art"
+        pictureName: 'ext1/Barbare',//  style "Dungeon Crawler Board old Game Art"
         quantity: 1
     },
     {

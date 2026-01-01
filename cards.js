@@ -170,7 +170,9 @@ const allCards = [
         type: 'base',
         desc: [
             ['Remplacez une carte du'],
-            ['magasin.']
+            ['magasin.'],
+            ['Ou bien: défaussez une carte '],
+            ['pour détecter les pièges']
         ],
         cost: 0,
         stats: [],
@@ -701,6 +703,71 @@ const allCards = [
         stats: [],
         attr: ['yams'],
         pictureName: 'Dices6'
+    },
+    {
+        title: 'Luxe',
+        type: 'artifact',
+        desc: [
+            ['Payez 2 ', 'g', ' supplémentaires'],
+            ['pour jouer directement la carte '],
+            ['achetée au lieu de la défausser.'],
+            ['S’applique à tous les joueurs.']
+        ],
+        cost: 3,
+        stats: [],
+        attr: [],
+        pictureName: 'CosyShop'
+    },
+    {
+        title: 'Marché',
+        type: 'artifact',
+        desc: [
+            ['Ajouter un emplacement au'],
+            ['magasin.'],
+        ],
+        cost: 2,
+        stats: [],
+        attr: [],
+        pictureName: 'Market'
+    },
+    {
+        title: 'Tricheur',
+        type: 'artifact',
+        desc: [
+            ['Piochez une carte'],
+            ['supplémentaire au début de'],
+            ['votre tour.'],
+
+        ],
+        cost: 5,
+        stats: [],
+        attr: [],
+        pictureName: 'PlayingCards'
+    },
+    {
+        title: 'Potion de vie',
+        type: 'artifact',
+        desc: [
+            ['Usage unique, détruisez cette'],
+            ['carte une fois jouée.'],
+            ['Restaurer 1 dé de vie.']
+        ],
+        cost: 5,
+        stats: [],
+        attr: [],
+        pictureName: 'LifePotion'
+    },
+    {
+        title: 'Petite potion',
+        type: 'artifact',
+        desc: [
+            ['Usage unique, détruisez cette'],
+            ['carte une fois jouée.'],            
+        ],
+        cost: 1,
+        stats: ['l'],
+        attr: [],
+        pictureName: 'SmallPotion'
     },
 ];
 
