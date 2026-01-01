@@ -20,9 +20,9 @@ const cards_ext1 = [
         title: 'Marchand',
         type: 'hero',
         desc: [
-            ['Premier ', 'c', ' : ', 'r', 'r'],
+            ['Premier ', 'c', ' : ', 'g', 'g'],
             [],
-            ['c', ' suivants : ', 'r'],
+            ['c', ' suivants : ', 'g'],
         ],
         cost: 0,
         stats: [],
@@ -60,7 +60,7 @@ const cards_ext1 = [
         desc: [
             ['c', ' : au choix, une seule fois'],
             // [''],
-            ['par choix ', 'a', ' ou ', 'r', ' ou ', 'd'],
+            ['par choix ', 'a', ' ou ', 'g', ' ou ', 'd'],
         ],
         cost: 0,
         stats: [],
@@ -109,12 +109,12 @@ const cards_ext1 = [
         title: 'Rituel de Prospérité',
         type: 'common',
         desc: [
-            ['r', ': Gagnez un point d’énergie.'],
+            ['g', ': Gagnez un point d’énergie.'],
             ['c', ': Utilisez une compétance'],
             [' de votre personage'],
         ],
         cost: 3,
-        stats: ['r', 'c'],
+        stats: ['g', 'c'],
         pictureName: 'ext1/mage2',
         quantity: 4
     },
@@ -160,7 +160,7 @@ const cards_ext1 = [
             ['Piochez une carte.']
         ],
         cost: 5,
-        stats: ['r', 'c'],
+        stats: ['g', 'c'],
         attr: ['drawCard'],
         pictureName: 'ext1/gold1'
     },
@@ -182,7 +182,7 @@ const cards_ext1 = [
         type: 'T1',
         desc: [],
         cost: 4,
-        stats: ['r', 'd', 'c'],
+        stats: ['g', 'd', 'c'],
         pictureName: 'ext1/ShieldMana'
     },
     {
@@ -190,7 +190,7 @@ const cards_ext1 = [
         type: 'T1',
         desc: [],
         cost: 5,
-        stats: ['r', 'a', 'c'],
+        stats: ['g', 'a', 'c'],
         pictureName: 'ext1/gold2'
     },
     {
@@ -198,7 +198,7 @@ const cards_ext1 = [
         type: 'T1',
         desc: [],
         cost: 3,
-        stats: ['r', 's', 'c'],
+        stats: ['g', 's', 'c'],
         pictureName: 'ext1/Thief'
     },
     {
@@ -242,7 +242,7 @@ const cards_ext1 = [
         type: 'T2',
         desc: [
              ['Un au choix: ', 'a', ' ou ', 'd', ' ou ', 's'],
-             ['ou ', 'r', ' ou ', 'c'],
+             ['ou ', 'g', ' ou ', 'c'],
         ],
         cost: 1,
         stats: [],

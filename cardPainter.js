@@ -13,8 +13,8 @@ const DescriptionZoneImage = loadImg('DescriptionZone.png');
 const LogoAttImage = loadImg('LogoAtt.png');
 const LogoDefImage = loadImg('LogoDef.png');
 const LogoLifeImage = loadImg('LogoLife.png');
-const LogoRubyImage = loadImg('LogoRuby.png');
-const PureRubyImage = loadImg('PureRuby.png');
+const LogoDiamondImage = loadImg('LogoDiamond.png');
+const PureDiamondImage = loadImg('PureDiamond.png');
 const LogoStepImage = loadImg('LogoStep.png');
 const LogoCompetenceImage = loadImg('LogoCompetence.png');
 
@@ -79,11 +79,11 @@ function paintCard(card, canvas) {
     // Energy/cost
     if (card.cost) {
         const pureStarWidth = 128;
-        const pureStarHeigth = PureRubyImage.height * pureStarWidth / PureRubyImage.width;
+        const pureStarHeigth = PureDiamondImage.height * pureStarWidth / PureDiamondImage.width;
         let starX = canvas.width - margin - pureStarWidth  - 24;
         const starY = top - 20;        
         for (let i = 0; i < card.cost; i++) {
-            canvas.drawImage(PureRubyImage, starX, starY + (i%3 == 1 ? 4 : 0), pureStarWidth , pureStarHeigth);
+            canvas.drawImage(PureDiamondImage, starX, starY + (i%3 == 1 ? 4 : 0), pureStarWidth , pureStarHeigth);
             starX -= 66 + (i % 3 == 2 ? 66 : 0);
 
         }
@@ -137,7 +137,7 @@ function getLogo(c) {
     switch (c) {
         case 'a': return LogoAttImage;
         case 'd': return LogoDefImage;
-        case 'r': return LogoRubyImage;
+        case 'g': return LogoDiamondImage;
         case 's': return LogoStepImage;
         case 'l': return LogoLifeImage;
         case 'c': return LogoCompetenceImage;

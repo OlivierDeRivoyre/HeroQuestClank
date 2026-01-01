@@ -143,7 +143,7 @@ class LevelView {
             switch (s) {
                 case 'a': this.diceZone.addAttackDice(); break;
                 case 's': this.diceZone.addWalkDice(); break;
-                case 'r': this.menuShopZone.energy++; break;
+                case 'g': this.menuShopZone.energy++; break;
                 case 'd': this.cardEffectAddShield(); break;
                 case 'l': this.cardEffectGain1Life(); break;
                 default: console.log('Unmanaged card stat: ' + s);

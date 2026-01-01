@@ -129,15 +129,15 @@ const allCards = [
         quantity: 8
     },
     {
-        title: 'Rubis',
+        title: 'Diamond',
         type: 'base',
         desc: [
-            ['r', ': Gagnez un rubis,'],
+            ['g', ': Gagnez un diamant,'],
             ['utilisable pour acheter des'],
             ['cartes au magasin.']
         ],
         cost: 0,
-        stats: ['r'],
+        stats: ['g'],
         pictureName: 'EnergyCard2',
         quantity: 12
     },
@@ -196,10 +196,10 @@ const allCards = [
         desc: [
             ['a', ': Gagnez un dé d’attaque,'],
             ['supplémentaire'],
-            ['r', ': Gagnez un point d’énergie.'],
+            ['g', ': Gagnez un point d’énergie.'],
         ],
         cost: 2,
-        stats: ['a', 'r'],
+        stats: ['a', 'g'],
         pictureName: 'attack12',
         quantity: 12
     },
@@ -207,11 +207,11 @@ const allCards = [
         title: 'Bénédiction',
         type: 'common',
         desc: [
-            ['r', 'r', ': Gagnez deux point'],
+            ['g', 'g', ': Gagnez deux point'],
             ['d’énergie.'],
         ],
         cost: 2,
-        stats: ['r', 'r'],
+        stats: ['g', 'g'],
         pictureName: 'EnergyCard',
         quantity: 12
     },
@@ -221,7 +221,7 @@ const allCards = [
         type: 'T1',
         desc: [],
         cost: 1,
-        stats: ['r', 'd'],
+        stats: ['g', 'd'],
         pictureName: 'ReceivingShield2',
     },
     {
@@ -239,7 +239,7 @@ const allCards = [
         type: 'T1',
         desc: [],
         cost: 1,
-        stats: ['a', 'r'],
+        stats: ['a', 'g'],
         pictureName: 'swordEnergy1'
     },
     {
@@ -299,7 +299,7 @@ const allCards = [
             ['distance.']
         ],
         cost: 3,
-        stats: ['r'],
+        stats: ['g'],
         attr: ['bow'],
         pictureName: 'starBow'
     },
@@ -324,7 +324,7 @@ const allCards = [
         type: 'T1',
         desc: [],
         cost: 2,
-        stats: ['r', 'l'],
+        stats: ['g', 'l'],
         pictureName: 'arch'
     },
     {
@@ -332,7 +332,7 @@ const allCards = [
         type: 'T1',
         desc: [],
         cost: 3,
-        stats: ['r', 'd', 'd'],
+        stats: ['g', 'd', 'd'],
         pictureName: 'shield'
     },
     {
@@ -340,7 +340,7 @@ const allCards = [
         type: 'T1',
         desc: [],
         cost: 3,
-        stats: ['r', 'd', 'l'],
+        stats: ['g', 'd', 'l'],
         pictureName: 'heal3'
     },
     {
@@ -361,7 +361,7 @@ const allCards = [
             ['Piochez une carte.']
         ],
         cost: 2,
-        stats: ['r'],
+        stats: ['g'],
         attr: ['drawCard'],
         pictureName: 'run1'
     },
@@ -430,7 +430,7 @@ const allCards = [
             ['Perdez 1 vie']
         ],
         cost: 3,
-        stats: ['r', 'r', 'r'],
+        stats: ['g', 'g', 'g'],
         attr: ['lost1Life'],
         pictureName: 'sacrifice'
     },
@@ -450,7 +450,7 @@ const allCards = [
         type: 'T1',
         desc: [],
         cost: 4,
-        stats: ['a', 'r', 'r'],
+        stats: ['a', 'g', 'g'],
         pictureName: 'unicorn'
     },
     {
@@ -466,7 +466,7 @@ const allCards = [
         type: 'T1',
         desc: [],
         cost: 5,
-        stats: ['a', 'r', 'd'],
+        stats: ['a', 'g', 'd'],
         pictureName: 'shieldPower'
     },
     {
@@ -523,7 +523,7 @@ const allCards = [
             ['votre choix.']
         ],
         cost: 3,
-        stats: ['r'],
+        stats: ['g'],
         attr: ['destroyACard'],
         pictureName: 'broom'
     },
@@ -651,7 +651,7 @@ const allCards = [
         type: 'T2',
         desc: [['Piochez une carte.']],
         cost: 7,
-        stats: ['a', 'r', 'd', 's', 'l'],
+        stats: ['a', 'g', 'd', 's', 'l'],
         attr: ['drawCard'],
         pictureName: 'excalibur'
     },
