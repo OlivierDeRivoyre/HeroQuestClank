@@ -129,10 +129,10 @@ const allCards = [
         quantity: 8
     },
     {
-        title: 'Energie',
+        title: 'Rubis',
         type: 'base',
         desc: [
-            ['r', ': Gagnez un point d’énergie,'],
+            ['r', ': Gagnez un rubis,'],
             ['utilisable pour acheter des'],
             ['cartes au magasin.']
         ],
