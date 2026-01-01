@@ -33,8 +33,8 @@ const cards_ext1 = [
         title: 'Archer',
         type: 'hero',
         desc: [
-            ['Premier ', 'c', ' :'],
-            ['         Attaque à distance'],
+            ['Premier ', 'c', ': Attaque à distance'],
+            [],
             ['c', ' suivants : ', 'a'],
         ],
         cost: 0,
@@ -46,8 +46,8 @@ const cards_ext1 = [
         title: 'Tank',
         type: 'hero',
         desc: [
-            ['c', ' : gagner ', 'a', ' pour chaque ', 'd'],
-            [],
+            ['c', ' : forcez un monstre à vous'],
+            ['attaquer'],
         ],
         cost: 0,
         stats: [],
@@ -91,6 +91,57 @@ const cards_ext1 = [
         cost: 0,
         stats: [],
         pictureName: 'ext1/Necro',
+        quantity: 1
+    },
+    {
+        title: 'Assassin',
+        type: 'hero',
+        desc: [
+            ['c', ' si derrière le monstre:', 'a', 'a'],
+        ],
+        cost: 0,
+        stats: [],
+        pictureName: 'ext1/Assassin',
+        quantity: 1
+    },
+    {
+        title: 'Braconneur',
+        type: 'hero',
+        desc: [
+            ['c', ' : détectez les pièges'],
+            [],
+            ['c', ' : ', 'g'],
+        ],
+        cost: 0,
+        stats: [],
+        pictureName: 'ext1/Poacher',
+        quantity: 1
+    },
+    {
+        title: 'Prêtre',
+        type: 'hero',
+        desc: [
+            ['c', ' une fois par tour: restaurer'],
+            ['un point de vie à un allié'],
+            [],
+            ['c', ' : ', 's'],
+        ],
+        cost: 0,
+        stats: [],
+        pictureName: 'ext1/Priest',
+        quantity: 1
+    },
+    {
+        title: 'Mage',
+        type: 'hero',
+        desc: [
+            ['c', ' une fois par tour: tentez'],
+            ['d’immobiliser un monstre'],
+            [],            
+        ],
+        cost: 0,
+        stats: [],
+        pictureName: 'ext1/Mage',
         quantity: 1
     },
     {
@@ -228,21 +279,21 @@ const cards_ext1 = [
     {
         title: 'Espion',
         type: 'T2',
-        desc: [  
-             ['Piochez une carte.'],
-             ['Regardez les 5 prochaines'],
-             ['cartes de la pioche.']
-            ],
+        desc: [
+            ['Piochez une carte.'],
+            ['Regardez les 5 prochaines'],
+            ['cartes de la pioche.']
+        ],
         cost: 1,
         stats: [],
         pictureName: 'ext1/spying'
     },
-        {
+    {
         title: 'Râtelier d’armes',
         type: 'T2',
         desc: [
-             ['Un au choix: ', 'a', ' ou ', 'd', ' ou ', 's'],
-             ['ou ', 'g', ' ou ', 'c'],
+            ['Un au choix: ', 'a', ' ou ', 'd', ' ou ', 's'],
+            ['ou ', 'g', ' ou ', 'c'],
         ],
         cost: 1,
         stats: [],

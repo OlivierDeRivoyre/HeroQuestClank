@@ -72,18 +72,19 @@ function paintCard(card, canvas) {
     }
     const ratio = 2;
     const margin = (canvas.width - CadreExtImage.width * ratio) / 2;
+    const anchor = 12;
     let top = margin + 40;
-    canvas.drawImage(card.img, margin, top, CadreExtImage.width * ratio, CadreExtImage.height * ratio);
+    canvas.drawImage(card.img, margin + anchor, top + anchor, CadreExtImage.width * ratio - 2 * anchor, CadreExtImage.height * ratio - 2 * anchor);
     canvas.drawImage(CadreExtImage, margin, top, CadreExtImage.width * ratio, CadreExtImage.height * ratio);
 
     // Energy/cost
     if (card.cost) {
         const pureStarWidth = 128;
         const pureStarHeigth = PureDiamondImage.height * pureStarWidth / PureDiamondImage.width;
-        let starX = canvas.width - margin - pureStarWidth  - 24;
-        const starY = top - 20;        
+        let starX = canvas.width - margin - pureStarWidth - 24;
+        const starY = top - 20;
         for (let i = 0; i < card.cost; i++) {
-            canvas.drawImage(PureDiamondImage, starX, starY + (i%3 == 1 ? 4 : 0), pureStarWidth , pureStarHeigth);
+            canvas.drawImage(PureDiamondImage, starX, starY + (i % 3 == 1 ? 4 : 0), pureStarWidth, pureStarHeigth);
             starX -= 66 + (i % 3 == 2 ? 66 : 0);
 
         }
@@ -122,7 +123,7 @@ function paintCard(card, canvas) {
     // stats
     top += DescriptionZoneImage.height * ratio - 140;
     const step = (canvas.width - 2 * margin) / (1 + card.stats.length);
-   
+
     for (let i = 0; i < card.stats.length; i++) {
         const logo = getLogo(card.stats[i]);
         const logoRatio = 3;
@@ -131,7 +132,7 @@ function paintCard(card, canvas) {
     }
 
 }
- const LogoSize = 58;
+const LogoSize = 58;
 
 function getLogo(c) {
     switch (c) {
