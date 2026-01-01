@@ -13,10 +13,10 @@ const DescriptionZoneImage = loadImg('DescriptionZone.png');
 const LogoAttImage = loadImg('LogoAtt.png');
 const LogoDefImage = loadImg('LogoDef.png');
 const LogoLifeImage = loadImg('LogoLife.png');
-const LogoStarImage = loadImg('LogoStar.png');
+const LogoStarImage = loadImg('LogoRuby.png');
 const LogoStepImage = loadImg('LogoStep.png');
 const PureStarImage = loadImg('PureStar.png');
-const LogoFlashImage = loadImg('ext1/flashlight.png');
+const LogoFlashImage = loadImg('LogoStar.png');
 
 const bgImage = loadImg('Parchment1500_2100.png');
 
@@ -78,10 +78,14 @@ function paintCard(card, canvas) {
 
     // Energy/cost
     if (card.cost) {
-        const starX = canvas.width - margin - PureStarImage.width * ratio - 24;
-        const starY = top - 20;
+        const pureStarWidth = 128;
+        const pureStarHeigth = PureStarImage.height * pureStarWidth / PureStarImage.width;
+        let starX = canvas.width - margin - pureStarWidth  - 24;
+        const starY = top - 20;        
         for (let i = 0; i < card.cost; i++) {
-            canvas.drawImage(PureStarImage, starX - i * 66, starY, PureStarImage.width * ratio, PureStarImage.height * ratio);
+            canvas.drawImage(PureStarImage, starX, starY + (i%3 == 1 ? 4 : 0), pureStarWidth , pureStarHeigth);
+            starX -= 66 + (i % 3 == 2 ? 66 : 0);
+
         }
     }
 
@@ -105,8 +109,8 @@ function paintCard(card, canvas) {
             if (word.length == 1) {
                 const logo = getLogo(word);
                 const logoRatio = 1.4;
-                canvas.drawImage(logo, x, descTop - logo.height - 10, logo.width * logoRatio, logo.height * logoRatio);
-                x += logo.width + 26;
+                canvas.drawImage(logo, x, descTop - LogoSize - 10, LogoSize * logoRatio, LogoSize * logoRatio);
+                x += LogoSize + 26;
             } else {
                 canvas.fillText(word, x, descTop);
                 x += canvas.measureTextWidth(word);
@@ -118,14 +122,17 @@ function paintCard(card, canvas) {
     // stats
     top += DescriptionZoneImage.height * ratio - 140;
     const step = (canvas.width - 2 * margin) / (1 + card.stats.length);
+   
     for (let i = 0; i < card.stats.length; i++) {
         const logo = getLogo(card.stats[i]);
         const logoRatio = 3;
-        const logoOffSet = logo.width * logoRatio / 2;
-        canvas.drawImage(logo, margin + step * (i + 1) - logoOffSet, top, logo.width * logoRatio, logo.height * logoRatio);
+        const logoOffSet = LogoSize * logoRatio / 2;
+        canvas.drawImage(logo, margin + step * (i + 1) - logoOffSet, top, LogoSize * logoRatio, LogoSize * logoRatio);
     }
 
 }
+ const LogoSize = 58;
+
 function getLogo(c) {
     switch (c) {
         case 'a': return LogoAttImage;
