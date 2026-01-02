@@ -10,7 +10,9 @@ class Player {
     constructor(name) {
         this.name = name;
         this.deck = new CardGameRun();
-        this.maxLife = 7;
+        // Assume players will behave on this one
+        this.deck.playerDeck.drawPile = this.deck.playerDeck.drawPile.filter(c => c.id != 'baseMalus');
+        this.maxLife = 8;
         this.life = this.maxLife;
         this.x = 0;
         this.commonGGBought = 0;
@@ -22,6 +24,7 @@ class Player {
         this.gold = 0;
         this.competance = 0;
         this.attDist = false;
+        this.circularAtt = false;
     }
     playCards() {
         if (this.life <= 0)
@@ -44,8 +47,10 @@ class Player {
             this.applyCardEffect(c);
         }
         this.deck.playerDeck.endTurn();
+        this.applyCompetance();
         console.log(`Player ${this.name} ${this.life}❤️ play ${playedCard} cards for: ${this.att}⚔️, ${this.def}🛡️, ${this.gold}💎, ${this.competance}⭐`)
     }
+
     applyCardEffect(card) {
         for (let s of card.stats) {
             switch (s) {
@@ -58,30 +63,39 @@ class Player {
                 default: console.log('Unmanaged card stat: ' + s);
             }
         }
-        /*   for (let attr of (card.attr || [])) {
-               switch (attr) {
-                   case 'recycle1': this.popup = new RecycleShopForm(this); break;
-                   case 'lost1Life': this.cardEffectLost1Life(); break;
-                   case 'loseTrueLive': this.cardEffectLostTrueLife(); break;
-                   case 'bow': this.cardEffectBow(); break;
-                   case 'drawCard': this.cardEffectDrawCard(); break;
-                   case 'rerollDices': this.cardEffectRerollDices(); break;
-                   case 'destroyCurrentCard': this.cardEffectDestroyCurrentCard(); break;
-                   case 'destroyACard': this.cardEffectDestroyACard(); break;
-                   case 'attackPerDrawnCard': this.cardEffectAttackPerDrawnCard(); break;
-                   case 'walkToAttack': this.cardEffectWalkToAttack(); break;
-                   case 'shieldToAttack': this.cardEffectShieldToAttack(); break;
-                   case 'circularAttack': this.cardEffectCircularAttack(); break;
-                   case 'x2': this.cardEffectDoubleDamages(); break;
-                   case 'd': this.cardEffectAddShield(); break;
-                   case 'diceOneBecameSix': this.cardEffectDiceOneBecameSix(); break;
-                   case 'rollNewDiceOnSix': this.cardEffectRollNewDiceOnSix(); break;
-                   case 'mirror': this.cardEffectMirror(); break;
-                   case 'yams': this.cardEffectYams(); break;
-                   default: console.log('Unmanaged card attr: ' + attr);
-               }
-           }
-               */
+        for (let attr of (card.attr || [])) {
+            switch (attr) {
+                case 'recycle1':
+                    break;
+                case 'lost1Life':
+                    if (this.def > 0) {
+                        this.def--;
+                    }
+                    else if (this.life > 0) {
+                        this.life--;
+                    }
+                    break;
+                case 'loseTrueLive':
+                    if (this.life > 0) {
+                        this.life--;
+                    }
+                    break;
+                case 'bow':
+                    this.attDist = true;
+                    break;
+                case 'drawCard':
+                    break;
+                case 'circularAttack':
+                    this.circularAtt = true;
+                    break;
+                default: console.log('Unmanaged card attr: ' + attr);
+            }
+        }
+
+    }
+
+    applyCompetance() {
+        this.att += this.competance;
     }
 
     doDamage(room) {
@@ -95,7 +109,14 @@ class Player {
             console.log(`Player ${this.name} does not move enough`);
             return;
         }
-        monster.takeDamage(dices, this);
+        if (!this.circularAtt) {
+            monster.takeDamage(dices, this);
+        } else {
+            const monsters = room.monsters.filter(m => m.life > 0).slice(0, 2);
+            for (let m of monsters) {
+                m.takeDamage(dices, this);
+            }
+        }
     }
 
     removeMoves(dices, minDist) {
@@ -117,9 +138,10 @@ class Player {
             this.commonGGBought++;
             console.log(`Player ${this.name} buy ${card.title} for ${card.cost}`);
         }
+        this.deck.uncommonShop.drawPile.sort((a, b) => b.cost - a.cost);
         for (let i = 0; i < this.deck.uncommonShop.drawPile.length; i++) {
             const card = this.deck.uncommonShop.drawPile[i];
-            if (card.cost > this.gold)
+            if (card.type != "T1" || card.cost > this.gold)
                 continue;
             this.gold -= card.cost;
             this.deck.uncommonShop.drawPile.splice(i, 1);
@@ -149,7 +171,7 @@ class Monster {
             ['G', 'Gobelin', 8, 0, 1, '🗡️'],
             ['A', 'Archer', 6, 0, 1, '🏹'],
             ['S', 'Skeleton', 1, 9, 1, '💀'],
-            ['M', 'Momie', 12, 0, 1, '🎃'],
+            ['M', 'Momie', 12, 0, 1, '🩹'],
             ['Z', 'Zombie', 20, 4, 1, '🧟‍♂️'],
             ['O', 'Orc', 40, 0, 2, '👹'],
             ['B', 'aBomination', 100, 0, 2, '🦈'],
@@ -164,6 +186,7 @@ class Monster {
         this.att = v[4];
         this.icon = v[5];
         this.dmgDone = 0;
+        this.realDmgDone = 0;
         this.absoluteDmgTaken = 0;
     }
     doDamage(players, turn) {
@@ -172,7 +195,8 @@ class Monster {
         const attBonus = Math.floor(turn / 2);
         const aoe = this.type == 'O'
             || (turn % 2 == 1 && (this.type == 'B' || this.type == 'R'));
-        const targets = aoe ? players : [players[Math.floor(Math.random() * players.length)]];
+        players.sort((b, a) => (a.def * 10 + a.life) - (b.def * 10 + b.life));
+        const targets = aoe ? players : [players[0]];
         for (let p of targets) {
             const dmg = this.att + attBonus;
             this.dmgDone += dmg;
@@ -181,6 +205,7 @@ class Monster {
             const realDmg = dmg - prot;
             if (realDmg <= 0)
                 return;
+            this.realDmgDone += realDmg;
             p.life = Math.max(0, p.life - realDmg);
             console.log(`${this.name} do ${realDmg}💥 to ${p.name}, life: ${p.life}❤️`);
             if (p.life <= 0) {
@@ -215,6 +240,7 @@ class Room {
         this.monsters = monsters;
         this.turn = 0;
         this.xSize = 7;
+        this.metricsHeroLives = [];
     }
     getFirstMonster() {
         return this.monsters.find(m => m.life > 0)
@@ -228,9 +254,9 @@ function createDungeon() {
         'GGG',
         'GGGA',
         'GSS',
-        'SMM',
+        'MM',
         'ZZZ',
-        'OOZ',
+        'O',
         'B',
         'C',
         'R'
@@ -249,6 +275,7 @@ function moveToCurrentRoom() {
         if (monster) {
             return dungeon[currentRoomIndex];
         }
+        dungeon[currentRoomIndex].metricsHeroLives = players.map(p => p.life);
         currentRoomIndex++;
         console.log(`Enter in room ${currentRoomIndex + 1} / ${dungeon.length}`);
         if (currentRoomIndex < dungeon.length) {
@@ -319,12 +346,14 @@ function displayDungeon(result) {
     div.innerHTML = '';
     {
         const p = document.createElement('p');
-        p.textContent  = result;
+        p.textContent = result;
         div.appendChild(p);
     }
     for (let room of dungeon) {
-        const p = document.createElement('p');        
-        p.textContent = room.monsters.map(m => `${m.icon} ${m.dmgDone}/${m.absoluteDmgTaken}`).join(' ');
+        const p = document.createElement('p');
+        p.textContent =
+            (room.metricsHeroLives.length ? `❤️ ${room.metricsHeroLives.join(",")} ` : '')
+            + room.monsters.map(m => `${m.icon} ${m.realDmgDone}/${m.dmgDone}/${m.absoluteDmgTaken}`).join(' ');
         div.appendChild(p);
     }
 }

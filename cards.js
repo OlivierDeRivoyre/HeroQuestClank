@@ -184,6 +184,7 @@ const allCards = [
     {
         title: 'Malédiction',
         type: 'base',
+        id: 'baseMalus',
         desc: [
             ['Perdez un point de vie,'],
             ['évitable avec un ', 'd']
