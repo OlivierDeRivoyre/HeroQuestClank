@@ -266,9 +266,9 @@ function createDungeon() {
         'GASS',
         'GMM',
         'ZZZ',
-        'O',
-        'B',
-        'C',
+        'OZZ',
+        'BZZ',
+        'CZZ',
         'R'
     ];
     return d.map(text => new Room(text.split('').map(c => new Monster(c))));

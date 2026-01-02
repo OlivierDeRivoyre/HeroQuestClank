@@ -30,7 +30,7 @@ class MenuShopZone {
         const topY = this.shopButton.rect.y - 6;
         const margin = (this.shopButton.rect.width - 10 * this.buyableCards) / 2
         for (let i = 0; i < this.buyableCards; i++) {
-            screen.canvas.drawImage(PureStarImage, topX + margin + i * 10, topY, 12, 12);
+            screen.canvas.drawImage(PureDiamondImage, topX + margin + i * 10, topY, 12, 12);
         }
     }
     endTurn() {
