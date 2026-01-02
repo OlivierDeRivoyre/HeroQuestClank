@@ -6,6 +6,7 @@ const allCards = [
     {
         title: 'Gobelin',
         type: 'monster',
+        id: 'gobelin',
         desc: [
             [],
             ['       8 ', 'l', '        8 ', 's', '        1 ', 'a'],
@@ -480,31 +481,7 @@ const allCards = [
         pictureName: 'elfWarrior'
     },
 
-    // artifact
-    {
-        title: 'Coup de foudre',
-        type: 'artifact',
-        desc: [
-            ['Détruisez cette carte, piochez'],
-            ['2 cartes.']
-        ],
-        cost: 2,
-        stats: [],
-        attr: ['destroyCurrentCard', 'drawCard', 'drawCard'],
-        pictureName: 'thunder'
-    },
-    {
-        title: 'BOOM!',
-        type: 'artifact',
-        desc: [
-            ['Usage unique, détruisez cette'],
-            ['carte une fois jouée.']
-        ],
-        cost: 2,
-        stats: ['a', 'a', 'a'],
-        attr: ['destroyCurrentCard'],
-        pictureName: 'boom'
-    },
+    //T2
     {
         title: 'Serpillière',
         type: 'T2',
@@ -539,43 +516,8 @@ const allCards = [
         ],
         cost: 3,
         stats: [],
-        attr: ['destroyACard'],
+        attr: ['drawCard', 'destroyACard'],
         pictureName: 'Sponge'
-    },
-    {
-        title: 'Brosse',
-        type: 'artifact',
-        desc: [
-            ['g', 'g', ': Détruisez une carte jouée'],
-            ['de votre choix.']
-        ],
-        cost: 3,
-        stats: [],
-        attr: ['destroyACard'],
-        pictureName: 'Brush'
-    },
-    {
-        title: 'Seconde chance',
-        type: 'artifact',
-        desc: [
-            ['Relancez les dés de votre choix']
-        ],
-        cost: 5,
-        stats: [],
-        attr: ['rerollDices'],
-        pictureName: 'clover2'
-    },
-    {
-        title: 'Charge Stratégique',
-        type: 'artifact',
-        desc: [
-            ['Chaque ', 's', ' peut être converti'],
-            ['en ', 'a']
-        ],
-        cost: 5,
-        stats: [],
-        attr: ['walkToAttack'],
-        pictureName: 'charge'
     },
     {
         title: 'Jumeaux',
@@ -587,30 +529,6 @@ const allCards = [
         stats: [],
         attr: ['drawCard', 'drawCard'],
         pictureName: 'twins'
-    },
-
-    {
-        title: 'Force Accumulée',
-        type: 'artifact',
-        desc: [
-            ['Ajoutez +1 ', 'a', ' par carte piochée'],
-            ['supplémentaire.']
-        ],
-        cost: 6,
-        stats: [],
-        attr: ['attackPerDrawnCard'],
-        pictureName: 'necro'
-    },
-    {
-        title: 'Bouclier de Feu',
-        type: 'artifact',
-        desc: [
-            ['Chaque ', 'd', ' donne une ', 'a']
-        ],
-        cost: 5,
-        stats: [],
-        attr: ['shieldToAttack'],
-        pictureName: 'shieldFire'
     },
     {
         title: 'Rage Berserker',
@@ -636,38 +554,14 @@ const allCards = [
         attr: [],
         pictureName: 'wall'
     },
-    {
-        title: 'Conquête des Un',
-        type: 'artifact',
-        desc: [
-            ['Vos 1 sur les dés deviennent'],
-            ['des 6.']
-        ],
-        cost: 6,
-        stats: [],
-        attr: ['diceOneBecameSix'],
-        pictureName: 'knight'
-    },
-    {
-        title: 'Relance du Destin',
-        type: 'artifact',
-        desc: [
-            ['Cumulez et relancez chaque 6'],
-            ['obtenu.']
-        ],
-        cost: 6,
-        stats: [],
-        attr: ['rollNewDiceOnSix'],
-        pictureName: 'Dices6b'
-    },
-    {
+{
         title: 'Miroir',
         type: 'T2',
         desc: [
             ['Cette carte crée une duplication'],
             ['d’une autre carte jouée.']
         ],
-        cost: 5,
+        cost: 4,
         stats: [],
         attr: ['mirror'],
         pictureName: 'mirror'
@@ -693,110 +587,7 @@ const allCards = [
         attr: ['x2', 'drawCard'],
         pictureName: 'Furry1'
     },
-    {
-        title: 'Yams',
-        type: 'artifact',
-        desc: [
-            ['Vos paires deviennent des 5']
-        ],
-        cost: 5,
-        stats: [],
-        attr: ['yams'],
-        pictureName: 'Dices6'
-    },
-    {
-        title: 'Luxe',
-        type: 'artifact',
-        desc: [
-            ['Payez 2 ', 'g', ' supplémentaires'],
-            ['pour jouer directement la carte '],
-            ['achetée au lieu de la défausser.'],
-            ['S’applique à tous les joueurs.']
-        ],
-        cost: 3,
-        stats: [],
-        attr: [],
-        pictureName: 'CosyShop'
-    },
-    {
-        title: 'Marché',
-        type: 'artifact',
-        desc: [
-            ['Ajouter un emplacement au'],
-            ['magasin.'],
-        ],
-        cost: 2,
-        stats: [],
-        attr: [],
-        pictureName: 'Market'
-    },
-    {
-        title: 'Tricheur',
-        type: 'artifact',
-        desc: [
-            ['Piochez une carte'],
-            ['supplémentaire au début de'],
-            ['votre tour.'],
 
-        ],
-        cost: 5,
-        stats: [],
-        attr: [],
-        pictureName: 'PlayingCards'
-    },
-    {
-        title: 'Potion de vie',
-        type: 'artifact',
-        desc: [
-            ['Usage unique, détruisez cette'],
-            ['carte une fois jouée.'],
-            ['Restaurer 1 dé de vie.']
-        ],
-        cost: 5,
-        stats: [],
-        attr: [],
-        pictureName: 'LifePotion'
-    },
-    {
-        title: 'Petite potion',
-        type: 'artifact',
-        desc: [
-            ['Usage unique, détruisez cette'],
-            ['carte une fois jouée.'],
-        ],
-        cost: 1,
-        stats: ['l'],
-        attr: [],
-        pictureName: 'SmallPotion'
-    },
-    {
-        title: 'Pierre de Noam',
-        type: 'artifact',
-        desc: [
-            ['Usage unique.'],
-            ['Ressuscitez tous les joueurs.'],
-            ['Ceux-ci perdent définitivement'],
-            ['un point de vie.'],
-        ],
-        cost: 0,
-        stats: [],
-        attr: [],
-        pictureName: 'SoulStone'
-    },
-    {
-        title: 'Argent de poche',
-        type: 'artifact',
-        desc: [
-            ['Gagnez 1 ', 'g'],
-            ['Remettez cette carte en haut'],
-            ['de la pioche du magasin sous '],
-            ['quelques cartes.'],
-        ],
-        cost: 1,
-        stats: [],
-        attr: [],
-        pictureName: 'SmallPouch'
-    },
 ];
 
 
