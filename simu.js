@@ -1,6 +1,12 @@
 function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+let showLog = true;
+function log(msg) {
+    if (showLog)
+        console.log(msg);
+}
+
 
 AddExt1();
 
@@ -12,7 +18,7 @@ class Player {
         this.deck = new CardGameRun();
         // Assume players will behave on this one
         this.deck.playerDeck.drawPile = this.deck.playerDeck.drawPile.filter(c => c.id != 'baseMalus');
-        this.maxLife = 8;
+        this.maxLife = 7;
         this.life = this.maxLife;
         this.x = 0;
         this.commonGGBought = 0;
@@ -48,7 +54,7 @@ class Player {
         }
         this.deck.playerDeck.endTurn();
         this.applyCompetance();
-        console.log(`Player ${this.name} ${this.life}❤️ play ${playedCard} cards for: ${this.att}⚔️, ${this.def}🛡️, ${this.gold}💎, ${this.competance}⭐`)
+       log(`Player ${this.name} ${this.life}❤️ play ${playedCard} cards for: ${this.att}⚔️, ${this.def}🛡️, ${this.gold}💎, ${this.competance}⭐`)
     }
 
     applyCardEffect(card) {
@@ -60,7 +66,7 @@ class Player {
                 case 'd': this.def++; break;
                 case 'l': this.life = Math.min(this.life + 1, this.maxLife); break;
                 case 'c': this.competance++; break;
-                default: console.log('Unmanaged card stat: ' + s);
+                default:log('Unmanaged card stat: ' + s);
             }
         }
         for (let attr of (card.attr || [])) {
@@ -88,7 +94,7 @@ class Player {
                 case 'circularAttack':
                     this.circularAtt = true;
                     break;
-                default: console.log('Unmanaged card attr: ' + attr);
+                default:log('Unmanaged card attr: ' + attr);
             }
         }
 
@@ -106,7 +112,7 @@ class Player {
         let dices = Array.from({ length: dicesCount }, () => Math.floor(Math.random() * 6 + 1));
         dices.sort();
         if (!this.removeMoves(dices, room.turn == 0 ? 7 : 0) && !this.attDist) {
-            console.log(`Player ${this.name} does not move enough`);
+           log(`Player ${this.name} does not move enough`);
             return;
         }
         if (!this.circularAtt) {
@@ -136,7 +142,7 @@ class Player {
             this.gold -= 2;
             this.deck.playerDeck.played.push(card);
             this.commonGGBought++;
-            console.log(`Player ${this.name} buy ${card.title} for ${card.cost}`);
+           log(`Player ${this.name} buy ${card.title} for ${card.cost}`);
         }
         this.deck.uncommonShop.drawPile.sort((a, b) => b.cost - a.cost);
         for (let i = 0; i < this.deck.uncommonShop.drawPile.length; i++) {
@@ -150,7 +156,7 @@ class Player {
             } else {
                 this.deck.artifacts.push(card);
             }
-            console.log(`Player ${this.name} buy ${card.title} for ${card.cost}`);
+           log(`Player ${this.name} buy ${card.title} for ${card.cost}`);
         }
         if (this.gold < 2) {
             return;
@@ -159,7 +165,7 @@ class Player {
         const cardId = randChoice[Math.floor(Math.random() * 2)];
         const card = this.deck.commonCards.find(c => c.id == cardId);
         this.deck.playerDeck.played.push(card);
-        console.log(`Player ${this.name} buy ${card.title} for ${card.cost}`);
+       log(`Player ${this.name} buy ${card.title} for ${card.cost}`);
     }
 }
 
@@ -196,7 +202,11 @@ class Monster {
         const aoe = this.type == 'O'
             || (turn % 2 == 1 && (this.type == 'B' || this.type == 'R'));
         players.sort((b, a) => (a.def * 10 + a.life) - (b.def * 10 + b.life));
-        const targets = aoe ? players : [players[0]];
+        let targets = aoe ?
+            (this.type == 'R' ? players : players.filter(p => !p.attDist))
+            : [players[0]];
+        if (targets.length == 0)
+            targets = [players[0]];
         for (let p of targets) {
             const dmg = this.att + attBonus;
             this.dmgDone += dmg;
@@ -207,9 +217,9 @@ class Monster {
                 return;
             this.realDmgDone += realDmg;
             p.life = Math.max(0, p.life - realDmg);
-            console.log(`${this.name} do ${realDmg}💥 to ${p.name}, life: ${p.life}❤️`);
+           log(`${this.name} do ${realDmg}💥 to ${p.name}, life: ${p.life}❤️`);
             if (p.life <= 0) {
-                console.log(`Player ${p.name} is dead 💀`);
+               log(`Player ${p.name} is dead 💀`);
             }
         }
     }
@@ -221,7 +231,7 @@ class Monster {
         }
         let realDamages = diceDamages - this.def;
         if (realDamages <= 0) {
-            console.log(`Player ${from.name} does not do enough damage (${diceDamages}) to ${this.name} (${this.life}❤️)`);
+           log(`Player ${from.name} does not do enough damage (${diceDamages}) to ${this.name} (${this.life}❤️)`);
             return;
         }
         if (this.type != 'C') {
@@ -229,9 +239,9 @@ class Monster {
         } else {
             this.life = Math.max(0, this.life - 1);
         }
-        console.log(`Player ${from.name} do ${diceDamages}💥 damages to ${this.name} (${this.life}❤️)`);
+       log(`Player ${from.name} do ${diceDamages}💥 damages to ${this.name} (${this.life}❤️)`);
         if (this.life <= 0) {
-            console.log(`Monster ${this.name} is dead`);
+           log(`Monster ${this.name} is dead`);
         }
     }
 }
@@ -251,10 +261,10 @@ let currentRoomIndex = 0;
 function createDungeon() {
     currentRoomIndex = 0;
     var d = [
-        'GGG',
-        'GGGA',
-        'GSS',
-        'MM',
+        'GG',    
+        'GGAA',
+        'GASS',
+        'GMM',
         'ZZZ',
         'O',
         'B',
@@ -265,7 +275,7 @@ function createDungeon() {
 }
 
 function initGame() {
-    players = [new Player("P1"), new Player("P2"), new Player("P3")];
+    players = [new Player("P1"), new Player("P2"), new Player("P3")/*, new Player("P4")*/];
     dungeon = createDungeon();
 }
 
@@ -277,7 +287,7 @@ function moveToCurrentRoom() {
         }
         dungeon[currentRoomIndex].metricsHeroLives = players.map(p => p.life);
         currentRoomIndex++;
-        console.log(`Enter in room ${currentRoomIndex + 1} / ${dungeon.length}`);
+       log(`Enter in room ${currentRoomIndex + 1} / ${dungeon.length}`);
         if (currentRoomIndex < dungeon.length) {
             for (let p of players) {
                 if (p.life == 0)
@@ -297,24 +307,57 @@ function monstersDoDamage(room) {
 }
 
 
-async function play() {
+function playOneGame() {
     initGame();
-    console.log(`Start game with ${players.length} players and ${allCards.length} cards`);
+   log(`Start game with ${players.length} players and ${allCards.length} cards`);
     for (let i = 0; i < 1000; i++) {
-        await delay(1);
         playTurn();
         if (players.filter(p => p.life > 0).length == 0) {
             result = `All heroes are dead at level ${currentRoomIndex + 1} / ${dungeon.length} 💀💀💀`;
-            console.log(result);
+           log(result);
             displayDungeon(result);
             break;
         }
         if (currentRoomIndex >= dungeon.length) {
             result = "Victory! The dungeon is defeated 🎉🎉🎉";
-            console.log(result);
+           log(result);
             displayDungeon(result);
             break;
         }
+    }
+}
+
+async function playManyGames() {
+    showLog = false;
+    initGame();
+    const failByRooms = dungeon.map(room => ({ loseHere: 0, dmgDone: 0, turns:0 }));
+    let victory = 0;
+    let total = 0;
+    for (let retry = 0; retry < 1000; retry++) {
+        total++;
+        initGame();
+       log(`Start game ${total} with ${players.length} players and ${allCards.length} cards`);
+        for (let i = 0; i < 1000; i++) {
+            playTurn();
+            if (players.filter(p => p.life > 0).length == 0) {
+                result = `All heroes are dead at level ${currentRoomIndex + 1} / ${dungeon.length} 💀💀💀`;
+               log(result);
+                failByRooms[currentRoomIndex].loseHere++;
+                break;
+            }
+            if (currentRoomIndex >= dungeon.length) {
+                victory++;
+                result = "Victory! The dungeon is defeated 🎉🎉🎉";
+               log(result);
+                break;
+            }
+        }
+        for (let i = 0; i < dungeon.length; i++) {
+            failByRooms[i].dmgDone += dungeon[i].monsters.reduce((acc, m) => acc + m.realDmgDone, 0);
+            failByRooms[i].turns += dungeon[i].turn;
+        }
+        displayMultiGameSummary(failByRooms, victory, total);
+        await delay(1);
     }
 }
 
@@ -354,6 +397,31 @@ function displayDungeon(result) {
         p.textContent =
             (room.metricsHeroLives.length ? `❤️ ${room.metricsHeroLives.join(",")} ` : '')
             + room.monsters.map(m => `${m.icon} ${m.realDmgDone}/${m.dmgDone}/${m.absoluteDmgTaken}`).join(' ');
+        div.appendChild(p);
+    }
+}
+
+function displayMultiGameSummary(failByRooms, victory, total) {
+    const div = document.getElementById('summary');
+    div.innerHTML = '';
+    {
+        const p = document.createElement('p');
+        p.textContent = `Victory: ${victory}/${total}`;
+        div.appendChild(p);
+    }
+    {
+        const p = document.createElement('p');
+        p.textContent = `Fails : ${failByRooms.map(s => s.loseHere).join(', ')}`;
+        div.appendChild(p);
+    }
+    {
+        const p = document.createElement('p');
+        p.textContent = `Damages : ${failByRooms.map(s => s.dmgDone).join(', ')}`;
+        div.appendChild(p);
+    }
+    {
+        const p = document.createElement('p');
+        p.textContent = `Turns : ${failByRooms.map(s => s.turns).join(', ')}`;
         div.appendChild(p);
     }
 }
