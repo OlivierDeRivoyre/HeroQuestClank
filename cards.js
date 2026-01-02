@@ -30,7 +30,7 @@ const allCards = [
         quantity: 1
     },
     {
-        title: 'Skeleton',
+        title: 'Squelette',
         type: 'monster',
         desc: [
             [],
@@ -42,7 +42,7 @@ const allCards = [
         quantity: 1
     },
     {
-        title: 'Mummy',
+        title: 'Momie',
         type: 'monster',
         desc: [
             [],
@@ -197,6 +197,7 @@ const allCards = [
     {
         title: 'Assaut Fulgurant',
         type: 'common',
+        id: 'commonAG',
         desc: [
             ['a', ': Gagnez un dé d’attaque,'],
             ['supplémentaire'],
@@ -209,6 +210,7 @@ const allCards = [
     },
     {
         title: 'Bénédiction',
+        id: 'commonGG',
         type: 'common',
         desc: [
             ['g', 'g', ': Gagnez deux diamants']
@@ -554,7 +556,7 @@ const allCards = [
         attr: [],
         pictureName: 'wall'
     },
-{
+    {
         title: 'Miroir',
         type: 'T2',
         desc: [

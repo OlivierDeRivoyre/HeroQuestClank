@@ -137,7 +137,7 @@ const cards_ext1 = [
         desc: [
             ['c', ' une fois par tour: tentez'],
             ['d’immobiliser un monstre'],
-            [],            
+            [],
         ],
         cost: 0,
         stats: [],
@@ -159,6 +159,7 @@ const cards_ext1 = [
     {
         title: 'Rituel de Prospérité',
         type: 'common',
+        id: 'commonGC',
         desc: [
             ['g', ': Gagnez un diamant'],
             ['c', ': Utilisez une compétance'],
@@ -172,6 +173,7 @@ const cards_ext1 = [
     {
         title: 'Rituel de Puissance',
         type: 'common',
+        id: 'commonAC',
         desc: [
             ['a', ': Gagnez un dé d’attaque'],
             ['c', ': Utilisez une compétance'],
@@ -299,7 +301,7 @@ const cards_ext1 = [
         stats: [],
         pictureName: 'ext1/weaponrack'
     },
-    
+
     // artifact
     {
         title: 'Coup de foudre',
@@ -407,7 +409,7 @@ const cards_ext1 = [
         stats: [],
         attr: ['rollNewDiceOnSix'],
         pictureName: 'Dices6b'
-    },    
+    },
     {
         title: 'Yams',
         type: 'artifact',
@@ -517,3 +519,9 @@ const cards_ext1 = [
 ];
 
 
+function AddExt1() {
+    for (let c of cards_ext1)
+        allCards.push(c);
+    for (let c of allCards)
+        c.stats =  c.stats || [];
+}

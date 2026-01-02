@@ -81,6 +81,7 @@ class CardGameRun {
         this.playerDeck = CardGameRun.createPlayerDeck();
         this.commonCards = CardGameRun.createCommonCards();
         this.uncommonShop = CardGameRun.createUncommonShop();
+        this.artifacts = [];
     }
 
     static createPlayerDeck() {
@@ -106,7 +107,12 @@ class CardGameRun {
     static createUncommonShop() {
         const deck = [];
         for (let card of allCards) {
-            if (card.type !== "base" && card.type !== "common" && card.type !== "monster") {
+            if (card.type !== "base"
+                && card.type !== "common"
+                && card.type !== "monster"
+                && card.type !== "hero"
+                && card.cost > 0
+            ) {
                 for (let i = 0; i < (card.quantity || 1); i++) {
                     deck.push(card);
                 }
