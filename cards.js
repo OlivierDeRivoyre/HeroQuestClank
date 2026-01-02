@@ -426,7 +426,7 @@ const allCards = [
         pictureName: 'attCirulaire3'
     },
     {
-        title: 'Sacrifice',
+        title: 'Avarice',
         type: 'T1',
         desc: [
             ['Perdez 1 vie']
@@ -762,12 +762,40 @@ const allCards = [
         type: 'artifact',
         desc: [
             ['Usage unique, détruisez cette'],
-            ['carte une fois jouée.'],            
+            ['carte une fois jouée.'],
         ],
         cost: 1,
         stats: ['l'],
         attr: [],
         pictureName: 'SmallPotion'
+    },
+    {
+        title: 'Pierre de Noam',
+        type: 'artifact',
+        desc: [
+            ['Usage unique.'],
+            ['Ressuscitez tous les joueurs.'],
+            ['Ceux-ci perdent définitivement'],
+            ['un point de vie.'],
+        ],
+        cost: 0,
+        stats: [],
+        attr: [],
+        pictureName: 'SoulStone'
+    },
+    {
+        title: 'Argent de poche',
+        type: 'artifact',
+        desc: [
+            ['Gagnez 1 ', 'g'],
+            ['Remettez cette carte en haut'],
+            ['de la pioche du magasin sous '],
+            ['quelques cartes.'],
+        ],
+        cost: 1,
+        stats: [],
+        attr: [],
+        pictureName: 'SmallPouch'
     },
 ];
 

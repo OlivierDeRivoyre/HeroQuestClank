@@ -5,7 +5,7 @@ class MenuShopZone {
         this.topY = this.levelView.shopZone.topY + this.levelView.shopZone.cardHeight + 10;
         this.energy = 0;
         this.buyableCards = 0;
-        this.energyLogo = LogoStarImage;
+        this.energyLogo = LogoDiamondImage;
         this.shopButton = new Button('Shop', this.topX + 150, this.topY, 140, 40, () => levelView.openShop());
     }
     paint() {
