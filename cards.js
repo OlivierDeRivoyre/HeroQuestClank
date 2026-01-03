@@ -131,7 +131,7 @@ const allCards = [
         quantity: 8
     },
     {
-        title: 'Diamond',
+        title: 'Diamant',
         type: 'base',
         desc: [
             ['g', ': Gagnez un diamant,'],
@@ -140,7 +140,7 @@ const allCards = [
         ],
         cost: 0,
         stats: ['g'],
-        pictureName: 'EnergyCard2',
+        pictureName: 'DwarfDiamond1',
         quantity: 12
     },
     {
@@ -151,7 +151,7 @@ const allCards = [
         ],
         cost: 0,
         stats: ['d'],
-        pictureName: 'Bouclier1',
+        pictureName: 'ElfShield',
         quantity: 8
     },
     {
@@ -163,7 +163,7 @@ const allCards = [
         ],
         cost: 0,
         stats: ['s'],
-        pictureName: 'Step1',
+        pictureName: 'ElfJumping',
         quantity: 8
     },
     {
@@ -178,7 +178,7 @@ const allCards = [
         cost: 0,
         stats: [],
         attr: ['recycle1'],
-        pictureName: 'peddler',
+        pictureName: 'HumanPeddler',
         quantity: 4
     },
     {
@@ -192,11 +192,11 @@ const allCards = [
         cost: 0,
         stats: [],
         attr: ['lost1Life'],
-        pictureName: 'arrowTrap',
+        pictureName: 'HumanArrows',
         quantity: 4
     },
     {
-        title: 'Assaut Fulgurant',
+        title: 'Appât du Gain',
         type: 'common',
         id: 'commonAG',
         desc: [
@@ -206,11 +206,11 @@ const allCards = [
         ],
         cost: 2,
         stats: ['a', 'g'],
-        pictureName: 'attack12',
+        pictureName: 'DwarfCristal',
         quantity: 12
     },
     {
-        title: 'Bénédiction',
+        title: 'Héritage Cristallin',
         id: 'commonGG',
         type: 'common',
         desc: [
@@ -218,17 +218,17 @@ const allCards = [
         ],
         cost: 2,
         stats: ['g', 'g'],
-        pictureName: 'EnergyCard',
+        pictureName: 'ElfDiamonds',
         quantity: 12
     },
     // T1
     {
-        title: 'Rencontre',
+        title: 'Serment du Gardien',
         type: 'T1',
         desc: [],
         cost: 1,
         stats: ['g', 'd'],
-        pictureName: 'ReceivingShield2',
+        pictureName: 'ElfOldShield',
     },
     {
         title: 'Soin',
@@ -238,18 +238,18 @@ const allCards = [
         ],
         cost: 2,
         stats: ['l'],
-        pictureName: 'heal1'
+        pictureName: 'ElfPriestHealing'
     },
     {
-        title: 'Frappe Énergique',
+        title: 'Coup de Pioche',
         type: 'T1',
         desc: [],
         cost: 1,
         stats: ['a', 'g'],
-        pictureName: 'swordEnergy1'
+        pictureName: 'ElfHitsCristal'
     },
     {
-        title: 'Arc',
+        title: 'Arc Rustique',
         type: 'T1',
         desc: [
             ['Vous pouvez attaquer à'],
@@ -258,7 +258,7 @@ const allCards = [
         cost: 1,
         stats: [],
         attr: ['bow'],
-        pictureName: 'bow2'
+        pictureName: 'BowWood'
     },
     {
         title: 'Arc Rapide',
@@ -271,7 +271,7 @@ const allCards = [
         cost: 3,
         stats: [],
         attr: ['bow', 'drawCard'],
-        pictureName: 'bowGold'
+        pictureName: 'BowBone'
     },
     {
         title: 'Arc Léger',
@@ -283,7 +283,7 @@ const allCards = [
         cost: 2,
         stats: ['s'],
         attr: ['bow'],
-        pictureName: 'bow5'
+        pictureName: 'BowSmall'
     },
     {
         title: 'Arc long',
@@ -295,10 +295,10 @@ const allCards = [
         cost: 3,
         stats: ['a'],
         attr: ['bow'],
-        pictureName: 'bow1'
+        pictureName: 'BowGoldVulcano'
     },
     {
-        title: 'Arc étoilé',
+        title: 'Arc Précieux',
         type: 'T1',
         desc: [
             ['Vous pouvez attaquer à'],
@@ -307,15 +307,15 @@ const allCards = [
         cost: 3,
         stats: ['g'],
         attr: ['bow'],
-        pictureName: 'starBow'
+        pictureName: 'BowCristal'
     },
     {
-        title: 'Bouclier Tranchant',
+        title: 'Bouclier Hérisson',
         type: 'T1',
         desc: [],
         cost: 2,
         stats: ['a', 'd'],
-        pictureName: 'shieldPikes'
+        pictureName: 'HumanShieldPikes'
     },
     {
         title: 'Dague Vampirique',
@@ -323,31 +323,31 @@ const allCards = [
         desc: [['l', ': Récupérez un point de vie']],
         cost: 4,
         stats: ['a', 'l'],
-        pictureName: 'daggerVamp'
+        pictureName: 'DaggerVampire'
     },
     {
-        title: 'Essence de Vie',
+        title: 'Cristal de Vie',
         type: 'T1',
         desc: [],
         cost: 3,
         stats: ['g', 'l'],
-        pictureName: 'arch'
+        pictureName: 'CristalLife'
     },
     {
-        title: 'Rempart Précieux',
+        title: 'Égide Cristalline',
         type: 'T1',
         desc: [],
         cost: 3,
         stats: ['g', 'd', 'd'],
-        pictureName: 'shield'
+        pictureName: 'ShieldDiamond'
     },
     {
-        title: 'Gardien Vital',
+        title: 'Garde Vampirique',
         type: 'T1',
         desc: [],
         cost: 4,
         stats: ['g', 'd', 'l'],
-        pictureName: 'heal3'
+        pictureName: 'VampireShield'
     },
     {
         title: 'Attaque Rapide',
@@ -358,7 +358,7 @@ const allCards = [
         cost: 3,
         stats: ['a'],
         attr: ['drawCard'],
-        pictureName: 'fastAttack3'
+        pictureName: 'HumanRogueAndOrc'
     },
     {
         title: 'Bonne fortune',
@@ -369,7 +369,7 @@ const allCards = [
         cost: 2,
         stats: ['g'],
         attr: ['drawCard'],
-        pictureName: 'run1'
+        pictureName: 'ChickenDiamond'
     },
     {
         title: 'Parade Éclair',
@@ -383,7 +383,7 @@ const allCards = [
         pictureName: 'parade1'
     },
     {
-        title: 'Portail',
+        title: 'Danse du Pisteur',
         type: 'T1',
         desc: [
             ['Piochez une carte.']
@@ -438,7 +438,7 @@ const allCards = [
         cost: 3,
         stats: ['g', 'g', 'g'],
         attr: ['lost1Life'],
-        pictureName: 'sacrifice'
+        pictureName: 'PoachDiamonds'
     },
     {
         title: 'Rage Sanguinaire',
@@ -452,7 +452,7 @@ const allCards = [
         pictureName: 'fury3'
     },
     {
-        title: 'Licorne',
+        title: 'Prime de Guerre',
         type: 'T1',
         desc: [],
         cost: 4,

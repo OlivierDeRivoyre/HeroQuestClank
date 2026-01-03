@@ -110,7 +110,7 @@ function paintCard(card, canvas) {
     canvas.fillStyle = '#002';
     const textWidth = canvas.measureTextWidth(text);
     const x = (canvas.width - textWidth) / 2;
-    canvas.fillText(text, x, top + 104);
+    canvas.fillText(text, x, top + 108);
     // description
     canvas.fontSize = 80;
     let descTop = top + 240;

@@ -43,11 +43,22 @@ const cards_ext1 = [
         quantity: 1
     },
     {
-        title: 'Tank',
+        title: 'Gardien',
         type: 'hero',
         desc: [
             ['c', ' : forcez un monstre à vous'],
             ['attaquer'],
+        ],
+        cost: 0,
+        stats: [],
+        pictureName: 'ext1/ElfTank',
+        quantity: 1
+    },
+    {
+        title: 'Protecteur',
+        type: 'hero',
+        desc: [
+            ['c', ' : ', 'd'],
         ],
         cost: 0,
         stats: [],
@@ -157,7 +168,7 @@ const cards_ext1 = [
         quantity: 4
     },
     {
-        title: 'Rituel de Prospérité',
+        title: 'Nexus de Mana',
         type: 'common',
         id: 'commonGC',
         desc: [
@@ -171,7 +182,7 @@ const cards_ext1 = [
         quantity: 4
     },
     {
-        title: 'Rituel de Puissance',
+        title: 'Vibration Guerrière',//'Impulsion de Combat',
         type: 'common',
         id: 'commonAC',
         desc: [
@@ -231,7 +242,15 @@ const cards_ext1 = [
     },
 
     {
-        title: 'Rituel de Protection',
+        title: 'Technique Défensive',
+        type: 'T1',
+        desc: [],
+        cost: 2,
+        stats: ['d', 'c'],
+        pictureName: 'Bouclier1'
+    },
+    {
+        title: 'Bouclier d’Abondance',
         type: 'T1',
         desc: [],
         cost: 4,
@@ -271,10 +290,10 @@ const cards_ext1 = [
         pictureName: 'ext1/dwarfShield'
     },
     {
-        title: 'Rituel de Protection',
+        title: 'Courant de Garde',
         type: 'T1',
         desc: [],
-        cost: 2,
+        cost: 3,
         stats: ['d', 's', 'c'],
         pictureName: 'ext1/invocation1'
     },
@@ -523,5 +542,5 @@ function AddExt1() {
     for (let c of cards_ext1)
         allCards.push(c);
     for (let c of allCards)
-        c.stats =  c.stats || [];
+        c.stats = c.stats || [];
 }
