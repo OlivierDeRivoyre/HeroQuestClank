@@ -6,6 +6,10 @@ The game is designed to be played on a board, typically using games like *HeroQu
 Each player has a deck of cards. Each turn, a player can buy new cards to improve their deck.
 
 # The board game rules:
+## Demo
+To play test it and try the rules:
+https://olivierderivoyre.github.io/HeroQuestClank/
+
 ## Setup
 - Each player chooses a class (Barbarian, Priest, etc.). Each class has its own use of mana.
 - Each player has 7 life points.
@@ -52,7 +56,7 @@ Each player has a deck of cards. Each turn, a player can buy new cards to improv
 - **Ranged Attack**: The monster does not need to be adjacent to hit a player.
 - **Circular Attack**: The monster hits all players in the 8 surrounding cells.
 
- # Play
+ # Links
 To play test it and try the rules:
 https://olivierderivoyre.github.io/HeroQuestClank/
 
@@ -62,7 +66,7 @@ https://olivierderivoyre.github.io/HeroQuestClank/cards.html
 To emulate a run:
 https://olivierderivoyre.github.io/HeroQuestClank/simu.html
 
-# Assets:
+# Assets used:
 - Gemini
 - https://0x72.itch.io/dungeontileset-ii
 - https://shikashipx.itch.io/shikashis-fantasy-icons-pack
