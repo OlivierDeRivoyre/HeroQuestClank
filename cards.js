@@ -22,6 +22,7 @@ const allCards = [
         desc: [
             [],
             ['       1 ', 'a', '       6 ', 'l', '        7 ', 's'],
+            [],
             ['           Attaque à distance'],
         ],
         cost: 0,
@@ -47,6 +48,7 @@ const allCards = [
         desc: [
             [],
             ['       1 ', 'a', '       12 ', 'l', '     6 ', 's'],
+            [],
             ['  Seul les 6 lui font des dégats']
         ],
         cost: 0,
@@ -72,6 +74,7 @@ const allCards = [
         desc: [
             [],
             ['      2 ', 'a', '        40 ', 'l', '     7 ', 's'],
+            [],
             ['          Attaque circulaire'],
         ],
         cost: 0,
@@ -85,6 +88,7 @@ const allCards = [
         desc: [
             [],
             ['      2 ', 'a', '       100 ', 'l', '     7 ', 's'],
+            [],
             ['Attaque circulaire aux tours'], ['paires'],
         ],
         cost: 0,
@@ -98,7 +102,7 @@ const allCards = [
         desc: [
             [],
             ['      3 ', 'a', '        14 ', 'd', '        5 ', 's'],
-            // [],
+            [],
             ['   Possède 3 cœurs de pierre'],
         ],
         cost: 0,
@@ -112,6 +116,7 @@ const allCards = [
         desc: [
             [],
             ['     3 ', 'a', '       200 ', 'l', '     6 ', 's'],
+            [],
             ['Attaque générale aux tours'], ['paires'],
         ],
         cost: 0,
@@ -561,8 +566,8 @@ const allCards = [
         title: 'Miroir',
         type: 'T2',
         desc: [
-            ['Cette carte crée une duplication'],
-            ['d’une autre carte jouée.']
+            ['Dupliquez les effets d’une'],
+            ['carte jouée.']
         ],
         cost: 4,
         stats: [],

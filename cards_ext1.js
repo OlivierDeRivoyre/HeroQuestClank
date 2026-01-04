@@ -7,9 +7,10 @@ const cards_ext1 = [
         title: 'Barbare',
         type: 'hero',
         desc: [
-            ['Premier ', 'c', ' : Attaque circulaire'],
+
+            ['Premier ', 'c', ': Attaque circulaire'],
             [],
-            ['c', ' suivants : ', 'a'],
+            ['c', ' suivants: ', 'a'],
         ],
         cost: 0,
         stats: [],
@@ -35,7 +36,7 @@ const cards_ext1 = [
         desc: [
             ['Premier ', 'c', ': Attaque à distance'],
             [],
-            ['c', ' suivants : ', 'a'],
+            ['c', ' suivants: ', 'a'],
         ],
         cost: 0,
         stats: [],
@@ -132,7 +133,7 @@ const cards_ext1 = [
         title: 'Prêtre',
         type: 'hero',
         desc: [
-            ['c', ' une fois par tour: restaurer'],
+            ['c', ' une fois par tour: restaurez'],
             ['un point de vie à un allié'],
             [],
             ['c', ' : ', 's'],
@@ -164,7 +165,7 @@ const cards_ext1 = [
         ],
         cost: 0,
         stats: ['c'],
-        pictureName: 'ext1/HumanMageMana',
+        pictureName: 'ext1/HumanCastingSpell',
         quantity: 4
     },
     {
@@ -229,7 +230,7 @@ const cards_ext1 = [
         pictureName: 'ext1/ItemGoldPoach'
     },
     {
-        title: 'Destiné',
+        title: 'Destiné de Naël',
         type: 'T2',
         desc: [
             ['Défaussez une carte et'],
@@ -250,7 +251,7 @@ const cards_ext1 = [
         pictureName: 'ext1/ElfShieldArrow'
     },
     {
-        title: 'Bouclier d’Abondance',
+        title: 'Bouclier Doré',
         type: 'T1',
         desc: [],
         cost: 4,
@@ -266,7 +267,7 @@ const cards_ext1 = [
         pictureName: 'ext1/HumanReceiveGold'
     },
     {
-        title: 'Élan d’Avarice',
+        title: 'Pas vu, pas pris',
         type: 'T1',
         desc: [],
         cost: 3,
@@ -290,7 +291,7 @@ const cards_ext1 = [
         pictureName: 'ext1/DwarfShieldRed'
     },
     {
-        title: 'Veille Itinérante',
+        title: 'Bravoure Reportée',
         type: 'T1',
         desc: [],
         cost: 3,
@@ -348,7 +349,7 @@ const cards_ext1 = [
     },
 
     {
-        title: 'Brosse',
+        title: 'Brosse Sylvestre',
         type: 'artifact',
         desc: [
             ['g', 'g', ': Détruisez une carte jouée'],
@@ -488,7 +489,7 @@ const cards_ext1 = [
         desc: [
             ['Usage unique, détruisez cette'],
             ['carte une fois jouée.'],
-            ['Restaurer 1 dé de vie.']
+            ['Restaurez 1 dé de vie.']
         ],
         cost: 5,
         stats: [],
@@ -501,7 +502,7 @@ const cards_ext1 = [
         desc: [
             ['Usage unique, détruisez cette'],
             ['carte une fois jouée.'],
-            ['Restaurer 1 dé de vie.']
+            ['Restaurez 1 dé de vie.']
         ],
         cost: 0,
         stats: [],
@@ -548,6 +549,102 @@ const cards_ext1 = [
         stats: [],
         attr: [],
         pictureName: 'SmallPouch'
+    },
+    {
+        title: 'Cubes Magiques',
+        type: 'artifact',
+        desc: [
+            [],
+
+        ],
+        cost: 0,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/ItemMagicDices'
+    },
+    {
+        title: 'Assaut',
+        type: 'T2',
+        desc: [
+            [],
+
+        ],
+        cost: 0,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/HumanCharging'
+    },
+    {
+        title: 'Invocation',
+        type: 'T2',
+        desc: [
+            [],
+
+        ],
+        cost: 0,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/HumanMageRuneSpell'
+    },
+    {
+        title: 'Alchimie',
+        type: 'T2',
+        desc: [
+            [],
+
+        ],
+        cost: 0,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/ElfGivingPotionToHuman'
+    },
+    {
+        title: 'Sanglier',
+        type: 'artifact',
+        desc: [
+            [],
+
+        ],
+        cost: 0,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/ItemBoar'
+    },
+    {
+        title: 'Gemme Noire',
+        type: 'T2',
+        desc: [
+            [],
+
+        ],
+        cost: 0,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/ItemDarkGem'
+    },
+    {
+        title: 'Menace',
+        type: 'T2',
+        desc: [
+            [],
+
+        ],
+        cost: 0,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/GargoyeOnCastle'
+    },
+    {
+        title: 'L’inconnue',
+        type: 'hero',
+        desc: [
+            [],
+
+        ],
+        cost: 0,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/HumanOldPriest'
     },
 ];
 

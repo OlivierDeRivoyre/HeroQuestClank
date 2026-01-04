@@ -129,7 +129,7 @@ function paintCard(card, canvas) {
                 x += canvas.measureTextWidth(word);
             }
         }
-        descTop += 80;
+        descTop += line.length == 0 ? 24 : 80;
     }
 
     // stats
