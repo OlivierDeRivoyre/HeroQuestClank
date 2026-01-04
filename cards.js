@@ -592,7 +592,7 @@ const allCards = [
         pictureName: 'ItemExcalibur'
     },
     {
-        title: 'Coup Critique',
+        title: 'Courroux de Naël',
         type: 'T2',
         desc: [
             ['Doublez vos dégats.'],

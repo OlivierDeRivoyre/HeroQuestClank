@@ -230,7 +230,7 @@ const cards_ext1 = [
         pictureName: 'ext1/ItemGoldPoach'
     },
     {
-        title: 'Destiné de Naël',
+        title: 'Destiné',
         type: 'T2',
         desc: [
             ['Défaussez une carte et'],
