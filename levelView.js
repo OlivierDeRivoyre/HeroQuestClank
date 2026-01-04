@@ -6,6 +6,9 @@ class LevelView {
         this.cardBackup = game.cards.backup();
         this.heroes = Character.getHeroes();
         this.monsters = Monsters.getEnnemies(this);
+        for (let m of this.monsters) {
+            m.card = allCards.find(c => c.type == 'monster' && c.id == m.type)
+        }
         this.floor = new Floor(this);
         this.menuZone = new MenuZone(this);
         this.diceZone = new DiceZone(this.heroes, 10, 40);
@@ -13,6 +16,7 @@ class LevelView {
         this.shopZone = new CardZone(720, 20, 290, () => this.openShop());
         this.shopZone.cardWith = 150 / 2;
         this.shopZone.cardHeight = 210 / 2;
+        this.tooltipZone = new CardZone(840, 180, 290, () => { });
         this.menuShopZone = new MenuShopZone(this);
         game.cards.playerDeck.drawToCount(5);
         game.cards.uncommonShop.drawToCount(4);
@@ -39,6 +43,7 @@ class LevelView {
         }
         this.hand.click(mouseCoord);
         this.shopZone.click(mouseCoord);
+        this.tooltipZone.click(mouseCoord);
         this.diceZone.click(mouseCoord)
         this.menuZone.click(mouseCoord);
         this.menuShopZone.click(mouseCoord);
@@ -48,6 +53,7 @@ class LevelView {
     updateHeroes(mouseCoord) {
         const allChars = this.heroes.concat(this.monsters);
         const selectedChar = allChars.find(c => c.isSelected && c.life > 0);
+        this.tooltipZone.refresh([]);
         if (selectedChar) {
             if (selectedChar.type !== "hero") {
                 selectedChar.isSelected = false;
@@ -68,6 +74,9 @@ class LevelView {
         for (let c of allChars.filter(c => c.life > 0)) {
             if (isInsideRect(mouseCoord, c.getRect())) {
                 c.isSelected = !c.isSelected;
+                if (c.card) {
+                    this.tooltipZone.refresh([c.card]);
+                }
                 if (selectedChar && c != selectedChar) {
                     selectedChar.isSelected = false;
                 }
@@ -125,6 +134,7 @@ class LevelView {
         this.diceZone.paint();
         this.hand.paint();
         this.shopZone.paint();
+        this.tooltipZone.paint();
         if (this.popup) {
             this.popup.paint();
         }

@@ -87,7 +87,7 @@ class Monsters {
     // 99 life
     static getGargoyle(x, y) {
         const monster = new Character();
-        monster.type = "gobelin";
+        monster.type = "gargoyle";
         monster.sprite = getDungeonTileSetVilainSprite(11, 6);
         monster.marginY = -4;
         monster.life = monster.maxLife = 200;

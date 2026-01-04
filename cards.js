@@ -19,6 +19,7 @@ const allCards = [
     {
         title: 'Gobelin Archer',
         type: 'monster',
+        id: 'mage',
         desc: [
             [],
             ['       1 ', 'a', '       6 ', 'l', '        7 ', 's'],
@@ -33,6 +34,7 @@ const allCards = [
     {
         title: 'Squelette',
         type: 'monster',
+        id: 'skeleton',
         desc: [
             [],
             ['     1 ', 'a', '    9 ', 'd', '    1 ', 'l', '     7 ', 's']
@@ -45,6 +47,7 @@ const allCards = [
     {
         title: 'Momie',
         type: 'monster',
+        id: 'mummy',
         desc: [
             [],
             ['       1 ', 'a', '       12 ', 'l', '     6 ', 's'],
@@ -59,6 +62,7 @@ const allCards = [
     {
         title: 'Zombie',
         type: 'monster',
+        id: 'zombie',
         desc: [
             [],
             ['    1 ', 'a', '    4 ', 'd', '    20 ', 'l', '    5 ', 's']
@@ -71,6 +75,7 @@ const allCards = [
     {
         title: 'Orc',
         type: 'monster',
+        id: 'orc',
         desc: [
             [],
             ['      2 ', 'a', '        40 ', 'l', '     7 ', 's'],
@@ -85,6 +90,7 @@ const allCards = [
     {
         title: 'Abomination',
         type: 'monster',
+        id: 'abomination',
         desc: [
             [],
             ['      2 ', 'a', '       100 ', 'l', '     7 ', 's'],
@@ -99,6 +105,7 @@ const allCards = [
     {
         title: 'Guerrier de Chaos',
         type: 'monster',
+        id: 'knight',
         desc: [
             [],
             ['      3 ', 'a', '        14 ', 'd', '        5 ', 's'],
@@ -113,6 +120,7 @@ const allCards = [
     {
         title: 'Gargouille',
         type: 'monster',
+        id: 'gargoyle',
         desc: [
             [],
             ['     3 ', 'a', '       200 ', 'l', '     6 ', 's'],
