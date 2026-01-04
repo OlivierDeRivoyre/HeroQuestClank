@@ -10,6 +10,15 @@
             padding-left: 2em;
             padding-right: 2em;
         }
+
+        .container {
+            display: flex;
+        }
+
+        .box {
+            padding: 10px;
+
+        }
     </style>
 
 </head>
@@ -18,10 +27,50 @@
 </script>
 
 <body>
+    <p>
+        This page help to evaluate the difficulty of a dungeon.
+        <br />
+        As a game master, how many monsters should I put on each rooms?
+    </p>
+    <div class="container">
+        <div class="box">
+            <textarea style="height: 16em; font-size: large;" id="dungeonContent">
+🗡️🗡️
+🗡️🗡️🏹🏹
+🗡️🏹💀💀 
+🗡️💀💀🩹🩹
+🧟‍♂️🧟‍♂️🧟‍♂️🧟‍♂️ 
+👹👹🧟‍♂️ 
+🦈🧟‍♂️🩹 
+👘👹👹 
+🐉💀💀
+    </textarea>
+            <br />
+            <select id="players" name="players">
+                <option value="2">2 players</option>
+                <option value="3" selected>3 players</option>
+                <option value="4">4 players</option>
+            </select>
+        </div>
+        <div class="box">
+            Each line represents a room.<br />
+            🗡️: Gobelin <br />
+            🏹: Gobelin Bowman<br />
+            💀: Skeleton<br />
+            🩹: Mommy<br />
+            🧟‍♂️: Zomby<br />
+            👹: Orc<br />
+            🦈: Abomination<br />
+            👘: Chaos warrior<br />
+            🐉: Gargoule<br />
+        </div>
+    </div>
+
+    <br />
     <button onclick="playOneGame()">Play one game</button>
     <button onclick="playManyGames()">Play many games</button>
     <br />
-     <div id="summary"></div>
+    <div id="summary"></div>
 </body>
 <script src="cards.js"></script>
 <script src="cards_ext1.js"></script>
