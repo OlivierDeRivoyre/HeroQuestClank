@@ -164,7 +164,7 @@ const cards_ext1 = [
         ],
         cost: 0,
         stats: ['c'],
-        pictureName: 'ext1/mage1',
+        pictureName: 'ext1/HumanMageMana',
         quantity: 4
     },
     {
@@ -178,7 +178,7 @@ const cards_ext1 = [
         ],
         cost: 3,
         stats: ['g', 'c'],
-        pictureName: 'ext1/mage2',
+        pictureName: 'ext1/ItemNexusMana',
         quantity: 4
     },
     {
@@ -192,7 +192,7 @@ const cards_ext1 = [
         ],
         cost: 3,
         stats: ['a', 'c'],
-        pictureName: 'ext1/mage3',
+        pictureName: 'ext1/HumanWarriorCasting',
         quantity: 4
     },
     {
@@ -204,7 +204,7 @@ const cards_ext1 = [
         cost: 3,
         stats: ['c'],
         attr: ['drawCard'],
-        pictureName: 'ext1/ManaPotion'
+        pictureName: 'ext1/ItemManaPotion'
     },
     {
         title: 'Eclair',
@@ -226,7 +226,7 @@ const cards_ext1 = [
         cost: 4,
         stats: ['g', 'c'],
         attr: ['drawCard'],
-        pictureName: 'ext1/gold1'
+        pictureName: 'ext1/ItemGoldPoach'
     },
     {
         title: 'Destiné',
@@ -247,7 +247,7 @@ const cards_ext1 = [
         desc: [],
         cost: 2,
         stats: ['d', 'c'],
-        pictureName: 'Bouclier1'
+        pictureName: 'ext1/ElfShieldArrow'
     },
     {
         title: 'Bouclier d’Abondance',
@@ -255,7 +255,7 @@ const cards_ext1 = [
         desc: [],
         cost: 4,
         stats: ['g', 'd', 'c'],
-        pictureName: 'ext1/ShieldMana'
+        pictureName: 'ext1/ItemGoldenShield'
     },
     {
         title: 'Fortune Guerrière',
@@ -263,7 +263,7 @@ const cards_ext1 = [
         desc: [],
         cost: 5,
         stats: ['g', 'a', 'c'],
-        pictureName: 'ext1/gold2'
+        pictureName: 'ext1/HumanReceiveGold'
     },
     {
         title: 'Élan d’Avarice',
@@ -271,7 +271,7 @@ const cards_ext1 = [
         desc: [],
         cost: 3,
         stats: ['g', 's', 'c'],
-        pictureName: 'ext1/Thief'
+        pictureName: 'ext1/HumanRogueRunaway'
     },
     {
         title: 'Danse du Combat',
@@ -279,7 +279,7 @@ const cards_ext1 = [
         desc: [],
         cost: 3,
         stats: ['a', 's', 'c'],
-        pictureName: 'ext1/dancing'
+        pictureName: 'ext1/HumanDancingSword'
     },
     {
         title: 'Frappe Sereine',
@@ -287,27 +287,27 @@ const cards_ext1 = [
         desc: [],
         cost: 4,
         stats: ['a', 'd', 'c'],
-        pictureName: 'ext1/dwarfShield'
+        pictureName: 'ext1/DwarfShieldRed'
     },
     {
-        title: 'Courant de Garde',
+        title: 'Veille Itinérante',
         type: 'T1',
         desc: [],
         cost: 3,
         stats: ['d', 's', 'c'],
-        pictureName: 'ext1/invocation1'
+        pictureName: 'ext1/GnomeShield'
     },
     {
         title: 'Espion',
         type: 'T2',
         desc: [
-            ['Piochez une carte.'],
-            ['Regardez les 5 prochaines'],
-            ['cartes de la pioche.']
+            ['Regardez les 3 prochaines'],
+            ['cartes de la pioche.'],
+            ['Piochez une de ces carte.']
         ],
         cost: 1,
         stats: [],
-        pictureName: 'ext1/spying'
+        pictureName: 'ext1/HumanSpy'
     },
     {
         title: 'Râtelier d’armes',
@@ -318,12 +318,12 @@ const cards_ext1 = [
         ],
         cost: 1,
         stats: [],
-        pictureName: 'ext1/weaponrack'
+        pictureName: 'ext1/ItemWeaponRack'
     },
 
     // artifact
     {
-        title: 'Coup de foudre',
+        title: 'Bonneteau',
         type: 'artifact',
         desc: [
             ['Détruisez cette carte, piochez'],
@@ -332,7 +332,7 @@ const cards_ext1 = [
         cost: 2,
         stats: [],
         attr: ['destroyCurrentCard', 'drawCard', 'drawCard'],
-        pictureName: 'thunder'
+        pictureName: 'ext1/GnomeBonneteau'
     },
     {
         title: 'BOOM!',
@@ -344,7 +344,7 @@ const cards_ext1 = [
         cost: 2,
         stats: ['a', 'a', 'a'],
         attr: ['destroyCurrentCard'],
-        pictureName: 'boom'
+        pictureName: 'ext1/GnomeBoom'
     },
 
     {
@@ -368,7 +368,7 @@ const cards_ext1 = [
         cost: 5,
         stats: [],
         attr: ['rerollDices'],
-        pictureName: 'clover2'
+        pictureName: 'ext1/ItemLuckyClover'
     },
     {
         title: 'Charge Stratégique',
@@ -380,7 +380,7 @@ const cards_ext1 = [
         cost: 5,
         stats: [],
         attr: ['walkToAttack'],
-        pictureName: 'charge'
+        pictureName: 'ext1/GnomeRunningAway'
     },
     {
         title: 'Force Accumulée',
@@ -392,7 +392,7 @@ const cards_ext1 = [
         cost: 6,
         stats: [],
         attr: ['attackPerDrawnCard'],
-        pictureName: 'necro'
+        pictureName: 'ext1/HumanNecroRaisingDeads'
     },
     {
         title: 'Bouclier de Feu',
@@ -403,7 +403,7 @@ const cards_ext1 = [
         cost: 5,
         stats: [],
         attr: ['shieldToAttack'],
-        pictureName: 'shieldFire'
+        pictureName: 'ext1/ItemShieldFire'
     },
     {
         title: 'Conquête des Un',
@@ -415,7 +415,7 @@ const cards_ext1 = [
         cost: 6,
         stats: [],
         attr: ['diceOneBecameSix'],
-        pictureName: 'knight'
+        pictureName: 'ext1/HumanAttila'
     },
     {
         title: 'Relance du Destin',
@@ -427,7 +427,7 @@ const cards_ext1 = [
         cost: 6,
         stats: [],
         attr: ['rollNewDiceOnSix'],
-        pictureName: 'Dices6b'
+        pictureName: 'ext1/DemonPlayingDices'
     },
     {
         title: 'Yams',
@@ -440,7 +440,7 @@ const cards_ext1 = [
         cost: 5,
         stats: [],
         attr: ['yams'],
-        pictureName: 'Dices6'
+        pictureName: 'ext1/HumanPlayingDices'
     },
     {
         title: 'Luxe',
@@ -477,7 +477,7 @@ const cards_ext1 = [
             ['votre tour.'],
 
         ],
-        cost: 5,
+        cost: 6,
         stats: [],
         attr: [],
         pictureName: 'PlayingCards'
@@ -494,6 +494,20 @@ const cards_ext1 = [
         stats: [],
         attr: [],
         pictureName: 'LifePotion'
+    },
+    {
+        title: 'Potion de vie',
+        type: 'artifact',
+        desc: [
+            ['Usage unique, détruisez cette'],
+            ['carte une fois jouée.'],
+            ['Restaurer 1 dé de vie.']
+        ],
+        cost: 0,
+        stats: [],
+        attr: [],
+        pictureName: 'LifePotionChest',
+        quantity: 5
     },
     {
         title: 'Petite potion',

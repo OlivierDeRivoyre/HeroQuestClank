@@ -70,8 +70,10 @@ function paintCard(card, canvas) {
     else if (card.type == 'hero') {
         canvas.fillColor('rgba(16, 0, 0, 0.6)');
     }
-    else if (card.type == 'artifact') {
+    else if (card.type == 'artifact' && card.cost > 0) {
         canvas.fillColor('rgba(243, 239, 7, 0.5)');
+    } else if (card.type == 'artifact' && card.cost == 0) {
+        canvas.fillColor('rgba(16, 16, 16, 0.5)');
     }
     const ratio = 2;
     const margin = (canvas.width - CadreExtImage.width * ratio) / 2;

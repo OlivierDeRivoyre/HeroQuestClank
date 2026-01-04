@@ -372,7 +372,7 @@ const allCards = [
         pictureName: 'ChickenDiamond'
     },
     {
-        title: 'Parade Éclair',
+        title: 'Esquive',
         type: 'T1',
         desc: [
             ['Piochez une carte.']
@@ -380,7 +380,7 @@ const allCards = [
         cost: 2,
         stats: ['d'],
         attr: ['drawCard'],
-        pictureName: 'parade1'
+        pictureName: 'HumanDodgeOrc'
     },
     {
         title: 'Danse du Pisteur',
@@ -391,7 +391,7 @@ const allCards = [
         cost: 2,
         stats: ['s'],
         attr: ['drawCard'],
-        pictureName: 'portal'
+        pictureName: 'ElfDancing'
     },
     {
         title: 'Soin rapide',
@@ -402,7 +402,7 @@ const allCards = [
         cost: 3,
         stats: ['l'],
         attr: ['drawCard'],
-        pictureName: 'heal2'
+        pictureName: 'ElfHealingHuman'
     },
     {
         title: 'Attaque circulaire',
@@ -414,10 +414,10 @@ const allCards = [
         cost: 3,
         stats: ['a'],
         attr: ['circularAttack'],
-        pictureName: 'attCircular'
+        pictureName: 'HumanCircularAttack'
     },
     {
-        title: 'Cyclone d’Acier',
+        title: 'Assaut Circulaire',
         type: 'T1',
         desc: [
             ['Infligez des dégâts à tous les'],
@@ -427,7 +427,7 @@ const allCards = [
         cost: 3,
         stats: [],
         attr: ['circularAttack', 'drawCard'],
-        pictureName: 'attCirulaire3'
+        pictureName: 'HumanCircularAttack2'
     },
     {
         title: 'Avarice',
@@ -449,7 +449,7 @@ const allCards = [
         cost: 3,
         stats: ['a', 'a', 'a'],
         attr: ['lost1Life'],
-        pictureName: 'fury3'
+        pictureName: 'ElfRogueVolcano'
     },
     {
         title: 'Prime de Guerre',
@@ -457,7 +457,7 @@ const allCards = [
         desc: [],
         cost: 4,
         stats: ['a', 'g', 'g'],
-        pictureName: 'unicorn'
+        pictureName: 'HumanOpeningChest'
     },
     {
         title: 'Assaut Éclair',
@@ -465,23 +465,23 @@ const allCards = [
         desc: [],
         cost: 4,
         stats: ['a', 'a', 's'],
-        pictureName: 'assault'
+        pictureName: 'HumanStrikeDemon'
     },
     {
-        title: 'Choc Énergétique',
+        title: 'Position Stratégique',
         type: 'T1',
         desc: [],
         cost: 5,
         stats: ['a', 'g', 'd'],
-        pictureName: 'shieldPower'
+        pictureName: 'ElfDwarfDefendingCastle'
     },
     {
-        title: 'Force Inébranlable',
+        title: 'Assaut Renforcé',
         type: 'T1',
         desc: [],
         cost: 5,
         stats: ['a', 'a', 'd'],
-        pictureName: 'elfWarrior'
+        pictureName: 'ElfHitOrc'
     },
 
     //T2
@@ -495,7 +495,7 @@ const allCards = [
         cost: 2,
         stats: [],
         attr: ['destroyACard'],
-        pictureName: 'mop'
+        pictureName: 'ItemMop'
     },
     {
         title: 'Balai',
@@ -507,7 +507,7 @@ const allCards = [
         cost: 3,
         stats: ['g'],
         attr: ['destroyACard'],
-        pictureName: 'broom'
+        pictureName: 'ItemBroom'
     },
     {
         title: 'Eponge',
@@ -520,7 +520,7 @@ const allCards = [
         cost: 3,
         stats: [],
         attr: ['drawCard', 'destroyACard'],
-        pictureName: 'Sponge'
+        pictureName: 'ItemSponge'
     },
     {
         title: 'Jumeaux',
@@ -531,7 +531,7 @@ const allCards = [
         cost: 4,
         stats: [],
         attr: ['drawCard', 'drawCard'],
-        pictureName: 'twins'
+        pictureName: 'ElfTwins'
     },
     {
         title: 'Rage Berserker',
@@ -543,7 +543,7 @@ const allCards = [
         cost: 5,
         stats: [],
         attr: ['lost1Life', 'x2'],
-        pictureName: 'Furry3'
+        pictureName: 'HumanBerserk'
     },
     {
         title: 'Fortification',
@@ -555,7 +555,7 @@ const allCards = [
         cost: 3,
         stats: [],
         attr: [],
-        pictureName: 'wall'
+        pictureName: 'Castle'
     },
     {
         title: 'Miroir',
@@ -567,7 +567,7 @@ const allCards = [
         cost: 4,
         stats: [],
         attr: ['mirror'],
-        pictureName: 'mirror'
+        pictureName: 'ItemMirror'
     },
     {
         title: 'Excalibur',
@@ -576,7 +576,7 @@ const allCards = [
         cost: 7,
         stats: ['a', 'g', 'd', 's', 'l'],
         attr: ['drawCard'],
-        pictureName: 'excalibur'
+        pictureName: 'ItemExcalibur'
     },
     {
         title: 'Coup Critique',
@@ -588,7 +588,7 @@ const allCards = [
         cost: 7,
         stats: [],
         attr: ['x2', 'drawCard'],
-        pictureName: 'Furry1'
+        pictureName: 'DwarfBerserker'
     },
 
 ];
