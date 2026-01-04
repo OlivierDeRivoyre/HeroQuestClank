@@ -9,7 +9,7 @@ const allCards = [
         id: 'gobelin',
         desc: [
             [],
-            ['       8 ', 'l', '        8 ', 's', '        1 ', 'a'],
+            ['       1 ', 'a', '       8 ', 'l', '        8 ', 's'],
         ],
         cost: 0,
         stats: [],
@@ -21,7 +21,7 @@ const allCards = [
         type: 'monster',
         desc: [
             [],
-            ['       6 ', 'l', '        5 ', 's', '        1 ', 'a'],
+            ['       1 ', 'a', '       6 ', 'l', '        7 ', 's'],
             ['           Attaque à distance'],
         ],
         cost: 0,
@@ -34,7 +34,7 @@ const allCards = [
         type: 'monster',
         desc: [
             [],
-            ['     9 ', 'd', '    1 ', 'l', '     5 ', 's', '     1 ', 'a']
+            ['     1 ', 'a', '    9 ', 'd', '    1 ', 'l', '     7 ', 's']
         ],
         cost: 0,
         stats: [],
@@ -46,8 +46,8 @@ const allCards = [
         type: 'monster',
         desc: [
             [],
-            ['       12 ', 'l', '     4 ', 's', '        1 ', 'a'],
-            ['Seul les 6 lui font des dégats']
+            ['       1 ', 'a', '       12 ', 'l', '     6 ', 's'],
+            ['  Seul les 6 lui font des dégats']
         ],
         cost: 0,
         stats: [],
@@ -59,7 +59,7 @@ const allCards = [
         type: 'monster',
         desc: [
             [],
-            ['    4 ', 'd', '    20 ', 'l', '    3 ', 's', '    1 ', 'a']
+            ['    1 ', 'a', '    4 ', 'd', '    20 ', 'l', '    5 ', 's']
         ],
         cost: 0,
         stats: [],
@@ -71,7 +71,7 @@ const allCards = [
         type: 'monster',
         desc: [
             [],
-            ['        40 ', 'l', '     6 ', 's', '    2 ', 'a'],
+            ['      2 ', 'a', '        40 ', 'l', '     7 ', 's'],
             ['          Attaque circulaire'],
         ],
         cost: 0,
@@ -84,7 +84,7 @@ const allCards = [
         type: 'monster',
         desc: [
             [],
-            ['       100 ', 'l', '     7 ', 's', '     2 ', 'a'],
+            ['      2 ', 'a', '       100 ', 'l', '     7 ', 's'],
             ['Attaque circulaire aux tours'], ['paires'],
         ],
         cost: 0,
@@ -97,9 +97,9 @@ const allCards = [
         type: 'monster',
         desc: [
             [],
-            ['        14 ', 'd', '        5 ', 's', '     3 ', 'a'],
+            ['      3 ', 'a', '        14 ', 'd', '        5 ', 's'],
             // [],
-            ['  Possède 3 cœurs de pierre'],
+            ['   Possède 3 cœurs de pierre'],
         ],
         cost: 0,
         stats: [],
@@ -111,7 +111,7 @@ const allCards = [
         type: 'monster',
         desc: [
             [],
-            ['       200 ', 'l', '     5 ', 's', '     3 ', 'a'],
+            ['     3 ', 'a', '       200 ', 'l', '     6 ', 's'],
             ['Attaque générale aux tours'], ['paires'],
         ],
         cost: 0,
