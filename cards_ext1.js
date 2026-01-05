@@ -396,7 +396,7 @@ const cards_ext1 = [
         pictureName: 'ext1/HumanNecroRaisingDeads'
     },
     {
-        title: 'Bouclier de Feu',
+        title: 'Bouclier à baffes',
         type: 'artifact',
         desc: [
             ['Chaque ', 'd', ' donne une ', 'a']
@@ -404,7 +404,7 @@ const cards_ext1 = [
         cost: 5,
         stats: [],
         attr: ['shieldToAttack'],
-        pictureName: 'ext1/ItemShieldFire'
+        pictureName: 'ext1/DwarfShieldSkeletons'
     },
     {
         title: 'Conquête des Un',
@@ -455,7 +455,7 @@ const cards_ext1 = [
         cost: 3,
         stats: [],
         attr: [],
-        pictureName: 'CosyShop'
+        pictureName: 'ext1/GnomeRich'
     },
     {
         title: 'Marché',
@@ -467,7 +467,7 @@ const cards_ext1 = [
         cost: 2,
         stats: [],
         attr: [],
-        pictureName: 'Market'
+        pictureName: 'ext1/GnomeMarketplace'
     },
     {
         title: 'Tricheur',
