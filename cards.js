@@ -209,7 +209,7 @@ const allCards = [
         quantity: 4
     },
     {
-        title: 'Appât du Gain',
+        title: 'Extraction Violente',
         type: 'common',
         id: 'commonAG',
         desc: [
@@ -236,7 +236,7 @@ const allCards = [
     },
     // T1
     {
-        title: 'Serment du Gardien',
+        title: 'Héritage du Sage',
         type: 'T1',
         desc: [],
         cost: 1,
@@ -254,7 +254,7 @@ const allCards = [
         pictureName: 'ElfPriestHealing'
     },
     {
-        title: 'Coup de Pioche',
+        title: 'Éclats de Fortune',
         type: 'T1',
         desc: [],
         cost: 1,
@@ -277,9 +277,10 @@ const allCards = [
         title: 'Arc Rapide',
         type: 'T1',
         desc: [
-            ['Piochez une carte.'],
             ['Vous pouvez attaquer à'],
-            ['distance.']
+            ['distance.'],
+            [],
+            ['Piochez une carte.'],
         ],
         cost: 3,
         stats: [],
@@ -434,7 +435,7 @@ const allCards = [
         type: 'T1',
         desc: [
             ['Infligez des dégâts à tous les'],
-            ['ennemis adjacents.'],
+            ['ennemis adjacents.'], [],
             ['Piochez une carte.']
         ],
         cost: 3,
@@ -526,9 +527,10 @@ const allCards = [
         title: 'Eponge',
         type: 'T2',
         desc: [
-            ['Piochez une carte.'],
             ['Détruisez une carte jouée de'],
-            ['votre choix.']
+            ['votre choix.'],
+            [],
+            ['Piochez une carte.']
         ],
         cost: 3,
         stats: [],
@@ -601,7 +603,7 @@ const allCards = [
         cost: 7,
         stats: [],
         attr: ['x2', 'drawCard'],
-        pictureName: 'DwarfBerserker'
+        pictureName: 'HumanYoungBerserk'
     },
 
 ];
