@@ -13,7 +13,7 @@ const allCards = [
         ],
         cost: 0,
         stats: [],
-        pictureName: 'monster/Gobelin',//  style "Dungeon Crawler Board old Game Art"
+        pictureName: 'monster/Gobelin',//  style "Dungeon Crawler Board old Game Art". No border. No label.
         quantity: 1
     },
     {

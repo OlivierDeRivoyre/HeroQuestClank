@@ -551,6 +551,70 @@ const cards_ext1 = [
         pictureName: 'SmallPouch'
     },
     {
+        title: 'Cœur d’Acier',
+        type: 'artifact',
+        desc: [
+            ['Augmente votre vie maximale'],
+            ['de 1.'],
+        ],
+        cost: 4,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/ItemBreastplate'
+    },
+    {
+        title: 'Forge Divine',
+        type: 'artifact',
+        desc: [
+            ['Augmente la vie maximale de'],
+            ['tous les joueurs de 1.'],
+
+        ],
+        cost: 6,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/ItemBlacksmith'
+    },
+
+    {
+        title: 'Besace',
+        type: 'artifact',
+        desc: [
+            ['Vous pouvez stocker 1 carte'],
+            ['dans ce sac.'],
+        ],
+        cost: 1,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/ItemSatchel'
+    },
+    {
+        title: 'Sac de Voyage',
+        type: 'artifact',
+        desc: [
+            ['Vous pouvez stocker 2 cartes'],
+            ['dans ce sac.'],
+        ],
+        cost: 3,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/ItemAdventurerBag'
+    },  
+      {
+        title: 'Sac Sans Fond',
+        type: 'artifact',
+        desc: [
+            ['Vous pouvez stocker 3 cartes'],
+            ['dans ce sac.'],
+        ],
+        cost: 5,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/ItemBagOfHolding'
+    },
+
+    // Jockers
+    {
         title: 'Cubes Magiques',
         type: 'artifact',
         desc: [
