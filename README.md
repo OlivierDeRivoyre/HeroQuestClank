@@ -12,7 +12,7 @@ https://olivierderivoyre.github.io/HeroQuestClank/
 
 ## Setup
 - Each player chooses a class (Barbarian, Priest, etc.). Each class has its own use of mana.
-- Each player has 7 life points.
+- Each player has 3 points of life.
 - Players receive the same 12 basic cards as a starting deck:
   - 3 cards Diamond
   - 2 cards Attack
@@ -28,7 +28,7 @@ https://olivierderivoyre.github.io/HeroQuestClank/
   - The yellow uncommon cards have special effect.
   - The 'artifact' uncommon cards stays on the table when bought. There effects apply on each turn of the player.
 - Each player draws 5 cards.
-- On a grid, the Game master place the items representing the player character and the monsters. This is the first room of the dungeon.
+- On a grid, the Game Master places the items representing the player character and the monsters. This is the first room of the dungeon.
 
 ## Player Turn Sequence:
 - Players can choose the order in which they play.
@@ -48,13 +48,27 @@ https://olivierderivoyre.github.io/HeroQuestClank/
 - Players can (and should) negate monster damage using shield cards.
 - If a player’s life points reach 0, they are KO and cannot play until the end of the fight.
 - If all players are KO, the game is lost.
-- At the end of a fight, once there are no more monsters, a KO player can be healed by another player. In this case, the KO player must give a card from their hand to their savior.
+- At the end of a fight, once there are no more monsters:
+  - A KO player can be healed by another player. In this case, the KO player must give a card from their hand to their savior.
+  - All player restore their life to its max level (3 lifes by default).
+  - The Game Master places the monsters of the next room.
+- This is now the turn of the players.
+
 
 ## Monster Abilities:
 - **Shield**: Damage from players is reduced for monsters with shields. Unlike players, monster shields never exhaust.
 - **Stone Heart**: A player must deal a certain amount of damage to destroy each stone heart. For example, a monster with 3 stone hearts and 9 armor requires 3 hits of 10+ damage to be defeated.
 - **Ranged Attack**: The monster does not need to be adjacent to hit a player.
 - **Circular Attack**: The monster hits all players in the 8 surrounding cells.
+
+## Traps
+- Traps are not visible by default. Traps are located on a cell of the grid.
+- If a player move on a trap:
+  - He loses 1 point of life,
+  - He can no more move. He do not finish its move.
+  - He cannot  attack.
+  - He can still do some shopping.
+- If a player has an ability to detect traps, the Game Master show on the grid the trap of the room.
 
  # Links
 To play test it and try the rules:

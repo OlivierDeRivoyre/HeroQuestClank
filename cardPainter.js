@@ -19,6 +19,15 @@ const LogoStepImage = loadImg('LogoStep.png');
 const LogoCompetenceImage = loadImg('LogoCompetence.png');
 const CardTopHeaderImage = loadImg('cardTopHeader.png');
 const bgImage = loadImg('Parchment1500_2100.png');
+const MonsterLogoGobelin = loadImg('monster/MonsterLogoGobelin.png');
+const MonsterLogoBowman = loadImg('monster/MonsterLogoBowman.png');
+const MonsterLogoSkeleton = loadImg('monster/MonsterLogoSkeleton.png');
+const MonsterLogoMummy = loadImg('monster/MonsterLogoMummy.png');
+const MonsterLogoZombie = loadImg('monster/MonsterLogoZombie.png');
+const MonsterLogoOrc = loadImg('monster/MonsterLogoOrc.png');
+const MonsterLogoAbomination = loadImg('monster/MonsterLogoAbomination.png');
+const MonsterLogoChaosWarrior = loadImg('monster/MonsterLogoChaosWarrior.png');
+const MonsterLogoGargoyle = loadImg('monster/MonsterLogoGargoyle.png');
 
 let onCardImageReadyfunc = null;
 bgImage.onload = function () {
@@ -50,8 +59,11 @@ function loadCardImages() {
 }
 
 function paintCard(card, canvas) {
-
     canvas.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+    if (card.type == 'dungeon') {
+        paintDungeonCard(card, canvas);
+        return;
+    }
     if (card.type == 'base') {
         canvas.fillColor('rgba(0, 0, 20, 0.25)');
     }
@@ -82,7 +94,7 @@ function paintCard(card, canvas) {
     canvas.drawImage(card.img, margin + anchor, top + anchor, CadreExtImage.width * ratio - 2 * anchor, CadreExtImage.height * ratio - 2 * anchor);
     canvas.drawImage(CadreExtImage, margin, top, CadreExtImage.width * ratio, CadreExtImage.height * ratio);
 
-    if (card.type == 'artifact'){
+    if (card.type == 'artifact') {
         canvas.drawImage(CardTopHeaderImage, margin + 0, top - 48, CardTopHeaderImage.width * ratio, CardTopHeaderImage.height * ratio);
         canvas.fontSize = 112;
         canvas.fillStyle = '#dc9';
@@ -155,4 +167,46 @@ function getLogo(c) {
         case 'l': return LogoLifeImage;
         case 'c': return LogoCompetenceImage;
     }
+}
+
+
+function paintMonsterLogo(monster, x, y, canvas) {
+    const monsters = [
+        ['🗡️', 'Gobelin', MonsterLogoGobelin],
+        ['🏹', 'Bow', MonsterLogoBowman],
+        ['💀', 'Skeleton', MonsterLogoSkeleton],
+        ['🩹', 'Mummy', MonsterLogoMummy],
+        ['🧟‍♂️', 'Zombie', MonsterLogoZombie],
+        ['👹', 'Orc', MonsterLogoOrc],
+        ['🦈', 'Abomination', MonsterLogoAbomination],
+        ['👘', 'Chaos Warrior', MonsterLogoChaosWarrior],
+        ['🐉', 'Gargoyle', MonsterLogoGargoyle],
+    ]
+    const v = monsters.find(m => m[0] == monster);
+    if (!v) {
+        throw `Invalid char: '${type}'`;
+    }
+    const img = v[2];
+    const ratio = 0.75;
+    canvas.drawImage(img, x, y, Math.floor(img.width * ratio), Math.floor(img.height * ratio));
+}
+
+function paintDungeonCard(card, canvas) {   
+    let top = 100;
+    canvas.fontSize = 112;
+    canvas.fillStyle = '#002';
+    const textWidth = canvas.measureTextWidth(card.title);
+    const x = (canvas.width - textWidth) / 2;
+    canvas.fillText(card.title, x, top + 108);
+
+    const dugeon = parseDungeonFromEmoji(card.dungeon);
+    const logoWidht = 190;
+    for (let level of dugeon) {
+        top += 180;
+        let margin = (canvas.width - level.length * logoWidht) / 2;;
+        for (let i = 0; i < level.length; i++) {
+            paintMonsterLogo(level[i], margin + i * logoWidht, top, canvas)
+        }
+    }
+
 }

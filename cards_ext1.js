@@ -646,6 +646,39 @@ const cards_ext1 = [
         attr: [],
         pictureName: 'ext1/HumanOldPriest'
     },
+
+    // Dungeons
+    {
+        type: 'dungeon',
+        pictureName: 'monster/LogoMonsters',
+        title: '3 players 🗡️🗡️',
+        dungeon: `🗡️🗡️
+                🗡️🗡️🏹🏹
+                🗡️🏹💀💀 
+                🗡️💀💀🩹🩹
+                🧟‍♂️🧟‍♂️🧟‍♂️🧟‍♂️ 
+                👹👹🧟‍♂️ 
+                🧟‍♂️🦈🩹 
+                👹👘👹 
+                💀🐉💀`,
+
+    },
+    {
+        type: 'dungeon',
+        pictureName: 'monster/LogoMonsters',
+        title: '3 players 🗡️',
+        dungeon: `🗡️🗡️
+                🗡️🗡️🏹🏹
+                🗡️🏹💀💀 
+                🗡️💀💀🩹🩹
+                🧟‍♂️🧟‍♂️
+                🧟‍♂️🧟‍♂️🧟‍♂️🧟‍♂️ 
+                👹👹🧟‍♂️ 
+                🧟‍♂️🦈🩹 
+                👹👘👹 
+                💀🐉💀`,
+
+    }
 ];
 
 
@@ -654,4 +687,21 @@ function AddExt1() {
         allCards.push(c);
     for (let c of allCards)
         c.stats = c.stats || [];
+}
+
+function parseDungeonFromEmoji(input) {
+    const allowedEmojis = ["🗡️", "🏹", "💀", "🩹", "🧟‍♂️", "👹", "🦈", "👘", "🐉"];
+    const regex = new RegExp(allowedEmojis.join("|"), "gu");
+    const lines = input
+        .split('\n')
+        .filter(line => line != '')
+        .map(line => line.match(regex)?.join("") || "")
+        .filter(line => line != '')
+    function split(text) {
+        return [...new Intl.Segmenter(undefined, { granularity: "grapheme" })
+            .segment(text)]
+            .map(s => s.segment)
+            .filter(s => /\p{Extended_Pictographic}/u.test(s));
+    }
+    return lines.map(text => split(text));
 }

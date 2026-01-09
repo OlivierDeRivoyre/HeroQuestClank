@@ -18,7 +18,7 @@ class Player {
         this.deck = new CardGameRun();
         // Assume players will behave on this one
         this.deck.playerDeck.drawPile = this.deck.playerDeck.drawPile.filter(c => c.id != 'baseMalus');
-        this.maxLife = 7;
+        this.maxLife = 3;
         this.life = this.maxLife;
         this.x = 0;
         this.commonGGBought = 0;
@@ -249,8 +249,9 @@ class Monster {
     }
 }
 class Room {
-    constructor(monsters) {
+    constructor(monsters, label) {
         this.monsters = monsters;
+        this.label = label;
         this.turn = 0;
         this.xSize = 7;
         this.metricsHeroLives = [];
@@ -261,23 +262,13 @@ class Room {
 }
 let dungeon = [];
 let currentRoomIndex = 0;
+
+
 function createDungeon() {
     currentRoomIndex = 0;
     const textBox = document.getElementById('dungeonContent').value;
-    const allowedEmojis = ["🗡️", "🏹", "💀", "🩹", "🧟‍♂️", "👹", "🦈", "👘", "🐉"];
-    const regex = new RegExp(allowedEmojis.join("|"), "gu");
-    const lines = textBox
-        .split('\n')
-        .filter(line => line != '')
-        .map(line => line.match(regex)?.join("") || "")
-        .filter(line => line != '')
-    function split(text) {
-        return [...new Intl.Segmenter(undefined, { granularity: "grapheme" })
-            .segment(text)]
-            .map(s => s.segment)
-            .filter(s => /\p{Extended_Pictographic}/u.test(s));
-    }
-    return lines.map(text => new Room(split(text).map(c => new Monster(c))));
+    const array = parseDungeonFromEmoji(textBox);
+    return array.map(monsters => new Room(monsters.map(c => new Monster(c)), monsters));
 }
 
 function initGame() {
@@ -296,6 +287,8 @@ function moveToCurrentRoom() {
             return dungeon[currentRoomIndex];
         }
         dungeon[currentRoomIndex].metricsHeroLives = players.map(p => p.life);
+        for (let p of players)
+            p.life = p.maxLife;
         currentRoomIndex++;
         log(`Enter in room ${currentRoomIndex + 1} / ${dungeon.length}`);
         if (currentRoomIndex < dungeon.length) {
@@ -340,7 +333,7 @@ function playOneGame() {
 async function playManyGames() {
     showLog = false;
     initGame();
-    const failByRooms = dungeon.map(room => ({ loseHere: 0, dmgDone: 0, turns: 0 }));
+    const failByRooms = dungeon.map(room => ({ room, loseHere: 0, dmgs: [], turns: 0, visited: 0 }));
     let victory = 0;
     let total = 0;
     for (let retry = 0; retry < 1000; retry++) {
@@ -353,6 +346,7 @@ async function playManyGames() {
                 result = `All heroes are dead at level ${currentRoomIndex + 1} / ${dungeon.length} 💀💀💀`;
                 log(result);
                 failByRooms[currentRoomIndex].loseHere++;
+
                 break;
             }
             if (currentRoomIndex >= dungeon.length) {
@@ -362,8 +356,12 @@ async function playManyGames() {
                 break;
             }
         }
+        for (let i = 0; i <= Math.min(currentRoomIndex, dungeon.length - 1); i++) {
+            failByRooms[i].visited++;
+        }
         for (let i = 0; i < dungeon.length; i++) {
-            failByRooms[i].dmgDone += dungeon[i].monsters.reduce((acc, m) => acc + m.realDmgDone, 0);
+            const dmg = dungeon[i].monsters.reduce((acc, m) => acc + m.realDmgDone, 0);
+            failByRooms[i].dmgs.push(dmg);
             failByRooms[i].turns += dungeon[i].turn;
         }
         displayMultiGameSummary(failByRooms, victory, total);
@@ -414,24 +412,46 @@ function displayDungeon(result) {
 function displayMultiGameSummary(failByRooms, victory, total) {
     const div = document.getElementById('summary');
     div.innerHTML = '';
-    {
-        const p = document.createElement('p');
-        p.textContent = `Victory: ${victory}/${total}`;
-        div.appendChild(p);
+    const table = document.createElement('table');
+    div.appendChild(table);
+    function addCell(tr, text) {
+        const td = document.createElement('td');
+        td.textContent = text;
+        tr.appendChild(td);
     }
     {
-        const p = document.createElement('p');
-        p.textContent = `Fails : ${failByRooms.map(s => s.loseHere).join(', ')}`;
-        div.appendChild(p);
+        const tr = document.createElement('tr');
+        table.appendChild(tr);
+        addCell(tr, `Victory: ${victory}/${total}`);
+        addCell(tr, `Fails count`);
+        addCell(tr, `Dmg received`);
+        addCell(tr, `Dmg Range`);
+        addCell(tr, `Turns in room`);
+        addCell(tr, `Visited count`);
     }
-    {
-        const p = document.createElement('p');
-        p.textContent = `Damages received: ${failByRooms.map(s => (s.dmgDone/total).toFixed(1)).join(', ')}`;
-        div.appendChild(p);
+    for (let level of failByRooms) {
+        const stat = getStat(level.dmgs)
+        const tr = document.createElement('tr');
+        table.appendChild(tr);
+        addCell(tr, level.room.label.join(''));
+        addCell(tr, (level.loseHere * 100 / total).toFixed(0) + ' %');
+        addCell(tr, stat.mean.toFixed(1));
+        addCell(tr, (stat.mean - stat.stdDev).toFixed(1) + ' - ' + (stat.mean + stat.stdDev).toFixed(1));
+        addCell(tr, (level.turns / level.visited).toFixed(1));
+        addCell(tr, (level.visited * 100 / total).toFixed(0) + ' %');
+        
     }
-    {
-        const p = document.createElement('p');
-        p.textContent = `Turns in room : ${failByRooms.map(s => (s.turns/total).toFixed(1)).join(', ')}`;
-        div.appendChild(p);
+}
+
+function getStat(values) {
+    const n = values.length;
+    if (n === 0) {
+        return { mean: 0, stdDev: 0 };
     }
+    const mean = values.reduce((sum, v) => sum + v, 0) / n;
+    const variance = values.reduce((sum, v) => {
+        return sum + Math.pow(v - mean, 2);
+    }, 0) / n;
+
+    return { mean, stdDev: Math.sqrt(variance) };
 }
