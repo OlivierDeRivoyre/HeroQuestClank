@@ -581,7 +581,9 @@ const cards_ext1 = [
         type: 'artifact',
         desc: [
             ['Vous pouvez stocker 1 carte'],
-            ['dans ce sac.'],
+            ['dans ce sac. À votre tour, vous'],
+            ['ne pouvez jouer qu’une carte'],
+            ['de vos sacs.'],
         ],
         cost: 1,
         stats: [],
@@ -593,25 +595,52 @@ const cards_ext1 = [
         type: 'artifact',
         desc: [
             ['Vous pouvez stocker 2 cartes'],
-            ['dans ce sac.'],
+            ['dans ce sac. À votre tour, vous'],
+            ['ne pouvez jouer qu’une carte'],
+            ['de vos sacs.'],
         ],
-        cost: 3,
+        cost: 2,
         stats: [],
         attr: [],
         pictureName: 'ext1/ItemAdventurerBag'
-    },  
-      {
+    },
+    {
         title: 'Sac Sans Fond',
         type: 'artifact',
         desc: [
             ['Vous pouvez stocker 3 cartes'],
-            ['dans ce sac.'],
+            ['dans ce sac. À votre tour, vous'],
+            ['ne pouvez jouer qu’une carte'],
+            ['de vos sacs.'],
         ],
-        cost: 5,
+        cost: 3,
         stats: [],
         attr: [],
         pictureName: 'ext1/ItemBagOfHolding'
     },
+    {
+        title: 'Mercenaire',
+        type: 'artifact',
+        desc: [
+            ['g', 'g', 'g', ' : ', 'a']
+        ],
+        cost: 3,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/HumanPayingMercenary'
+    },
+    {
+        title: 'Garde du Corps',
+        type: 'artifact',
+        desc: [
+            ['g', 'g', 'g', ' : ', 'd']
+        ],
+        cost: 3,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/GnomeProtector'
+    },
+    
 
     // Jockers
     {
