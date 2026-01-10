@@ -311,6 +311,7 @@ function monstersDoDamage(room) {
 
 
 function playOneGame() {
+    showLog = true;
     initGame();
     log(`Start game with ${players.length} players and ${allCards.length} cards`);
     for (let i = 0; i < 1000; i++) {
@@ -333,20 +334,23 @@ function playOneGame() {
 async function playManyGames() {
     showLog = false;
     initGame();
-    const failByRooms = dungeon.map(room => ({ room, loseHere: 0, dmgs: [], turns: 0, visited: 0 }));
+    const statByRooms = dungeon.map(room => ({ room, loseHere: 0, dmgs: [], turns: 0, enterAtTurn:[], visited: 0 }));
     let victory = 0;
     let total = 0;
     for (let retry = 0; retry < 1000; retry++) {
         total++;
         initGame();
-        log(`Start game ${total} with ${players.length} players and ${allCards.length} cards`);
+        log(`Start game ${total} with ${players.length} players and ${allCards.length} cards`);        
         for (let i = 0; i < 1000; i++) {
+            let previous = currentRoomIndex;
             playTurn();
+            if(previous != currentRoomIndex && currentRoomIndex < statByRooms.length){
+                statByRooms[currentRoomIndex].enterAtTurn.push(i+1);
+            }
             if (players.filter(p => p.life > 0).length == 0) {
                 result = `All heroes are dead at level ${currentRoomIndex + 1} / ${dungeon.length} 💀💀💀`;
                 log(result);
-                failByRooms[currentRoomIndex].loseHere++;
-
+                statByRooms[currentRoomIndex].loseHere++;
                 break;
             }
             if (currentRoomIndex >= dungeon.length) {
@@ -356,15 +360,15 @@ async function playManyGames() {
                 break;
             }
         }
-        for (let i = 0; i <= Math.min(currentRoomIndex, dungeon.length - 1); i++) {
-            failByRooms[i].visited++;
+        for (let i = 0; i <= Math.min(currentRoomIndex, statByRooms.length - 1); i++) {
+            statByRooms[i].visited++;
         }
         for (let i = 0; i < dungeon.length; i++) {
             const dmg = dungeon[i].monsters.reduce((acc, m) => acc + m.realDmgDone, 0);
-            failByRooms[i].dmgs.push(dmg);
-            failByRooms[i].turns += dungeon[i].turn;
+            statByRooms[i].dmgs.push(dmg);
+            statByRooms[i].turns += dungeon[i].turn;
         }
-        displayMultiGameSummary(failByRooms, victory, total);
+        displayMultiGameSummary(statByRooms, victory, total);
         await delay(1);
     }
 }
@@ -409,7 +413,7 @@ function displayDungeon(result) {
     }
 }
 
-function displayMultiGameSummary(failByRooms, victory, total) {
+function displayMultiGameSummary(statByRooms, victory, total) {
     const div = document.getElementById('summary');
     div.innerHTML = '';
     const table = document.createElement('table');
@@ -426,20 +430,23 @@ function displayMultiGameSummary(failByRooms, victory, total) {
         addCell(tr, `Fails count`);
         addCell(tr, `Dmg received`);
         addCell(tr, `Dmg Range`);
-        addCell(tr, `Turns in room`);
+        addCell(tr, `Turns in room`);        
         addCell(tr, `Visited count`);
+        addCell(tr, `Visited at turn`);
     }
-    for (let level of failByRooms) {
+    for (let level of statByRooms) {
         const stat = getStat(level.dmgs)
+        const visitedAtTurn = getStat(level.enterAtTurn)
         const tr = document.createElement('tr');
         table.appendChild(tr);
         addCell(tr, level.room.label.join(''));
-        addCell(tr, (level.loseHere * 100 / total).toFixed(0) + ' %');
+        addCell(tr, (level.loseHere * 100 / level.visited).toFixed(0) + ' %');
         addCell(tr, stat.mean.toFixed(1));
         addCell(tr, (stat.mean - stat.stdDev).toFixed(1) + ' - ' + (stat.mean + stat.stdDev).toFixed(1));
         addCell(tr, (level.turns / level.visited).toFixed(1));
         addCell(tr, (level.visited * 100 / total).toFixed(0) + ' %');
-        
+        addCell(tr, visitedAtTurn.mean.toFixed(1));
+       
     }
 }
 

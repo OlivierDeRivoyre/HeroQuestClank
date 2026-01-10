@@ -172,15 +172,15 @@ function getLogo(c) {
 
 function paintMonsterLogo(monster, x, y, canvas) {
     const monsters = [
-        ['🗡️', 'Gobelin', MonsterLogoGobelin],
-        ['🏹', 'Bow', MonsterLogoBowman],
-        ['💀', 'Skeleton', MonsterLogoSkeleton],
-        ['🩹', 'Mummy', MonsterLogoMummy],
-        ['🧟‍♂️', 'Zombie', MonsterLogoZombie],
-        ['👹', 'Orc', MonsterLogoOrc],
-        ['🦈', 'Abomination', MonsterLogoAbomination],
-        ['👘', 'Chaos Warrior', MonsterLogoChaosWarrior],
-        ['🐉', 'Gargoyle', MonsterLogoGargoyle],
+        ['G', 'Gobelin', MonsterLogoGobelin],
+        ['B', 'Bow', MonsterLogoBowman],
+        ['S', 'Skeleton', MonsterLogoSkeleton],
+        ['M', 'Mummy', MonsterLogoMummy],
+        ['Z', 'Zombie', MonsterLogoZombie],
+        ['O', 'Orc', MonsterLogoOrc],
+        ['A', 'Abomination', MonsterLogoAbomination],
+        ['C', 'Chaos Warrior', MonsterLogoChaosWarrior],
+        ['R', 'Gargoyle', MonsterLogoGargoyle],
     ]
     const v = monsters.find(m => m[0] == monster);
     if (!v) {
@@ -191,21 +191,26 @@ function paintMonsterLogo(monster, x, y, canvas) {
     canvas.drawImage(img, x, y, Math.floor(img.width * ratio), Math.floor(img.height * ratio));
 }
 
-function paintDungeonCard(card, canvas) {   
+function paintDungeonCard(card, canvas) {
     let top = 100;
     canvas.fontSize = 112;
     canvas.fillStyle = '#002';
     const textWidth = canvas.measureTextWidth(card.title);
-    const x = (canvas.width - textWidth) / 2;
-    canvas.fillText(card.title, x, top + 108);
-
-    const dugeon = parseDungeonFromEmoji(card.dungeon);
+    const titleX = (canvas.width - textWidth) / 2;
+    canvas.fillText(card.title, titleX, top + 108);
+    top += 80;
     const logoWidht = 190;
-    for (let level of dugeon) {
-        top += 180;
-        let margin = (canvas.width - level.length * logoWidht) / 2;;
-        for (let i = 0; i < level.length; i++) {
-            paintMonsterLogo(level[i], margin + i * logoWidht, top, canvas)
+    for (let level of card.dungeon) {
+        top += 190;
+        let left = 120;
+        for (let text of level) {
+            if (text.length == 1) {
+                paintMonsterLogo(text, left, top - 140, canvas);
+                left += logoWidht;
+            } else {
+                canvas.fillText(text, left, top);
+                left += canvas.measureTextWidth(text);
+            }
         }
     }
 
