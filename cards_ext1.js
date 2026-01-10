@@ -640,7 +640,19 @@ const cards_ext1 = [
         attr: [],
         pictureName: 'ext1/GnomeProtector'
     },
-    
+    {
+        title: 'Transmutation',
+        type: 'artifact',
+        desc: [
+            ['Une fois par tour, vous pouvez'],
+            ['défausser une carte. Si vous le'],
+            ['faites, piochez une carte.']
+        ],
+        cost: 3,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/GrnomeTransmuting'
+    },
 
     // Jockers
     {
