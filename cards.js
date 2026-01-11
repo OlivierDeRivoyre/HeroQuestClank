@@ -466,6 +466,15 @@ const allCards = [
         pictureName: 'ElfRogueVolcano'
     },
     {
+        title: 'Éclats de Victoire',
+        type: 'T1',
+        desc: [],
+        cost: 5,
+        stats: ['a', 'a', 'g'],
+        attr: ['lost1Life'],
+        pictureName: 'HumanHitCristal'
+    },
+    {
         title: 'Prime de Guerre',
         type: 'T1',
         desc: [],

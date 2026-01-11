@@ -668,8 +668,8 @@ const cards_ext1 = [
         pictureName: 'ext1/GnomeTransmuting'
     },
     {
-        title: 'Boîte à Cadeau',
-        type: 'artifact',
+        title: 'Tiens, Cadeau !',
+        type: 'T2',
         desc: [
             ['Mettez cette carte et une autre'],
             ['carte de votre main dans la'],
