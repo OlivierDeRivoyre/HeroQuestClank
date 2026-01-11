@@ -334,8 +334,8 @@ const allCards = [
     {
         title: 'Dague Vampirique',
         type: 'T1',
-        desc: [['l', ': Récupérez un point de vie']],
-        cost: 4,
+        desc: [],
+        cost: 3,
         stats: ['a', 'l'],
         pictureName: 'DaggerVampire'
     },

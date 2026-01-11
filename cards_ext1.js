@@ -98,12 +98,26 @@ const cards_ext1 = [
         type: 'hero',
         desc: [
             ['c', ' si monstre meurt ce tour ci:'],
-            ['créer un squelette'],
+            ['créer un minion.'],
         ],
         cost: 0,
         stats: [],
         pictureName: 'ext1/Necro',
         quantity: 1
+    },
+    {
+        title: 'Minion',
+        type: 'hero',
+        desc: [ 
+            [],
+            ['              1', 'l', '     8 ', 's'],
+            [],
+            ['           Un dé d’attaque']
+        ],
+        cost: 0,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/SkeletonSingle'
     },
     {
         title: 'Assassin',
@@ -263,7 +277,7 @@ const cards_ext1 = [
         type: 'T1',
         desc: [],
         cost: 5,
-        stats: ['g', 'a', 'c'],
+        stats: ['a', 'g', 'c'],
         pictureName: 'ext1/HumanReceiveGold'
     },
     {
@@ -528,8 +542,8 @@ const cards_ext1 = [
         desc: [
             ['Usage unique.'],
             ['Ressuscitez tous les joueurs.'],
-            ['Ceux-ci perdent définitivement'],
-            ['un point de vie.'],
+            ['Ceux-ci doivent détruire une'],
+            ['carte.'],
         ],
         cost: 0,
         stats: [],
@@ -651,17 +665,26 @@ const cards_ext1 = [
         cost: 3,
         stats: [],
         attr: [],
-        pictureName: 'ext1/GrnomeTransmuting'
+        pictureName: 'ext1/GnomeTransmuting'
     },
-
+    {
+        title: 'Boîte à Cadeau',
+        type: 'artifact',
+        desc: [
+            ['Mettez cette carte et une autre'],
+            ['carte de votre main dans la'],
+            ['défausse d’un joueur.']
+        ],
+        cost: 1,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/GnomeGift'
+    },
     // Jockers
     {
         title: 'Cubes Magiques',
         type: 'artifact',
-        desc: [
-            [],
-
-        ],
+        desc: [],
         cost: 0,
         stats: [],
         attr: [],
@@ -670,10 +693,7 @@ const cards_ext1 = [
     {
         title: 'Assaut',
         type: 'T2',
-        desc: [
-            [],
-
-        ],
+        desc: [],
         cost: 0,
         stats: [],
         attr: [],
@@ -682,10 +702,7 @@ const cards_ext1 = [
     {
         title: 'Invocation',
         type: 'T2',
-        desc: [
-            [],
-
-        ],
+        desc: [],
         cost: 0,
         stats: [],
         attr: [],
@@ -694,10 +711,7 @@ const cards_ext1 = [
     {
         title: 'Alchimie',
         type: 'T2',
-        desc: [
-            [],
-
-        ],
+        desc: [],
         cost: 0,
         stats: [],
         attr: [],
@@ -706,10 +720,7 @@ const cards_ext1 = [
     {
         title: 'Sanglier',
         type: 'artifact',
-        desc: [
-            [],
-
-        ],
+        desc: [],
         cost: 0,
         stats: [],
         attr: [],
@@ -718,10 +729,7 @@ const cards_ext1 = [
     {
         title: 'Gemme Noire',
         type: 'T2',
-        desc: [
-            [],
-
-        ],
+        desc: [],
         cost: 0,
         stats: [],
         attr: [],
@@ -730,10 +738,7 @@ const cards_ext1 = [
     {
         title: 'Menace',
         type: 'T2',
-        desc: [
-            [],
-
-        ],
+        desc: [],
         cost: 0,
         stats: [],
         attr: [],
@@ -742,10 +747,7 @@ const cards_ext1 = [
     {
         title: 'L’inconnue',
         type: 'hero',
-        desc: [
-            [],
-
-        ],
+        desc: [],
         cost: 0,
         stats: [],
         attr: [],

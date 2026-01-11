@@ -23,16 +23,16 @@ function showCard(card) {
 onCardImageReadyfunc = () => {
     show(0);
     let count = 0;
-    for(let c of allCards){
+    for (let c of allCards) {
         count += (c.quantity || 1);
     }
-    document.getElementById("MiniaturesButton").innerText ="Miniatures of " + count + " cards";
+    document.getElementById("MiniaturesButton").innerText = "Miniatures of " + count + " cards";
 }
 
-function downloadImages() {    
-   
-    for (let i = 0; i < allCards.length; i++) {
-        const card = allCards[i];
+function downloadImages() {
+    const sorted = orderCards();
+    for (let i = 0; i < sorted.length; i++) {
+        const card = sorted[i];
         showCard(card);
         const screenCanvas = document.getElementById('paintCanvas');
         const link = document.createElement('a');
@@ -53,6 +53,39 @@ function createFixedCardCanvasForMiniatures(cardWidth, cardHeight) {
 }
 const backImage = loadImg('back3.png');
 
+function orderCards() {
+    const sorted = [...allCards];
+    const rankType = {}
+    rankType["hero"] = 1;
+    rankType["monster"] = 2;
+    rankType["dungeon"] = 3;    
+    rankType["base"] = 4;
+    rankType["common"] = 5;
+    rankType["T1"] = 6;
+    rankType["T2"] = 7;
+    rankType["artifact"] = 8;
+    function isJoker(c){
+        return c.cost == 0 && c.desc.length == 0 && c.stats.length == 0;
+    }
+    sorted.sort((a, b) => {
+        if(isJoker(a) != isJoker(b)){
+            if(isJoker(a))
+                return 1;
+            return -1;
+        }
+        if (a.type !== b.type) {
+            return (rankType[a.type]||0) - (rankType[b.type]||0);
+        }
+        if (a.stats.length != b.stats.length) {
+            return a.stats.length - b.stats.length;
+        }
+        if (a.cost != b.cost) {
+            return a.cost - b.cost;
+        }
+        return a.title.localeCompare(b.title); 
+    });
+    return sorted;
+}
 function createMinatutes() {
     const a4Width = 2000;
     const a4Height = 3000;
@@ -73,7 +106,7 @@ function createMinatutes() {
     let page;
     let index = 0;
     const fixedCanvas = createFixedCardCanvasForMiniatures(cardWidth, cardHeight);
-    for (let card of allCards) {
+    for (let card of orderCards()) {
         paintCard(card, fixedCanvas);
         const quantity = card.quantity || 1;
         for (let i = 0; i < quantity; i++) {
@@ -90,12 +123,12 @@ function createMinatutes() {
         }
     }
     page = createPageCanvas();
-    for(let coord = 0; coord < nbCardPerLine * nbCardPerLine; coord++){
+    for (let coord = 0; coord < nbCardPerLine * nbCardPerLine; coord++) {
         page.drawImage(backImage,
-                marginX + (coord % nbCardPerLine) * (cardWidth + 0),
-                marginY + Math.floor(coord / nbCardPerLine) * (cardHeight + 0),
-                cardWidth,
-                cardHeight);
+            marginX + (coord % nbCardPerLine) * (cardWidth + 0),
+            marginY + Math.floor(coord / nbCardPerLine) * (cardHeight + 0),
+            cardWidth,
+            cardHeight);
     }
 
 }
