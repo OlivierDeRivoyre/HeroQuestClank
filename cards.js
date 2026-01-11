@@ -506,6 +506,14 @@ const allCards = [
         stats: ['a', 'a', 'd'],
         pictureName: 'ElfHitOrc'
     },
+        {
+        title: 'Hurle-Guerre',
+        type: 'T1',
+        desc: [],
+        cost: 6,
+        stats: ['a', 'a', 'a'],
+        pictureName: 'ItemBigAxe'
+    },
 
     //T2
     {
