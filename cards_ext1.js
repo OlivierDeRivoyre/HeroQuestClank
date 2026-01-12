@@ -596,8 +596,8 @@ const cards_ext1 = [
         desc: [
             ['Vous pouvez stocker 1 carte'],
             ['dans ce sac. À votre tour, vous'],
-            ['ne pouvez jouer qu’une carte'],
-            ['de vos sacs.'],
+            ['ne pouvez sortir plus d’une '],
+            ['carte de vos sacs.'],
         ],
         cost: 1,
         stats: [],
@@ -610,8 +610,8 @@ const cards_ext1 = [
         desc: [
             ['Vous pouvez stocker 2 cartes'],
             ['dans ce sac. À votre tour, vous'],
-            ['ne pouvez jouer qu’une carte'],
-            ['de vos sacs.'],
+            ['ne pouvez sortir plus d’une '],
+            ['carte de vos sacs.'],
         ],
         cost: 2,
         stats: [],
@@ -624,8 +624,8 @@ const cards_ext1 = [
         desc: [
             ['Vous pouvez stocker 3 cartes'],
             ['dans ce sac. À votre tour, vous'],
-            ['ne pouvez jouer qu’une carte'],
-            ['de vos sacs.'],
+            ['ne pouvez sortir plus d’une '],
+            ['carte de vos sacs.'],
         ],
         cost: 3,
         stats: [],
