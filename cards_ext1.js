@@ -392,7 +392,7 @@ const cards_ext1 = [
             ['Chaque ', 's', ' peut être converti'],
             ['en ', 'a']
         ],
-        cost: 5,
+        cost: 4,
         stats: [],
         attr: ['walkToAttack'],
         pictureName: 'ext1/GnomeRunningAway'
@@ -466,7 +466,7 @@ const cards_ext1 = [
             ['achetée au lieu de la défausser.'],
             ['S’applique à tous les joueurs.']
         ],
-        cost: 3,
+        cost: 2,
         stats: [],
         attr: [],
         pictureName: 'ext1/GnomeRich'
@@ -707,7 +707,20 @@ const cards_ext1 = [
         stats: ['g'],
         attr: [],
         pictureName: 'ext1/ItemDiamondFound',
-        quantity: 6,
+        quantity: 4,
+    },
+    {
+        title: 'Bague Précieuse',
+        type: 'artifact',
+        desc: [
+            ['Usage unique, détruisez cette'],
+            ['carte une fois jouée.'],
+        ],
+        cost: 0,
+        stats: ['g', 'g'],
+        attr: [],
+        pictureName: 'ext1/ItemDiamondRing',
+        quantity: 4,
     },
     // Jockers
     {
