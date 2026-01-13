@@ -14,7 +14,7 @@ const cards_ext1 = [
         ],
         cost: 0,
         stats: [],
-        pictureName: 'ext1/Barbare',//  style "Dungeon Crawler Board old Game Art"
+        pictureName: 'ext1/Barbare',//  style "Dungeon Crawler Board old Game Art". No border. No Label.
         quantity: 1
     },
     {
@@ -108,7 +108,7 @@ const cards_ext1 = [
     {
         title: 'Minion',
         type: 'hero',
-        desc: [ 
+        desc: [
             [],
             ['              1', 'l', '     8 ', 's'],
             [],
@@ -498,59 +498,6 @@ const cards_ext1 = [
         pictureName: 'PlayingCards'
     },
     {
-        title: 'Potion de vie',
-        type: 'artifact',
-        desc: [
-            ['Usage unique, détruisez cette'],
-            ['carte une fois jouée.'],
-            ['Restaurez 1 dé de vie.']
-        ],
-        cost: 5,
-        stats: [],
-        attr: [],
-        pictureName: 'LifePotion'
-    },
-    {
-        title: 'Potion de vie',
-        type: 'artifact',
-        desc: [
-            ['Usage unique, détruisez cette'],
-            ['carte une fois jouée.'],
-            ['Restaurez 1 dé de vie.']
-        ],
-        cost: 0,
-        stats: [],
-        attr: [],
-        pictureName: 'LifePotionChest',
-        quantity: 5
-    },
-    {
-        title: 'Petite potion',
-        type: 'artifact',
-        desc: [
-            ['Usage unique, détruisez cette'],
-            ['carte une fois jouée.'],
-        ],
-        cost: 1,
-        stats: ['l'],
-        attr: [],
-        pictureName: 'SmallPotion'
-    },
-    {
-        title: 'Pierre de Noam',
-        type: 'artifact',
-        desc: [
-            ['Usage unique.'],
-            ['Ressuscitez tous les joueurs.'],
-            ['Ceux-ci doivent détruire une'],
-            ['carte.'],
-        ],
-        cost: 0,
-        stats: [],
-        attr: [],
-        pictureName: 'SoulStone'
-    },
-    {
         title: 'Argent de poche',
         type: 'artifact',
         desc: [
@@ -590,48 +537,6 @@ const cards_ext1 = [
         pictureName: 'ext1/ItemBlacksmith'
     },
 
-    {
-        title: 'Besace',
-        type: 'artifact',
-        desc: [
-            ['Vous pouvez stocker 1 carte'],
-            ['dans ce sac. À votre tour, vous'],
-            ['ne pouvez sortir plus d’une '],
-            ['carte de vos sacs.'],
-        ],
-        cost: 1,
-        stats: [],
-        attr: [],
-        pictureName: 'ext1/ItemSatchel'
-    },
-    {
-        title: 'Sac de Voyage',
-        type: 'artifact',
-        desc: [
-            ['Vous pouvez stocker 2 cartes'],
-            ['dans ce sac. À votre tour, vous'],
-            ['ne pouvez sortir plus d’une '],
-            ['carte de vos sacs.'],
-        ],
-        cost: 2,
-        stats: [],
-        attr: [],
-        pictureName: 'ext1/ItemAdventurerBag'
-    },
-    {
-        title: 'Sac Sans Fond',
-        type: 'artifact',
-        desc: [
-            ['Vous pouvez stocker 3 cartes'],
-            ['dans ce sac. À votre tour, vous'],
-            ['ne pouvez sortir plus d’une '],
-            ['carte de vos sacs.'],
-        ],
-        cost: 3,
-        stats: [],
-        attr: [],
-        pictureName: 'ext1/ItemBagOfHolding'
-    },
     {
         title: 'Mercenaire',
         type: 'artifact',
@@ -679,6 +584,130 @@ const cards_ext1 = [
         stats: [],
         attr: [],
         pictureName: 'ext1/GnomeGift'
+    },
+    // Treasures
+    {
+        title: 'Patrouille',
+        type: 'lootCard',
+        desc: [
+            ['Un groupe de monstres'],
+            ['apparaît et vous attaque.']
+        ],
+        cost: 0,
+        quantity: 5,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/OrcAlone'
+    },
+    {
+        title: 'Piège',
+        type: 'lootCard',
+        desc: [
+            ['Un piège s’active. Vous perdez'],
+            ['1 point de vie.']
+        ],
+        cost: 0,
+        quantity: 5,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/HumanTrap'
+    },
+    {
+        title: 'Besace',
+        type: 'artifact',
+        desc: [
+            ['Vous pouvez stocker 1 carte'],
+            ['dans ce sac. À votre tour, vous'],
+            ['ne pouvez sortir plus d’une '],
+            ['carte de vos sacs.'],
+        ],
+        cost: 0,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/ItemSatchel'
+    },
+    {
+        title: 'Sac de Voyage',
+        type: 'artifact',
+        desc: [
+            ['Vous pouvez stocker 2 cartes'],
+            ['dans ce sac. À votre tour, vous'],
+            ['ne pouvez sortir plus d’une '],
+            ['carte de vos sacs.'],
+        ],
+        cost: 0,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/ItemAdventurerBag'
+    },
+    {
+        title: 'Sac Sans Fond',
+        type: 'artifact',
+        desc: [
+            ['Vous pouvez stocker 3 cartes'],
+            ['dans ce sac. À votre tour, vous'],
+            ['ne pouvez sortir plus d’une '],
+            ['carte de vos sacs.'],
+        ],
+        cost: 0,
+        stats: [],
+        attr: [],
+        pictureName: 'ext1/ItemBagOfHolding'
+    },
+    {
+        title: 'Potion de vie',
+        type: 'artifact',
+        desc: [
+            ['Usage unique, détruisez cette'],
+            ['carte une fois jouée.'],
+            ['Restaurez 1 dé de vie.']
+        ],
+        cost: 0,
+        stats: [],
+        attr: [],
+        pictureName: 'LifePotion',
+        quantity: 3,
+    },
+    {
+        title: 'Petite potion',
+        type: 'artifact',
+        desc: [
+            ['Usage unique, détruisez cette'],
+            ['carte une fois jouée.'],
+        ],
+        cost: 0,
+        stats: ['l'],
+        attr: [],
+        pictureName: 'SmallPotion',
+        quantity: 3,
+    },
+    {
+        title: 'Pierre de Noam',
+        type: 'artifact',
+        desc: [
+            ['Usage unique.'],
+            ['Ressuscitez tous les joueurs.'],
+            ['Ceux-ci doivent détruire une'],
+            ['carte.'],
+        ],
+        cost: 0,
+        stats: [],
+        attr: [],
+        pictureName: 'SoulStone',
+        quantity: 1,
+    },
+    {
+        title: 'Diamant Taillé',
+        type: 'artifact',
+        desc: [
+            ['Usage unique, détruisez cette'],
+            ['carte une fois jouée.'],
+        ],
+        cost: 0,
+        stats: ['g'],
+        attr: [],
+        pictureName: 'ext1/ItemDiamondFound',
+        quantity: 6,
     },
     // Jockers
     {
@@ -752,6 +781,15 @@ const cards_ext1 = [
         stats: [],
         attr: [],
         pictureName: 'ext1/HumanOldPriest'
+    },
+    {
+        title: 'Coffre',
+        type: 'artifact',
+        desc: [],
+        cost: 0,
+        stats: [],
+        attr: [],
+        pictureName: 'LifePotionChest',
     },
 
     // Dungeons

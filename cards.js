@@ -472,7 +472,7 @@ const allCards = [
         cost: 5,
         stats: ['a', 'a', 'g'],
         attr: ['lost1Life'],
-        pictureName: 'HumanHitCristal'
+        pictureName: 'HumanMageRainOfDiamonds'
     },
     {
         title: 'Prime de Guerre',
@@ -512,7 +512,7 @@ const allCards = [
         desc: [],
         cost: 6,
         stats: ['a', 'a', 'a'],
-        pictureName: 'ItemBigAxe'
+        pictureName: 'ItemAxe'
     },
 
     //T2

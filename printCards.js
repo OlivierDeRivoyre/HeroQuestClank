@@ -51,38 +51,47 @@ function createFixedCardCanvasForMiniatures(cardWidth, cardHeight) {
     const fixedCanvas = new FixedCanvas(TemplateCardWidth, TemplateCardHeight, canvas);
     return fixedCanvas;
 }
-const backImage = loadImg('back3.png');
-
+const backImages = [
+    loadImg('back3.png'),
+    loadImg('BackHero.png'),
+    loadImg('BackMonster.png'),
+    loadImg('BackTreasure.png')
+]
 function orderCards() {
     const sorted = [...allCards];
     const rankType = {}
     rankType["hero"] = 1;
     rankType["monster"] = 2;
-    rankType["dungeon"] = 3;    
+    rankType["dungeon"] = 3;
     rankType["base"] = 4;
     rankType["common"] = 5;
     rankType["T1"] = 6;
     rankType["T2"] = 7;
     rankType["artifact"] = 8;
-    function isJoker(c){
+    rankType["lootCard"] = 9;
+    function isJoker(c) {
         return c.cost == 0 && c.desc.length == 0 && c.stats.length == 0;
     }
     sorted.sort((a, b) => {
-        if(isJoker(a) != isJoker(b)){
-            if(isJoker(a))
+        if (isJoker(a) != isJoker(b)) {
+            if (isJoker(a))
                 return 1;
             return -1;
         }
         if (a.type !== b.type) {
-            return (rankType[a.type]||0) - (rankType[b.type]||0);
+            return (rankType[a.type] || 0) - (rankType[b.type] || 0);
+        }
+        if (a.cost == 0 || b.cost == 0) {
+            return b.cost - a.cost;
         }
         if (a.stats.length != b.stats.length) {
             return a.stats.length - b.stats.length;
         }
+
         if (a.cost != b.cost) {
             return a.cost - b.cost;
         }
-        return a.title.localeCompare(b.title); 
+        return a.title.localeCompare(b.title);
     });
     return sorted;
 }
@@ -122,13 +131,15 @@ function createMinatutes() {
             index++;
         }
     }
-    page = createPageCanvas();
-    for (let coord = 0; coord < nbCardPerLine * nbCardPerLine; coord++) {
-        page.drawImage(backImage,
-            marginX + (coord % nbCardPerLine) * (cardWidth + 0),
-            marginY + Math.floor(coord / nbCardPerLine) * (cardHeight + 0),
-            cardWidth,
-            cardHeight);
+    for (let backImage of backImages) {
+        page = createPageCanvas();
+        for (let coord = 0; coord < nbCardPerLine * nbCardPerLine; coord++) {
+            page.drawImage(backImage,
+                marginX + (coord % nbCardPerLine) * (cardWidth + 0),
+                marginY + Math.floor(coord / nbCardPerLine) * (cardHeight + 0),
+                cardWidth,
+                cardHeight);
+        }
     }
 
 }

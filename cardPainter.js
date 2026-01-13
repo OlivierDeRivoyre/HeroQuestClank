@@ -84,7 +84,7 @@ function paintCard(card, canvas) {
     }
     else if (card.type == 'artifact' && card.cost > 0) {
         canvas.fillColor('rgba(243, 239, 7, 0.5)');
-    } else if (card.type == 'artifact' && card.cost == 0) {
+    } else if ((card.type == 'artifact' && card.cost == 0) || card.type == 'lootCard') {
         canvas.fillColor('rgba(16, 16, 16, 0.5)');
     }
     const ratio = 2;
