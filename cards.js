@@ -619,8 +619,8 @@ const allCards = [
         title: 'Excalibur',
         type: 'T2',
         desc: [['Piochez une carte.']],
-        cost: 7,
-        stats: ['a', 'g', 'd', 's', 'l'],
+        cost: 8,
+        stats: ['a', 'a', 'a', 'd', 'l'],
         attr: ['drawCard'],
         pictureName: 'ItemExcalibur'
     },
