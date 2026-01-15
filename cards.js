@@ -136,7 +136,8 @@ const allCards = [
         title: 'Attaque',
         type: 'base',
         desc: [
-            ['a', ': Gagnez un dé d’attaque'], [' supplémentaire']
+            ['a', ': Gagnez un dé d’attaque'],
+            ['supplémentaire.']
         ],
         cost: 0,
         stats: ['a'],
@@ -160,7 +161,7 @@ const allCards = [
         title: 'Defense',
         type: 'base',
         desc: [
-            ['d', ': prévenez un dégât.']
+            ['d', ': Prévenez un dégât.']
         ],
         cost: 0,
         stats: ['d'],
@@ -171,7 +172,7 @@ const allCards = [
         title: 'Déplacement',
         type: 'base',
         desc: [
-            ['s', ': gagnez un dé de'],
+            ['s', ': Gagnez un dé de'],
             ['déplacement supplémentaire.']
         ],
         cost: 0,
@@ -186,7 +187,7 @@ const allCards = [
             ['Remplacez une carte du'],
             ['magasin.'],
             ['Ou bien: défaussez une carte '],
-            ['pour détecter les pièges']
+            ['pour détecter les pièges.']
         ],
         cost: 0,
         stats: [],
@@ -196,6 +197,19 @@ const allCards = [
     },
     {
         title: 'Malédiction',
+        type: 'base',
+        id: 'baseMalus',
+        desc: [
+            ['Défaussez une autre carte.'],
+        ],
+        cost: 0,
+        stats: [],
+        attr: ['lost1Life'],
+        pictureName: 'HumanUnderMalediction',
+        quantity: 4
+    },
+    {
+        title: 'Piège',
         type: 'base',
         id: 'baseMalus',
         desc: [
@@ -214,7 +228,7 @@ const allCards = [
         id: 'commonAG',
         desc: [
             ['a', ': Gagnez un dé d’attaque,'],
-            ['supplémentaire'],
+            ['supplémentaire.'],
             ['g', ': Gagnez un diamant.'],
         ],
         cost: 2,
@@ -227,7 +241,7 @@ const allCards = [
         id: 'commonGG',
         type: 'common',
         desc: [
-            ['g', 'g', ': Gagnez deux diamants']
+            ['g', 'g', ': Gagnez deux diamants.']
         ],
         cost: 2,
         stats: ['g', 'g'],
@@ -247,7 +261,7 @@ const allCards = [
         title: 'Soin',
         type: 'T1',
         desc: [
-            ['l', ': Récupérez un point de vie']
+            ['l', ': Récupérez un point de vie.']
         ],
         cost: 2,
         stats: ['l'],
@@ -419,23 +433,23 @@ const allCards = [
         pictureName: 'ElfHealingHuman'
     },
     {
-        title: 'Attaque circulaire',
+        title: 'Salve Mortelle',
         type: 'T1',
         desc: [
             ['Infligez des dégâts à tous les'],
-            ['ennemis adjacents.']
+            ['ennemis à portée.']
         ],
         cost: 3,
         stats: ['a'],
         attr: ['circularAttack'],
-        pictureName: 'HumanCircularAttack'
+        pictureName: 'ElfMageMulticast'
     },
     {
-        title: 'Assaut Circulaire',
+        title: 'Attaque Circulaire',
         type: 'T1',
         desc: [
             ['Infligez des dégâts à tous les'],
-            ['ennemis adjacents.'], [],
+            ['ennemis à portée.'], [],
             ['Piochez une carte.']
         ],
         cost: 3,
@@ -447,7 +461,7 @@ const allCards = [
         title: 'Avarice',
         type: 'T1',
         desc: [
-            ['Perdez 1 vie']
+            ['Perdez 1 vie.']
         ],
         cost: 3,
         stats: ['g', 'g', 'g'],
@@ -458,7 +472,7 @@ const allCards = [
         title: 'Rage Sanguinaire',
         type: 'T1',
         desc: [
-            ['Perdez 1 vie']
+            ['Perdez 1 vie.']
         ],
         cost: 3,
         stats: ['a', 'a', 'a'],
@@ -506,7 +520,7 @@ const allCards = [
         stats: ['a', 'a', 'd'],
         pictureName: 'ElfHitOrc'
     },
-        {
+    {
         title: 'Hurle-Guerre',
         type: 'T1',
         desc: [],

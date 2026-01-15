@@ -47,8 +47,8 @@ const cards_ext1 = [
         title: 'Gardien',
         type: 'hero',
         desc: [
-            ['c', ' : forcez un monstre à vous'],
-            ['attaquer'],
+            ['c', ' : Forcez un monstre à vous'],
+            ['attaquer.'],
         ],
         cost: 0,
         stats: [],
@@ -70,7 +70,7 @@ const cards_ext1 = [
         title: 'Aventurier',
         type: 'hero',
         desc: [
-            ['c', ' : au choix, une seule fois'],
+            ['c', ' : Au choix, une seule fois'],
             // [''],
             ['par choix ', 'a', ' ou ', 'g', ' ou ', 'd'],
         ],
@@ -83,10 +83,10 @@ const cards_ext1 = [
         title: 'Prophète',
         type: 'hero',
         desc: [
-            ['c', ' : au choix, une seule fois'],
-            ['- Relancer les dès'],
-            ['- Détruire une carte'],
-            ['- Piocher une carte'],
+            ['Au choix, une fois par tour:'],
+            ['c', ': Relancer les dès.'],
+            ['c', ': Piocher une carte.'],
+            ['c','c', ': Détruire une carte.'],
         ],
         cost: 0,
         stats: [],
@@ -134,7 +134,7 @@ const cards_ext1 = [
         title: 'Braconneur',
         type: 'hero',
         desc: [
-            ['c', ' : détectez les pièges'],
+            ['c', ' : Détectez les pièges.'],
             [],
             ['c', ' : ', 'g'],
         ],
@@ -148,7 +148,7 @@ const cards_ext1 = [
         type: 'hero',
         desc: [
             ['c', ' une fois par tour: restaurez'],
-            ['un point de vie à un allié'],
+            ['un point de vie à un allié.'],
             [],
             ['c', ' : ', 's'],
         ],
@@ -162,8 +162,9 @@ const cards_ext1 = [
         type: 'hero',
         desc: [
             ['c', ' une fois par tour: tentez'],
-            ['d’immobiliser un monstre'],
+            ['d’immobiliser un monstre.'],
             [],
+            ['c', ' : ', 'a'],
         ],
         cost: 0,
         stats: [],
@@ -175,7 +176,7 @@ const cards_ext1 = [
         type: 'base',
         desc: [
             ['c', ': Utilisez une compétance'],
-            [' de votre personage'],
+            [' de votre personage.'],
         ],
         cost: 0,
         stats: ['c'],
@@ -187,23 +188,23 @@ const cards_ext1 = [
         type: 'common',
         id: 'commonGC',
         desc: [
-            ['g', ': Gagnez un diamant'],
+            ['g', ': Gagnez un diamant.'],
             ['c', ': Utilisez une compétance'],
-            [' de votre personage'],
+            [' de votre personage.'],
         ],
         cost: 3,
         stats: ['g', 'c'],
-        pictureName: 'ext1/ItemNexusMana',
+        pictureName: 'ext1/ItemNexus',
         quantity: 4
     },
     {
-        title: 'Vibration Guerrière',//'Impulsion de Combat',
+        title: 'Vibration Guerrière',
         type: 'common',
         id: 'commonAC',
         desc: [
-            ['a', ': Gagnez un dé d’attaque'],
+            ['a', ': Gagnez un dé d’attaque.'],
             ['c', ': Utilisez une compétance'],
-            [' de votre personage'],
+            [' de votre personage.'],
         ],
         cost: 3,
         stats: ['a', 'c'],
@@ -378,7 +379,7 @@ const cards_ext1 = [
         title: 'Seconde chance',
         type: 'artifact',
         desc: [
-            ['Relancez les dés de votre choix']
+            ['Relancez les dés de votre choix.']
         ],
         cost: 5,
         stats: [],
